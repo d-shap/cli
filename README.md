@@ -1,8 +1,8 @@
-# Command line interface
-Command line interface tools provide facilities for application interface development.
+# CLI tools
+CLI tools provide facilities for the command line interface development.
 
 # Latest release
-Command line interface:
+CLI tools:
 * **&lt;groupId&gt;**: ru.d-shap
 * **&lt;artifactId&gt;**: cli
 * **&lt;version&gt;**: -.-
