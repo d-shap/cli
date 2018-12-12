@@ -101,7 +101,7 @@ public final class CommandRunner {
             Reader reader = new InputStreamReader(inputStreamWrapper, charsetName);
             _reader = new BufferedReader(reader);
         } catch (UnsupportedEncodingException ex) {
-            throw new CliException(ex);
+            throw new CliIOException(ex);
         }
     }
 
