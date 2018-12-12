@@ -26,7 +26,6 @@ import java.io.IOException;
  *
  * @author Dmitry Shapovalov
  */
-
 public class CliIOException extends CliException {
 
     private static final long serialVersionUID = 1L;
