@@ -25,22 +25,55 @@ import java.io.PrintWriter;
 import ru.d_shap.cli.value.Context;
 
 /**
- * Command.
+ * Command interface.
  *
  * @author Dmitry Shapovalov
  */
 public interface Command {
 
+    /**
+     * Get the parrent command.
+     *
+     * @return the parrent command.
+     */
     Command getParentCommand();
 
+    /**
+     * Get the command context.
+     *
+     * @return the command context.
+     */
     Context getContext();
 
+    /**
+     * Set the command context.
+     *
+     * @param context the command context.
+     */
     void setContext(Context context);
 
+    /**
+     * Get the command runner.
+     *
+     * @return the command runner.
+     */
     CommandRunner getCommandRunner();
 
+    /**
+     * Set the command runner.
+     *
+     * @param commandRunner the command runner.
+     */
     void setCommandRunner(CommandRunner commandRunner);
 
+    /**
+     * Execute the command.
+     *
+     * @param writer stream to write the command output.
+     * @param reader stream to read the user input.
+     *
+     * @return the next command to execute.
+     */
     Command execute(PrintWriter writer, BufferedReader reader);
 
 }
