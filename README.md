@@ -1,8 +1,8 @@
 # Command line interface
-Command line interface provides facilities for rapid application interface prototyping.
+Command line interface tools provide facilities for application interface development.
 
 # Latest release
-Crypto library:
+Command line interface:
 * **&lt;groupId&gt;**: ru.d-shap
 * **&lt;artifactId&gt;**: cli
 * **&lt;version&gt;**: -.-
