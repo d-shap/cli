@@ -30,9 +30,9 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
+import ru.d_shap.cli.data.Context;
 import ru.d_shap.cli.io.InputStreamWrapper;
 import ru.d_shap.cli.io.OutputStreamWrapper;
-import ru.d_shap.cli.value.Context;
 
 /**
  * Command runner.

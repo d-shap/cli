@@ -17,7 +17,49 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+package ru.d_shap.cli.data;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * Command data classes.
+ * Context of multiple commands.
+ *
+ * @author Dmitry Shapovalov
  */
-package ru.d_shap.cli.value;
+public final class Context {
+
+    private final Map<String, Object> _values;
+
+    public Context() {
+        this(null);
+    }
+
+    public Context(final Context context) {
+        super();
+        if (context == null) {
+            _values = new LinkedHashMap<>();
+        } else {
+            _values = new LinkedHashMap<>(context._values);
+        }
+    }
+
+    public List<String> getNames() {
+        return new ArrayList<>(_values.keySet());
+    }
+
+    public boolean hasValue(final String name) {
+        return _values.containsKey(name);
+    }
+
+    public Object getValue(final String name) {
+        return _values.get(name);
+    }
+
+    public void putValue(final String name, final Object value) {
+        _values.put(name, value);
+    }
+
+}

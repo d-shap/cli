@@ -22,7 +22,7 @@ package ru.d_shap.cli;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
-import ru.d_shap.cli.value.Context;
+import ru.d_shap.cli.data.Context;
 
 /**
  * Command interface.
