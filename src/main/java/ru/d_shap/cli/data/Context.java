@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Context of multiple commands.
+ * Command execution context.
  *
  * @author Dmitry Shapovalov
  */
@@ -33,10 +33,18 @@ public final class Context {
 
     private final Map<String, Object> _values;
 
+    /**
+     * Create new object.
+     */
     public Context() {
         this(null);
     }
 
+    /**
+     * Create new object.
+     *
+     * @param context the parent context.
+     */
     public Context(final Context context) {
         super();
         if (context == null) {
@@ -46,20 +54,54 @@ public final class Context {
         }
     }
 
+    /**
+     * Get all context names.
+     *
+     * @return all context names.
+     */
     public List<String> getNames() {
         return new ArrayList<>(_values.keySet());
     }
 
+    /**
+     * Check if the context has the value.
+     *
+     * @param name the specified name.
+     *
+     * @return true if the context has the value.
+     */
     public boolean hasValue(final String name) {
         return _values.containsKey(name);
     }
 
+    /**
+     * Get the value from the context.
+     *
+     * @param name the specified name.
+     *
+     * @return the value from the context.
+     */
     public Object getValue(final String name) {
         return _values.get(name);
     }
 
+    /**
+     * Put the value to the context.
+     *
+     * @param name  the specified name.
+     * @param value the value to put to the context.
+     */
     public void putValue(final String name, final Object value) {
         _values.put(name, value);
+    }
+
+    /**
+     * Remove the value from the context.
+     *
+     * @param name the specified name.
+     */
+    public void removeValue(final String name) {
+        _values.remove(name);
     }
 
 }
