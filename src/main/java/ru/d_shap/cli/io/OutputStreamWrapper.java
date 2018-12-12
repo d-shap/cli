@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * Output stream wrapper.
+ * Output stream wrapper to log the command output.
  *
  * @author Dmitry Shapovalov
  */
@@ -33,10 +33,21 @@ public final class OutputStreamWrapper extends OutputStream {
 
     private final OutputStream _logOutputStream;
 
+    /**
+     * Create new object.
+     *
+     * @param outputStream stream to write the command output.
+     */
     public OutputStreamWrapper(final OutputStream outputStream) {
         this(outputStream, null);
     }
 
+    /**
+     * Create new object.
+     *
+     * @param outputStream    stream to write the command output.
+     * @param logOutputStream stream to log the command output.
+     */
     public OutputStreamWrapper(final OutputStream outputStream, final OutputStream logOutputStream) {
         super();
         _outputStream = outputStream;
