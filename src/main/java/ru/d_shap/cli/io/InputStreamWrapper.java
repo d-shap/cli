@@ -24,7 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Input stream wrapper.
+ * Input stream wrapper to log the user input.
  *
  * @author Dmitry Shapovalov
  */
@@ -34,10 +34,21 @@ public final class InputStreamWrapper extends InputStream {
 
     private final OutputStream _logOutputStream;
 
+    /**
+     * Create new object.
+     *
+     * @param inputStream stream to read the user input.
+     */
     public InputStreamWrapper(final InputStream inputStream) {
         this(inputStream, null);
     }
 
+    /**
+     * Create new object.
+     *
+     * @param inputStream     stream to read the user input.
+     * @param logOutputStream stream to log the user input.
+     */
     public InputStreamWrapper(final InputStream inputStream, final OutputStream logOutputStream) {
         super();
         _inputStream = inputStream;
