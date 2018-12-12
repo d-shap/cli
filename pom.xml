@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <name>Command line interface</name>
-    <description>Command line interface provides facilities for rapid application interface prototyping</description>
+    <description>Command line interface tools provide facilities for application interface development</description>
     <url>https://github.com/d-shap/cli</url>
 
     <licenses>
