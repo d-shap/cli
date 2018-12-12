@@ -45,10 +45,23 @@ public final class CommandRunner {
 
     private final BufferedReader _reader;
 
+    /**
+     * Create new object.
+     *
+     * @param outputStream stream to write the command output.
+     * @param inputStream  stream to read the user input.
+     */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream) {
         this(outputStream, inputStream, (OutputStream) null);
     }
 
+    /**
+     * Create new object.
+     *
+     * @param outputStream    stream to write the command output.
+     * @param inputStream     stream to read the user input.
+     * @param logOutputStream stream to log the user input and the command output.
+     */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream) {
         super();
         OutputStreamWrapper outputStreamWrapper = new OutputStreamWrapper(outputStream, logOutputStream);
@@ -59,10 +72,25 @@ public final class CommandRunner {
         _reader = new BufferedReader(reader);
     }
 
+    /**
+     * Create new object.
+     *
+     * @param outputStream stream to write the command output.
+     * @param inputStream  stream to read the user input.
+     * @param charsetName  the name of the charset.
+     */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final String charsetName) {
         this(outputStream, inputStream, null, charsetName);
     }
 
+    /**
+     * Create new object.
+     *
+     * @param outputStream    stream to write the command output.
+     * @param inputStream     stream to read the user input.
+     * @param logOutputStream stream to log the user input and the command output.
+     * @param charsetName     the name of the charset.
+     */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream, final String charsetName) {
         super();
         try {
@@ -77,10 +105,25 @@ public final class CommandRunner {
         }
     }
 
+    /**
+     * Create new object.
+     *
+     * @param outputStream stream to write the command output.
+     * @param inputStream  stream to read the user input.
+     * @param charset      the charset.
+     */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final Charset charset) {
         this(outputStream, inputStream, null, charset);
     }
 
+    /**
+     * Create new object.
+     *
+     * @param outputStream    stream to write the command output.
+     * @param inputStream     stream to read the user input.
+     * @param logOutputStream stream to log the user input and the command output.
+     * @param charset         the charset.
+     */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream, final Charset charset) {
         super();
         OutputStreamWrapper outputStreamWrapper = new OutputStreamWrapper(outputStream, logOutputStream);
@@ -91,10 +134,21 @@ public final class CommandRunner {
         _reader = new BufferedReader(reader);
     }
 
+    /**
+     * Execute the command sequence with the default context, started from the specified command.
+     *
+     * @param command the specified command to start with.
+     */
     public void execute(final Command command) {
         execute(command, null);
     }
 
+    /**
+     * Execute the command sequence with the specified context, started from the specified command.
+     *
+     * @param command the specified command to start with.
+     * @param context the specified context.
+     */
     public void execute(final Command command, final Context context) {
         Command currentCommand = command;
         Context currentContext;
