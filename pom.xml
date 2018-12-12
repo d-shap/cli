@@ -7,8 +7,8 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>Command line interface</name>
-    <description>Command line interface tools provide facilities for application interface development</description>
+    <name>CLI tools</name>
+    <description>CLI tools provide facilities for the command line interface development</description>
     <url>https://github.com/d-shap/cli</url>
 
     <licenses>
