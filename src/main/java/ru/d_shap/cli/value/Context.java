@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// Command line interface provides facilities for rapid application interface prototyping.
+// Command line interface tools provide facilities for application interface development.
 // Copyright (C) 2019 Dmitry Shapovalov.
 //
 // This file is part of command line interface.
