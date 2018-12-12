@@ -41,6 +41,8 @@ import ru.d_shap.cli.io.OutputStreamWrapper;
  */
 public final class CommandRunner {
 
+    private static final String ENCODING = "UTF-8";
+
     private final PrintWriter _writer;
 
     private final BufferedReader _reader;
@@ -52,7 +54,7 @@ public final class CommandRunner {
      * @param inputStream  stream to read the user input.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream) {
-        this(outputStream, inputStream, (OutputStream) null);
+        this(outputStream, inputStream, null, ENCODING);
     }
 
     /**
@@ -63,13 +65,30 @@ public final class CommandRunner {
      * @param logOutputStream stream to log the user input and the command output.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream) {
-        super();
-        OutputStreamWrapper outputStreamWrapper = new OutputStreamWrapper(outputStream, logOutputStream);
-        Writer writer = new OutputStreamWriter(outputStreamWrapper);
-        _writer = new PrintWriter(writer);
-        InputStreamWrapper inputStreamWrapper = new InputStreamWrapper(inputStream, logOutputStream);
-        Reader reader = new InputStreamReader(inputStreamWrapper);
-        _reader = new BufferedReader(reader);
+        this(outputStream, inputStream, logOutputStream, ENCODING);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param outputStream stream to write the command output.
+     * @param inputStream  stream to read the user input.
+     * @param charset      the charset.
+     */
+    public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final Charset charset) {
+        this(outputStream, inputStream, null, charset.name());
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param outputStream    stream to write the command output.
+     * @param inputStream     stream to read the user input.
+     * @param logOutputStream stream to log the user input and the command output.
+     * @param charset         the charset.
+     */
+    public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream, final Charset charset) {
+        this(outputStream, inputStream, logOutputStream, charset.name());
     }
 
     /**
@@ -103,35 +122,6 @@ public final class CommandRunner {
         } catch (UnsupportedEncodingException ex) {
             throw new CliIOException(ex);
         }
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param outputStream stream to write the command output.
-     * @param inputStream  stream to read the user input.
-     * @param charset      the charset.
-     */
-    public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final Charset charset) {
-        this(outputStream, inputStream, null, charset);
-    }
-
-    /**
-     * Create new object.
-     *
-     * @param outputStream    stream to write the command output.
-     * @param inputStream     stream to read the user input.
-     * @param logOutputStream stream to log the user input and the command output.
-     * @param charset         the charset.
-     */
-    public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream, final Charset charset) {
-        super();
-        OutputStreamWrapper outputStreamWrapper = new OutputStreamWrapper(outputStream, logOutputStream);
-        Writer writer = new OutputStreamWriter(outputStreamWrapper, charset);
-        _writer = new PrintWriter(writer);
-        InputStreamWrapper inputStreamWrapper = new InputStreamWrapper(inputStream, logOutputStream);
-        Reader reader = new InputStreamReader(inputStreamWrapper, charset);
-        _reader = new BufferedReader(reader);
     }
 
     /**
