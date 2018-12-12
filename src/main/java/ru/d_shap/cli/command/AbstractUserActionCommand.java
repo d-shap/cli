@@ -49,7 +49,12 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
             writer.println();
             writer.flush();
 
-            String input = reader.readLine().trim();
+            String input = reader.readLine();
+            if (input == null) {
+                input = "";
+            } else {
+                input = input.trim();
+            }
             Command command = processInput(input, writer);
             writer.println();
             writer.flush();
