@@ -147,10 +147,15 @@ public final class CommandRunner {
         } else {
             currentContext = context;
         }
+        Command nextCommand;
         while (currentCommand != null) {
             currentCommand.setContext(currentContext);
             currentCommand.setCommandRunner(this);
-            currentCommand = currentCommand.execute(_writer, _reader);
+            nextCommand = currentCommand.execute(_writer, _reader);
+            if (nextCommand == null) {
+                nextCommand = currentCommand.getParentCommand();
+            }
+            currentCommand = nextCommand;
         }
     }
 
