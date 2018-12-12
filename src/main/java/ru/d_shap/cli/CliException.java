@@ -20,27 +20,39 @@
 package ru.d_shap.cli;
 
 /**
- * CLI exception.
+ * Base class for all exceptions.
  *
  * @author Dmitry Shapovalov
  */
-public final class CliException extends RuntimeException {
+public class CliException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public CliException() {
-        super();
-    }
-
-    public CliException(final String message) {
+    /**
+     * Create new object.
+     *
+     * @param message message exception message.
+     */
+    protected CliException(final String message) {
         super(message);
     }
 
-    public CliException(final String message, final Throwable cause) {
+    /**
+     * Create new object.
+     *
+     * @param message message exception message.
+     * @param cause   cause exception.
+     */
+    protected CliException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public CliException(final Throwable cause) {
+    /**
+     * Create new object.
+     *
+     * @param cause cause exception.
+     */
+    protected CliException(final Throwable cause) {
         super(cause);
     }
 
