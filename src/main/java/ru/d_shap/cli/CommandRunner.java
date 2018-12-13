@@ -50,8 +50,8 @@ public final class CommandRunner {
     /**
      * Create new object.
      *
-     * @param outputStream stream to write the command output.
-     * @param inputStream  stream to read the user input.
+     * @param outputStream the stream to write the command output.
+     * @param inputStream  the stream to read the user input.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream) {
         this(outputStream, inputStream, null, ENCODING);
@@ -60,9 +60,9 @@ public final class CommandRunner {
     /**
      * Create new object.
      *
-     * @param outputStream    stream to write the command output.
-     * @param inputStream     stream to read the user input.
-     * @param logOutputStream stream to log the user input and the command output.
+     * @param outputStream    the stream to write the command output.
+     * @param inputStream     the stream to read the user input.
+     * @param logOutputStream the stream to log the user input and the command output.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream) {
         this(outputStream, inputStream, logOutputStream, ENCODING);
@@ -71,8 +71,8 @@ public final class CommandRunner {
     /**
      * Create new object.
      *
-     * @param outputStream stream to write the command output.
-     * @param inputStream  stream to read the user input.
+     * @param outputStream the stream to write the command output.
+     * @param inputStream  the stream to read the user input.
      * @param charsetName  the name of the charset.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final String charsetName) {
@@ -82,9 +82,9 @@ public final class CommandRunner {
     /**
      * Create new object.
      *
-     * @param outputStream    stream to write the command output.
-     * @param inputStream     stream to read the user input.
-     * @param logOutputStream stream to log the user input and the command output.
+     * @param outputStream    the stream to write the command output.
+     * @param inputStream     the stream to read the user input.
+     * @param logOutputStream the stream to log the user input and the command output.
      * @param charsetName     the name of the charset.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream, final String charsetName) {
@@ -104,8 +104,8 @@ public final class CommandRunner {
     /**
      * Create new object.
      *
-     * @param outputStream stream to write the command output.
-     * @param inputStream  stream to read the user input.
+     * @param outputStream the stream to write the command output.
+     * @param inputStream  the stream to read the user input.
      * @param charset      the charset.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final Charset charset) {
@@ -115,13 +115,31 @@ public final class CommandRunner {
     /**
      * Create new object.
      *
-     * @param outputStream    stream to write the command output.
-     * @param inputStream     stream to read the user input.
-     * @param logOutputStream stream to log the user input and the command output.
+     * @param outputStream    the stream to write the command output.
+     * @param inputStream     the stream to read the user input.
+     * @param logOutputStream the stream to log the user input and the command output.
      * @param charset         the charset.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream, final Charset charset) {
         this(outputStream, inputStream, logOutputStream, charset.name());
+    }
+
+    /**
+     * Get the stream to write the command output.
+     *
+     * @return the stream to write the command output.
+     */
+    public PrintWriter getWriter() {
+        return _writer;
+    }
+
+    /**
+     * Get the stream to read the user input.
+     *
+     * @return the stream to read the user input.
+     */
+    public BufferedReader getReader() {
+        return _reader;
     }
 
     /**
