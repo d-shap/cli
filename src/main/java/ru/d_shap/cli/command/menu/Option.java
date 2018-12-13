@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import ru.d_shap.cli.Command;
 
 /**
- * Option interface.
+ * Menu option.
  *
  * @author Dmitry Shapovalov
  */
