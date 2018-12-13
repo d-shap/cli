@@ -69,8 +69,8 @@ public interface Command {
     /**
      * Execute the command.
      *
-     * @param writer stream to write the command output.
-     * @param reader stream to read the user input.
+     * @param writer the stream to write the command output.
+     * @param reader the stream to read the user input.
      *
      * @return the next command to execute.
      */
