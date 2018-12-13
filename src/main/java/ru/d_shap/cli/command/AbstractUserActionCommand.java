@@ -35,6 +35,13 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
 
     /**
      * Create new object.
+     */
+    protected AbstractUserActionCommand() {
+        this(null);
+    }
+
+    /**
+     * Create new object.
      *
      * @param parentCommand the parrent command.
      */
@@ -68,7 +75,7 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
     /**
      * Print the message.
      *
-     * @param writer stream to write the command output.
+     * @param writer the stream to write the command output.
      */
     protected abstract void printMessage(PrintWriter writer);
 
@@ -76,7 +83,7 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
      * Process the user input.
      *
      * @param input  the user input.
-     * @param writer stream to write the command output.
+     * @param writer the stream to write the command output.
      *
      * @return the next command to execute.
      */
