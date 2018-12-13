@@ -43,7 +43,7 @@ public final class MenuSeparator implements Option {
     }
 
     @Override
-    public boolean isSelected(final char symbol) {
+    public boolean isSelected(final String symbol) {
         return false;
     }
 
