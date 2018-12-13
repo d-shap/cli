@@ -91,7 +91,7 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
     protected final Command processInput(final String input, final PrintWriter writer) {
         String contextKey = _contextKey.getValue();
         boolean hasContextValue = getContext().hasValue(contextKey);
-        if (hasContextValue && "".equalsIgnoreCase(input)) {
+        if (hasContextValue && isDefaultInput(input)) {
             T contextValue = getContext().getValue(contextKey);
             return processValue(contextValue, writer);
         }
