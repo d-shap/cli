@@ -112,12 +112,41 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
         return this;
     }
 
+    /**
+     * Check if the user input can be converted to the target type.
+     *
+     * @param input the user input
+     *
+     * @return true if the user input can be converted to the target type.
+     */
     protected abstract boolean isValidType(String input);
 
+    /**
+     * Convert the user input to the target type.
+     *
+     * @param input the user input
+     *
+     * @return the user input, converted to the target type.
+     */
     protected abstract T getValue(String input);
 
+    /**
+     * Check if the value is valid.
+     *
+     * @param value the value.
+     *
+     * @return true if the value is valid.
+     */
     protected abstract boolean isValidValue(T value);
 
+    /**
+     * Process the value.
+     *
+     * @param value  the value.
+     * @param writer the stream to write the command output.
+     *
+     * @return the next command to execute.
+     */
     protected abstract Command processValue(T value, PrintWriter writer);
 
     /**
