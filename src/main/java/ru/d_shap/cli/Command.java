@@ -32,9 +32,9 @@ import ru.d_shap.cli.data.Context;
 public interface Command {
 
     /**
-     * Get the parrent command.
+     * Get the parent command.
      *
-     * @return the parrent command.
+     * @return the parent command.
      */
     Command getParentCommand();
 

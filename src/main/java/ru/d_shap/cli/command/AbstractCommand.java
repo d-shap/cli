@@ -46,7 +46,7 @@ public abstract class AbstractCommand implements Command {
     /**
      * Create new object.
      *
-     * @param parentCommand the parrent command.
+     * @param parentCommand the parent command.
      */
     protected AbstractCommand(final Command parentCommand) {
         super();

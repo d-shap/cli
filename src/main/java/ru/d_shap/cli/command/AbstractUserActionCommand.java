@@ -43,7 +43,7 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
     /**
      * Create new object.
      *
-     * @param parentCommand the parrent command.
+     * @param parentCommand the parent command.
      */
     protected AbstractUserActionCommand(final Command parentCommand) {
         super(parentCommand);
