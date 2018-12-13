@@ -78,11 +78,13 @@ public final class Context {
      * Get the value from the context.
      *
      * @param name the specified name.
+     * @param <T>  the generic type of the value.
      *
      * @return the value from the context.
      */
-    public Object getValue(final String name) {
-        return _values.get(name);
+    @SuppressWarnings("unchecked")
+    public <T> T getValue(final String name) {
+        return (T) _values.get(name);
     }
 
     /**
@@ -90,8 +92,9 @@ public final class Context {
      *
      * @param name  the specified name.
      * @param value the value to put to the context.
+     * @param <T>   the generic type of the value.
      */
-    public void putValue(final String name, final Object value) {
+    public <T> void putValue(final String name, final T value) {
         _values.put(name, value);
     }
 
