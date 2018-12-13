@@ -10,7 +10,7 @@ import ru.d_shap.cli.data.ValueLoader;
 /**
  * Base class for all input commands.
  *
- * @param <T>the generic type of the value.
+ * @param <T> the generic type of the value.
  *
  * @author Dmitry Shapovalov
  */
@@ -74,14 +74,14 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
 
     @Override
     protected final void printMessage(final PrintWriter writer) {
-        String contextKey = _contextKey.getValue();
-        boolean hasContextValue = getContext().hasValue(contextKey);
-        Object contextValue = getContext().getValue(contextKey);
-
         String header = _header.getValue();
         writer.println(header);
+
+        String contextKey = _contextKey.getValue();
+        boolean hasContextValue = getContext().hasValue(contextKey);
         String defaultMessage = _defaultMessage.getValue();
-        if (defaultMessage != null && hasContextValue) {
+        if (hasContextValue && defaultMessage != null) {
+            T contextValue = getContext().getValue(contextKey);
             String str = String.format(defaultMessage, contextValue);
             writer.println(str);
         }
@@ -89,10 +89,16 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
 
     @Override
     protected final Command processInput(final String input, final PrintWriter writer) {
+        String contextKey = _contextKey.getValue();
+        boolean hasContextValue = getContext().hasValue(contextKey);
+        if (hasContextValue && "".equalsIgnoreCase(input)) {
+            T contextValue = getContext().getValue(contextKey);
+            return processValue(contextValue, writer);
+        }
+
         if (isValidType(input)) {
             T value = getValue(input);
             if (isValidValue(value)) {
-                String contextKey = _contextKey.getValue();
                 getContext().putValue(contextKey, value);
                 return processValue(value, writer);
             }
