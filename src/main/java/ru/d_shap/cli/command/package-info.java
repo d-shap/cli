@@ -18,6 +18,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * CLI command base classes and command implementations.
+ * CLI command classes.
  */
 package ru.d_shap.cli.command;
