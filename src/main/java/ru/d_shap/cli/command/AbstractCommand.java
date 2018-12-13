@@ -38,6 +38,13 @@ public abstract class AbstractCommand implements Command {
 
     /**
      * Create new object.
+     */
+    protected AbstractCommand() {
+        this(null);
+    }
+
+    /**
+     * Create new object.
      *
      * @param parentCommand the parrent command.
      */
