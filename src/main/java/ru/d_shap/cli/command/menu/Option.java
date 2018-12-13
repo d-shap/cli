@@ -45,7 +45,7 @@ public interface Option {
      *
      * @return true if this option is selected.
      */
-    boolean isSelected(char symbol);
+    boolean isSelected(String symbol);
 
     /**
      * Get the command to execute.
