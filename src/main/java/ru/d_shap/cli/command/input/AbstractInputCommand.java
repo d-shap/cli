@@ -114,17 +114,15 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
     @Override
     protected final Command processInput(final String input, final PrintWriter writer) {
         String contextKey = _contextKey.getValue();
-        boolean hasContextValue = getContext().hasValue(contextKey);
-        boolean defaultInputProcessed = false;
-        if (hasContextValue && isDefaultInput(input)) {
-            defaultInputProcessed = true;
-            T contextValue = getContext().getValue(contextKey);
-            if (isValidValue(contextValue)) {
-                return processValue(contextValue, writer);
+        if (isDefaultInput(input)) {
+            boolean hasContextValue = getContext().hasValue(contextKey);
+            if (hasContextValue) {
+                T contextValue = getContext().getValue(contextKey);
+                if (isValidValue(contextValue)) {
+                    return processValue(contextValue, writer);
+                }
             }
-        }
-
-        if (!defaultInputProcessed && isValidType(input)) {
+        } else if (isValidType(input)) {
             T value = getValue(input);
             if (isValidValue(value)) {
                 getContext().putValue(contextKey, value);
