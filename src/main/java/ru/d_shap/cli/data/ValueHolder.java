@@ -34,16 +34,20 @@ public final class ValueHolder<T> {
 
     private T _value;
 
+    private final T _defaultValue;
+
     /**
      * Create new object.
      *
-     * @param valueLoader loader for the value.
+     * @param valueLoader  loader for the value.
+     * @param defaultValue the default value.
      */
-    public ValueHolder(final ValueLoader<T> valueLoader) {
+    public ValueHolder(final ValueLoader<T> valueLoader, final T defaultValue) {
         super();
         _valueLoader = valueLoader;
         _valueLoaded = false;
         _value = null;
+        _defaultValue = defaultValue;
     }
 
     /**
@@ -55,7 +59,12 @@ public final class ValueHolder<T> {
         if (_valueLoaded) {
             return _value;
         } else {
-            _value = _valueLoader.loadValue();
+            if (_valueLoader != null) {
+                _value = _valueLoader.loadValue();
+            }
+            if (_value == null) {
+                _value = _defaultValue;
+            }
             _valueLoaded = true;
             return _value;
         }
