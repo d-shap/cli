@@ -34,9 +34,10 @@ public interface Option {
      * Print the option.
      *
      * @param writer    the stream to write the command output.
+     * @param length    the number of characters to display the symbol.
      * @param isDefault true if this option is the default option.
      */
-    void print(PrintWriter writer, boolean isDefault);
+    void print(PrintWriter writer, int length, boolean isDefault);
 
     /**
      * Check if this option is selected.

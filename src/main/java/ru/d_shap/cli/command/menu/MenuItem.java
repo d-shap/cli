@@ -79,7 +79,7 @@ public final class MenuItem implements Option {
     }
 
     @Override
-    public void print(final PrintWriter writer, final boolean isDefault) {
+    public void print(final PrintWriter writer, final int length, final boolean isDefault) {
         String str;
         if (isDefault) {
             str = String.format("%7s: %s", "*" + _symbol, _label);

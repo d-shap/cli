@@ -38,7 +38,7 @@ public final class MenuSeparator implements Option {
     }
 
     @Override
-    public void print(final PrintWriter writer, final boolean isDefault) {
+    public void print(final PrintWriter writer, final int length, final boolean isDefault) {
         writer.println();
     }
 
