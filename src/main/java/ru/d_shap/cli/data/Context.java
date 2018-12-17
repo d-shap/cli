@@ -95,7 +95,9 @@ public final class Context {
      * @param <T>   the generic type of the value.
      */
     public <T> void putValue(final String name, final T value) {
-        _values.put(name, value);
+        if (name != null) {
+            _values.put(name, value);
+        }
     }
 
     /**
