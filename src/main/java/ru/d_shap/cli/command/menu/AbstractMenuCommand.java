@@ -124,23 +124,33 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
     }
 
     @Override
-    protected final Command processInput(final String input, final PrintWriter writer) {
+    protected final Command processDefaultInput(final String input, final PrintWriter writer) {
         List<Option> options = _options.getValue();
         int defaultOptionIndex = _defaultOptionIndex.getValue();
-        if (defaultOptionIndex >= 0 && defaultOptionIndex < options.size() && isDefaultInput(input)) {
+        if (defaultOptionIndex >= 0 && defaultOptionIndex < options.size()) {
             Option defaultOption = options.get(defaultOptionIndex);
             return defaultOption.getCommand();
         }
 
+        return processWrongInput(input, writer);
+    }
+
+    @Override
+    protected final Command processInput(final String input, final PrintWriter writer) {
+        List<Option> options = _options.getValue();
         for (Option option : options) {
             if (option.isSelected(input)) {
                 return option.getCommand();
             }
         }
 
+        return processWrongInput(input, writer);
+    }
+
+    private Command processWrongInput(final Object wrongInput, final PrintWriter writer) {
         String wrongInputMessage = _wrongInputMessage.getValue();
         if (wrongInputMessage != null) {
-            String str = String.format(wrongInputMessage, input);
+            String str = String.format(wrongInputMessage, wrongInput);
             writer.println(str);
         }
         return this;
