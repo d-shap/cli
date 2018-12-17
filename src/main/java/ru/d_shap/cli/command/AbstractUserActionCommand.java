@@ -62,7 +62,13 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
             } else {
                 input = input.trim();
             }
-            Command command = processInput(input, writer);
+
+            Command command;
+            if (isDefaultInput(input)) {
+                command = processDefaultInput(writer);
+            } else {
+                command = processInput(input, writer);
+            }
             writer.println();
             writer.flush();
 
@@ -79,6 +85,19 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
      */
     protected abstract void printMessage(PrintWriter writer);
 
+    private boolean isDefaultInput(final String input) {
+        return "".equals(input);
+    }
+
+    /**
+     * Process the default user input.
+     *
+     * @param writer the stream to write the command output.
+     *
+     * @return the next command to execute.
+     */
+    protected abstract Command processDefaultInput(PrintWriter writer);
+
     /**
      * Process the user input.
      *
@@ -88,16 +107,5 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
      * @return the next command to execute.
      */
     protected abstract Command processInput(String input, PrintWriter writer);
-
-    /**
-     * Check if the user input is the default input.
-     *
-     * @param input the user input.
-     *
-     * @return true if the user input is the default input.
-     */
-    protected final boolean isDefaultInput(final String input) {
-        return "".equals(input);
-    }
 
 }
