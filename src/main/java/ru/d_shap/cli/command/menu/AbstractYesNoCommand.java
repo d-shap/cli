@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.d_shap.cli.Command;
+import ru.d_shap.cli.data.Lines;
 import ru.d_shap.cli.data.ValueHolder;
 import ru.d_shap.cli.data.ValueLoader;
 
@@ -35,13 +36,13 @@ public abstract class AbstractYesNoCommand extends AbstractMenuCommand {
 
     private final ValueHolder<String> _yesMenuItemSymbol;
 
-    private final ValueHolder<String> _yesMenuItemLabel;
+    private final ValueHolder<Lines> _yesMenuItemLabel;
 
     private final ValueHolder<Command> _yesMenuItemCommand;
 
     private final ValueHolder<String> _noMenuItemSymbol;
 
-    private final ValueHolder<String> _noMenuItemLabel;
+    private final ValueHolder<Lines> _noMenuItemLabel;
 
     private final ValueHolder<Command> _noMenuItemCommand;
 
@@ -79,7 +80,7 @@ public abstract class AbstractYesNoCommand extends AbstractMenuCommand {
      *
      * @return the label of the "yes" menu item.
      */
-    protected abstract String getYesMenuItemLabel();
+    protected abstract Lines getYesMenuItemLabel();
 
     /**
      * Get the command to execute if the "yes" menu item is selected.
@@ -100,7 +101,7 @@ public abstract class AbstractYesNoCommand extends AbstractMenuCommand {
      *
      * @return the label of the "no" menu item.
      */
-    protected abstract String getNoMenuItemLabel();
+    protected abstract Lines getNoMenuItemLabel();
 
     /**
      * Get the command to execute if the "no" menu item is selected.
@@ -114,13 +115,13 @@ public abstract class AbstractYesNoCommand extends AbstractMenuCommand {
         List<Option> options = new ArrayList<>();
 
         String yesMenuItemSymbol = _yesMenuItemSymbol.getValue();
-        String yesMenuItemLabel = _yesMenuItemLabel.getValue();
+        Lines yesMenuItemLabel = _yesMenuItemLabel.getValue();
         Command yesMenuItemCommand = _yesMenuItemCommand.getValue();
         Option yesMenuItem = new MenuItem(yesMenuItemSymbol, yesMenuItemLabel, yesMenuItemCommand);
         options.add(yesMenuItem);
 
         String noMenuItemSymbol = _noMenuItemSymbol.getValue();
-        String noMenuItemLabel = _noMenuItemLabel.getValue();
+        Lines noMenuItemLabel = _noMenuItemLabel.getValue();
         Command noMenuItemCommand = _noMenuItemCommand.getValue();
         Option noMenuItem = new MenuItem(noMenuItemSymbol, noMenuItemLabel, noMenuItemCommand);
         options.add(noMenuItem);
@@ -151,14 +152,14 @@ public abstract class AbstractYesNoCommand extends AbstractMenuCommand {
      *
      * @author Dmitry Shapovalov
      */
-    private final class YesMenuItemLabelLoader implements ValueLoader<String> {
+    private final class YesMenuItemLabelLoader implements ValueLoader<Lines> {
 
         YesMenuItemLabelLoader() {
             super();
         }
 
         @Override
-        public String loadValue() {
+        public Lines loadValue() {
             return getYesMenuItemLabel();
         }
 
@@ -205,14 +206,14 @@ public abstract class AbstractYesNoCommand extends AbstractMenuCommand {
      *
      * @author Dmitry Shapovalov
      */
-    private final class NoMenuItemLabelLoader implements ValueLoader<String> {
+    private final class NoMenuItemLabelLoader implements ValueLoader<Lines> {
 
         NoMenuItemLabelLoader() {
             super();
         }
 
         @Override
-        public String loadValue() {
+        public Lines loadValue() {
             return getNoMenuItemLabel();
         }
 
