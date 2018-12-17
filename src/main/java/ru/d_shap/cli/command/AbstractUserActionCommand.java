@@ -65,7 +65,7 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
 
             Command command;
             if (isDefaultInput(input)) {
-                command = processDefaultInput(writer);
+                command = processDefaultInput(input, writer);
             } else {
                 command = processInput(input, writer);
             }
@@ -92,11 +92,12 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
     /**
      * Process the default user input.
      *
+     * @param input  the user input.
      * @param writer the stream to write the command output.
      *
      * @return the next command to execute.
      */
-    protected abstract Command processDefaultInput(PrintWriter writer);
+    protected abstract Command processDefaultInput(String input, PrintWriter writer);
 
     /**
      * Process the user input.
