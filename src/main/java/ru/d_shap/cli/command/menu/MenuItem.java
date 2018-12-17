@@ -20,8 +20,10 @@
 package ru.d_shap.cli.command.menu;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import ru.d_shap.cli.Command;
+import ru.d_shap.cli.data.Lines;
 
 /**
  * Menu item.
@@ -32,7 +34,7 @@ public final class MenuItem implements Option {
 
     private final String _symbol;
 
-    private final String _label;
+    private final Lines _label;
 
     private final Command _command;
 
@@ -43,6 +45,16 @@ public final class MenuItem implements Option {
      * @param label  the label.
      */
     public MenuItem(final String symbol, final String label) {
+        this(symbol, new Lines(label), null);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param symbol the symbol to select this menu item.
+     * @param label  the label.
+     */
+    public MenuItem(final String symbol, final Lines label) {
         this(symbol, label, null);
     }
 
@@ -54,6 +66,17 @@ public final class MenuItem implements Option {
      * @param command the command to execute if this menu item is selected.
      */
     public MenuItem(final String symbol, final String label, final Command command) {
+        this(symbol, new Lines(label), command);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param symbol  the symbol to select this menu item.
+     * @param label   the label.
+     * @param command the command to execute if this menu item is selected.
+     */
+    public MenuItem(final String symbol, final Lines label, final Command command) {
         super();
         _symbol = symbol;
         _label = label;
@@ -74,24 +97,37 @@ public final class MenuItem implements Option {
      *
      * @return the label.
      */
-    public String getLabel() {
+    public Lines getLabel() {
         return _label;
     }
 
     @Override
     public void print(final PrintWriter writer, final int length, final boolean isDefault) {
-        String str;
+        String firstLinePattern = "%" + length + "s: %s";
+        String nextLinesPattern = "%" + length + "s  %s";
+        String symbol;
         if (isDefault) {
-            str = String.format("%7s: %s", "*" + _symbol, _label);
+            symbol = "*" + _symbol;
         } else {
-            str = String.format("%7s: %s", _symbol, _label);
+            symbol = _symbol;
         }
-        writer.println(str);
+        List<String> lines = _label.getLines();
+        boolean firstLine = true;
+        String str;
+        for (String line : lines) {
+            if (firstLine) {
+                str = String.format(firstLinePattern, symbol, line);
+                firstLine = false;
+            } else {
+                str = String.format(nextLinesPattern, "", line);
+            }
+            writer.println(str);
+        }
     }
 
     @Override
     public boolean isSelected(final String symbol) {
-        return _symbol == null && symbol == null || _symbol != null && _symbol.equalsIgnoreCase(symbol);
+        return _symbol.equalsIgnoreCase(symbol);
     }
 
     @Override
