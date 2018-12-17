@@ -20,9 +20,11 @@
 package ru.d_shap.cli.command.input;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import ru.d_shap.cli.Command;
 import ru.d_shap.cli.command.AbstractUserActionCommand;
+import ru.d_shap.cli.data.Lines;
 import ru.d_shap.cli.data.ValueHolder;
 import ru.d_shap.cli.data.ValueLoader;
 
@@ -37,7 +39,7 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
 
     private final ValueHolder<String> _contextKey;
 
-    private final ValueHolder<String> _header;
+    private final ValueHolder<Lines> _header;
 
     private final ValueHolder<String> _defaultMessage;
 
@@ -75,7 +77,7 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
      *
      * @return the input header.
      */
-    protected abstract String getHeader();
+    protected abstract Lines getHeader();
 
     /**
      * Get the message for the default value.
@@ -93,8 +95,11 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
 
     @Override
     protected final void printMessage(final PrintWriter writer) {
-        String header = _header.getValue();
-        writer.println(header);
+        Lines header = _header.getValue();
+        List<String> lines = header.getLines();
+        for (String line : lines) {
+            writer.println(line);
+        }
 
         String contextKey = _contextKey.getValue();
         boolean hasContextValue = getContext().hasValue(contextKey);
@@ -191,14 +196,14 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
      *
      * @author Dmitry Shapovalov
      */
-    private final class HeaderLoader implements ValueLoader<String> {
+    private final class HeaderLoader implements ValueLoader<Lines> {
 
         HeaderLoader() {
             super();
         }
 
         @Override
-        public String loadValue() {
+        public Lines loadValue() {
             return getHeader();
         }
 
