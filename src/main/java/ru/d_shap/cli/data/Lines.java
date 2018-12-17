@@ -53,7 +53,7 @@ public final class Lines {
     /**
      * Create new object.
      *
-     * @param lines the output line.
+     * @param lines the output lines.
      */
     public Lines(final String... lines) {
         this();
@@ -67,7 +67,7 @@ public final class Lines {
     /**
      * Create new object.
      *
-     * @param lines the output line.
+     * @param lines the output lines.
      */
     public Lines(final Collection<String> lines) {
         this();
