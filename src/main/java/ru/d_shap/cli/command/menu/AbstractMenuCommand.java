@@ -24,6 +24,7 @@ import java.util.List;
 
 import ru.d_shap.cli.Command;
 import ru.d_shap.cli.command.AbstractUserActionCommand;
+import ru.d_shap.cli.data.Lines;
 import ru.d_shap.cli.data.ValueHolder;
 import ru.d_shap.cli.data.ValueLoader;
 
@@ -36,9 +37,11 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
     public static final int UNDEFINED_DEFAULT_OPTION_INDEX = -1;
 
-    private final ValueHolder<String> _header;
+    private final ValueHolder<Lines> _header;
 
     private final ValueHolder<List<Option>> _options;
+
+    private final ValueHolder<Integer> _symbolLength;
 
     private final ValueHolder<Integer> _defaultOptionIndex;
 
@@ -60,6 +63,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         super(parentCommand);
         _header = new ValueHolder<>(new HeaderLoader());
         _options = new ValueHolder<>(new OptionsLoader());
+        _symbolLength = new ValueHolder<>(new SymbolLengthLoader());
         _defaultOptionIndex = new ValueHolder<>(new DefaultOptionIndexLoader());
         _wrongInputMessage = new ValueHolder<>(new WrongInputMessageLoader());
     }
@@ -69,7 +73,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
      *
      * @return the menu header.
      */
-    protected abstract String getHeader();
+    protected abstract Lines getHeader();
 
     /**
      * Get the menu options.
@@ -77,6 +81,13 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
      * @return the menu options.
      */
     protected abstract List<Option> getOptions();
+
+    /**
+     * Get the number of characters to display the symbol.
+     *
+     * @return the number of characters to display the symbol.
+     */
+    protected abstract int getSymbolLength();
 
     /**
      * Get the index of the default option.
@@ -94,15 +105,19 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
     @Override
     protected final void printMessage(final PrintWriter writer) {
-        String header = _header.getValue();
-        writer.println(header);
+        Lines header = _header.getValue();
+        List<String> lines = header.getLines();
+        for (String line : lines) {
+            writer.println(line);
+        }
         writer.println();
 
         List<Option> options = _options.getValue();
+        int symbolLength = _symbolLength.getValue();
         int defaultOptionIndex = _defaultOptionIndex.getValue();
         for (int i = 0; i < options.size(); i++) {
             Option option = options.get(i);
-            option.print(writer, i == defaultOptionIndex);
+            option.print(writer, symbolLength, i == defaultOptionIndex);
         }
     }
 
@@ -134,14 +149,14 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
      *
      * @author Dmitry Shapovalov
      */
-    private final class HeaderLoader implements ValueLoader<String> {
+    private final class HeaderLoader implements ValueLoader<Lines> {
 
         HeaderLoader() {
             super();
         }
 
         @Override
-        public String loadValue() {
+        public Lines loadValue() {
             return getHeader();
         }
 
@@ -161,6 +176,24 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         @Override
         public List<Option> loadValue() {
             return getOptions();
+        }
+
+    }
+
+    /**
+     * Value loader for the symbol length.
+     *
+     * @author Dmitry Shapovalov
+     */
+    private final class SymbolLengthLoader implements ValueLoader<Integer> {
+
+        SymbolLengthLoader() {
+            super();
+        }
+
+        @Override
+        public Integer loadValue() {
+            return getSymbolLength();
         }
 
     }
