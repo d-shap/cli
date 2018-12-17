@@ -112,27 +112,39 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
     }
 
     @Override
-    protected final Command processInput(final String input, final PrintWriter writer) {
+    protected final Command processDefaultInput(final String input, final PrintWriter writer) {
         String contextKey = _contextKey.getValue();
-        if (isDefaultInput(input)) {
-            boolean hasContextValue = getContext().hasValue(contextKey);
-            if (hasContextValue) {
-                T contextValue = getContext().getValue(contextKey);
-                if (isValidValue(contextValue)) {
-                    return processValue(contextValue, writer);
-                }
+        boolean hasContextValue = getContext().hasValue(contextKey);
+        if (hasContextValue) {
+            T contextValue = getContext().getValue(contextKey);
+            if (isValidValue(contextValue)) {
+                return processValue(contextValue, writer);
+            } else {
+                return processWrongInput(contextValue, writer);
             }
-        } else if (isValidType(input)) {
+        }
+
+        return processWrongInput(input, writer);
+    }
+
+    @Override
+    protected final Command processInput(final String input, final PrintWriter writer) {
+        if (isValidType(input)) {
             T value = getValue(input);
             if (isValidValue(value)) {
+                String contextKey = _contextKey.getValue();
                 getContext().putValue(contextKey, value);
                 return processValue(value, writer);
             }
         }
 
+        return processWrongInput(input, writer);
+    }
+
+    private Command processWrongInput(final Object wrongInput, final PrintWriter writer) {
         String wrongInputMessage = _wrongInputMessage.getValue();
         if (wrongInputMessage != null) {
-            String str = String.format(wrongInputMessage, input);
+            String str = String.format(wrongInputMessage, wrongInput);
             writer.println(str);
         }
         return this;
