@@ -19,8 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.data;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,12 +34,54 @@ public final class Lines {
 
     /**
      * Create new object.
+     */
+    public Lines() {
+        super();
+        _lines = new ArrayList<>();
+    }
+
+    /**
+     * Create new object.
      *
-     * @param lines the output lines.
+     * @param line the output line.
+     */
+    public Lines(final String line) {
+        this();
+        addLine(line);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param lines the output line.
      */
     public Lines(final String... lines) {
-        super();
-        _lines = Collections.unmodifiableList(Arrays.asList(lines));
+        this();
+        if (lines != null) {
+            for (String line : lines) {
+                addLine(line);
+            }
+        }
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param lines the output line.
+     */
+    public Lines(final Collection<String> lines) {
+        this();
+        if (lines != null) {
+            for (String line : lines) {
+                addLine(line);
+            }
+        }
+    }
+
+    private void addLine(final String line) {
+        if (line != null) {
+            _lines.add(line);
+        }
     }
 
     /**
@@ -48,7 +90,11 @@ public final class Lines {
      * @return the output lines.
      */
     public List<String> getLines() {
-        return _lines;
+        List<String> lines = new ArrayList<>(_lines);
+        if (lines.isEmpty()) {
+            lines.add("");
+        }
+        return lines;
     }
 
 }
