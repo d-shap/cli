@@ -35,7 +35,9 @@ import ru.d_shap.cli.data.ValueLoader;
  */
 public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
-    public static final int UNDEFINED_DEFAULT_OPTION_INDEX = -1;
+    public static final int DEFAULT_SYMBOL_LENGTH = 7;
+
+    public static final int NO_DEFAULT_OPTION_INDEX = -1;
 
     private final ValueHolder<Lines> _header;
 
