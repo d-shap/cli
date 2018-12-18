@@ -53,7 +53,6 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
     public final Command execute(final PrintWriter writer, final BufferedReader reader) {
         try {
             printMessage(writer);
-            writer.println();
             writer.flush();
 
             String input = reader.readLine();
