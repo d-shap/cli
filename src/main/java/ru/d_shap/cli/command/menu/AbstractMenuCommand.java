@@ -131,7 +131,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
             return option.getCommand();
         }
 
-        return processWrongInput(input, writer);
+        return processWrongInput(_wrongInputMessage, input, writer);
     }
 
     @Override
@@ -143,16 +143,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
             }
         }
 
-        return processWrongInput(input, writer);
-    }
-
-    private Command processWrongInput(final String input, final PrintWriter writer) {
-        String wrongInputMessage = _wrongInputMessage.getValue();
-        if (wrongInputMessage != null) {
-            String str = String.format(wrongInputMessage, input);
-            writer.println(str);
-        }
-        return this;
+        return processWrongInput(_wrongInputMessage, input, writer);
     }
 
     /**

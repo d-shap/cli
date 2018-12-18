@@ -122,11 +122,11 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
                 return processValue(contextValue, writer);
             } else {
                 String stringValue = asString(contextValue);
-                return processWrongInput(stringValue, writer);
+                return processWrongInput(_wrongInputMessage, stringValue, writer);
             }
         }
 
-        return processWrongInput(input, writer);
+        return processWrongInput(_wrongInputMessage, input, writer);
     }
 
     @Override
@@ -140,16 +140,7 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
             }
         }
 
-        return processWrongInput(input, writer);
-    }
-
-    private Command processWrongInput(final String input, final PrintWriter writer) {
-        String wrongInputMessage = _wrongInputMessage.getValue();
-        if (wrongInputMessage != null) {
-            String str = String.format(wrongInputMessage, input);
-            writer.println(str);
-        }
-        return this;
+        return processWrongInput(_wrongInputMessage, input, writer);
     }
 
     /**
