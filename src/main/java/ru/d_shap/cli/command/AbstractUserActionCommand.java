@@ -25,6 +25,7 @@ import java.io.PrintWriter;
 
 import ru.d_shap.cli.CliIOException;
 import ru.d_shap.cli.Command;
+import ru.d_shap.cli.data.ValueHolder;
 
 /**
  * Base class for all user action commands.
@@ -107,5 +108,39 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
      * @return the next command to execute.
      */
     protected abstract Command processInput(String input, PrintWriter writer);
+
+    /**
+     * Process the wrong user input.
+     *
+     * @param wrongInputMessage the message for the wrong input.
+     * @param input             the user input.
+     * @param writer            the stream to write the command output.
+     *
+     * @return the next command to execute.
+     */
+    protected final Command processWrongInput(final ValueHolder<String> wrongInputMessage, final String input, final PrintWriter writer) {
+        if (wrongInputMessage == null) {
+            return this;
+        } else {
+            return processWrongInput(wrongInputMessage.getValue(), input, writer);
+        }
+    }
+
+    /**
+     * Process the wrong user input.
+     *
+     * @param wrongInputMessage the message for the wrong input.
+     * @param input             the user input.
+     * @param writer            the stream to write the command output.
+     *
+     * @return the next command to execute.
+     */
+    protected final Command processWrongInput(final String wrongInputMessage, final String input, final PrintWriter writer) {
+        if (wrongInputMessage != null) {
+            String str = String.format(wrongInputMessage, input);
+            writer.println(str);
+        }
+        return this;
+    }
 
 }
