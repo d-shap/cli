@@ -112,7 +112,6 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         for (String line : lines) {
             writer.println(line);
         }
-        writer.println();
 
         List<Option> options = _options.getValue();
         int symbolLength = _symbolLength.getValue();
@@ -128,8 +127,8 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         List<Option> options = _options.getValue();
         int defaultOptionIndex = _defaultOptionIndex.getValue();
         if (defaultOptionIndex >= 0 && defaultOptionIndex < options.size()) {
-            Option defaultOption = options.get(defaultOptionIndex);
-            return defaultOption.getCommand();
+            Option option = options.get(defaultOptionIndex);
+            return option.getCommand();
         }
 
         return processWrongInput(input, writer);
@@ -147,10 +146,10 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         return processWrongInput(input, writer);
     }
 
-    private Command processWrongInput(final Object wrongInput, final PrintWriter writer) {
+    private Command processWrongInput(final String input, final PrintWriter writer) {
         String wrongInputMessage = _wrongInputMessage.getValue();
         if (wrongInputMessage != null) {
-            String str = String.format(wrongInputMessage, wrongInput);
+            String str = String.format(wrongInputMessage, input);
             writer.println(str);
         }
         return this;
