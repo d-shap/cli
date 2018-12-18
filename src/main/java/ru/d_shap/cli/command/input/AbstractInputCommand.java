@@ -161,6 +161,14 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
      */
     protected abstract T getValue(String input);
 
+    private String asString(final T value) {
+        if (value == null) {
+            return null;
+        } else {
+            return getValueAsString(value);
+        }
+    }
+
     /**
      * Convert the value to the string.
      *
@@ -169,14 +177,6 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
      * @return the value, converted to the string.
      */
     protected abstract String getValueAsString(T value);
-
-    private String asString(final T value) {
-        if (value == null) {
-            return null;
-        } else {
-            return getValueAsString(value);
-        }
-    }
 
     /**
      * Check if the value is valid.
