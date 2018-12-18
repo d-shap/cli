@@ -54,4 +54,9 @@ public abstract class AbstractInputStringCommand extends AbstractInputCommand<St
         return input;
     }
 
+    @Override
+    protected final String getValueAsString(final String value) {
+        return value;
+    }
+
 }

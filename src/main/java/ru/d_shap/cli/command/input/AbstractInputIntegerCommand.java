@@ -59,4 +59,9 @@ public abstract class AbstractInputIntegerCommand extends AbstractInputCommand<I
         return Integer.parseInt(input);
     }
 
+    @Override
+    protected final String getValueAsString(final Integer value) {
+        return String.valueOf(value);
+    }
+
 }

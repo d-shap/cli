@@ -59,4 +59,9 @@ public abstract class AbstractInputLongCommand extends AbstractInputCommand<Long
         return Long.parseLong(input);
     }
 
+    @Override
+    protected final String getValueAsString(final Long value) {
+        return String.valueOf(value);
+    }
+
 }

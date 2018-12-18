@@ -59,4 +59,9 @@ public abstract class AbstractInputDoubleCommand extends AbstractInputCommand<Do
         return Double.parseDouble(input);
     }
 
+    @Override
+    protected final String getValueAsString(final Double value) {
+        return String.valueOf(value);
+    }
+
 }

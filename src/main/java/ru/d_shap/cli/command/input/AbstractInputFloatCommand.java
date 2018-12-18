@@ -59,4 +59,9 @@ public abstract class AbstractInputFloatCommand extends AbstractInputCommand<Flo
         return Float.parseFloat(input);
     }
 
+    @Override
+    protected final String getValueAsString(final Float value) {
+        return String.valueOf(value);
+    }
+
 }
