@@ -106,7 +106,8 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
         String defaultMessage = _defaultMessage.getValue();
         if (hasContextValue && defaultMessage != null) {
             T contextValue = getContext().getValue(contextKey);
-            String str = String.format(defaultMessage, contextValue);
+            String stringValue = asString(contextValue);
+            String str = String.format(defaultMessage, stringValue);
             writer.println(str);
         }
     }
@@ -120,7 +121,8 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
             if (isValidValue(contextValue)) {
                 return processValue(contextValue, writer);
             } else {
-                return processWrongInput(contextValue, writer);
+                String stringValue = asString(contextValue);
+                return processWrongInput(stringValue, writer);
             }
         }
 
@@ -141,10 +143,10 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
         return processWrongInput(input, writer);
     }
 
-    private Command processWrongInput(final Object wrongInput, final PrintWriter writer) {
+    private Command processWrongInput(final String input, final PrintWriter writer) {
         String wrongInputMessage = _wrongInputMessage.getValue();
         if (wrongInputMessage != null) {
-            String str = String.format(wrongInputMessage, wrongInput);
+            String str = String.format(wrongInputMessage, input);
             writer.println(str);
         }
         return this;
@@ -167,6 +169,23 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
      * @return the user input, converted to the target type.
      */
     protected abstract T getValue(String input);
+
+    /**
+     * Convert the value to the string.
+     *
+     * @param value the value.
+     *
+     * @return the value, converted to the string.
+     */
+    protected abstract String getValueAsString(T value);
+
+    private String asString(final T value) {
+        if (value == null) {
+            return null;
+        } else {
+            return getValueAsString(value);
+        }
+    }
 
     /**
      * Check if the value is valid.
