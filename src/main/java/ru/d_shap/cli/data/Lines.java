@@ -78,7 +78,12 @@ public final class Lines {
         }
     }
 
-    private void addLine(final String line) {
+    /**
+     * Add the output line.
+     *
+     * @param line the output line.
+     */
+    public void addLine(final String line) {
         if (line != null) {
             _lines.add(line);
         }
