@@ -119,11 +119,13 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
      * @return the next command to execute.
      */
     protected final Command processWrongInput(final ValueHolder<String> wrongInputMessage, final String input, final PrintWriter writer) {
+        String str;
         if (wrongInputMessage == null) {
-            return this;
+            str = null;
         } else {
-            return processWrongInput(wrongInputMessage.getValue(), input, writer);
+            str = wrongInputMessage.getValue();
         }
+        return processWrongInput(str, input, writer);
     }
 
     /**
