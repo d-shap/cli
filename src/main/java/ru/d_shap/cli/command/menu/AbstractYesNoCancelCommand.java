@@ -28,7 +28,7 @@ import ru.d_shap.cli.data.ValueHolder;
 import ru.d_shap.cli.data.ValueLoader;
 
 /**
- * Base class for all commands to select one of two options, or to return to the parent command.
+ * Base class for all commands to select one of two options or to return to the parent command.
  *
  * @author Dmitry Shapovalov
  */
