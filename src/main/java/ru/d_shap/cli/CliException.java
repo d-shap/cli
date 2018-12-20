@@ -53,7 +53,15 @@ public class CliException extends RuntimeException {
      * @param cause cause exception.
      */
     protected CliException(final Throwable cause) {
-        super(cause);
+        super(getThrowableMessage(cause), cause);
+    }
+
+    private static String getThrowableMessage(final Throwable throwable) {
+        if (throwable == null) {
+            return null;
+        } else {
+            return throwable.getMessage();
+        }
     }
 
 }
