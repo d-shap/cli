@@ -237,10 +237,54 @@ public final class InputStreamWrapperTest extends BaseCliTest {
 
     /**
      * {@link InputStreamWrapper} class test.
+     *
+     * @throws IOException IO exception.
      */
     @Test
-    public void skipTest() {
+    public void skipTest() throws IOException {
+        byte[] data = new byte[]{5, 7, 10, 1, 6, 3, 9, 2, 4, 8};
 
+        ByteArrayInputStream bais1 = new ByteArrayInputStream(data);
+        InputStreamWrapper isw1 = new InputStreamWrapper(bais1);
+        Assertions.assertThat(isw1.read()).isEqualTo(5);
+        Assertions.assertThat(isw1.read()).isEqualTo(7);
+        Assertions.assertThat(isw1.read()).isEqualTo(10);
+        Assertions.assertThat(isw1.skip(3)).isEqualTo(3);
+        Assertions.assertThat(isw1.read()).isEqualTo(9);
+        Assertions.assertThat(isw1.read()).isEqualTo(2);
+        Assertions.assertThat(isw1.skip(3)).isEqualTo(2);
+        Assertions.assertThat(isw1.read()).isLessThan(0);
+
+        ByteArrayInputStream bais2 = new ByteArrayInputStream(data);
+        InputStreamWrapper isw2 = new InputStreamWrapper(bais2, null);
+        Assertions.assertThat(isw2.read()).isEqualTo(5);
+        Assertions.assertThat(isw2.read()).isEqualTo(7);
+        Assertions.assertThat(isw2.read()).isEqualTo(10);
+        Assertions.assertThat(isw2.skip(3)).isEqualTo(3);
+        Assertions.assertThat(isw2.read()).isEqualTo(9);
+        Assertions.assertThat(isw2.read()).isEqualTo(2);
+        Assertions.assertThat(isw2.skip(3)).isEqualTo(2);
+        Assertions.assertThat(isw2.read()).isLessThan(0);
+
+        ByteArrayInputStream bais3 = new ByteArrayInputStream(data);
+        ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
+        InputStreamWrapper isw3 = new InputStreamWrapper(bais3, baos3);
+        Assertions.assertThat(isw3.read()).isEqualTo(5);
+        Assertions.assertThat(baos3.toByteArray()).containsExactlyInOrder(5);
+        Assertions.assertThat(isw3.read()).isEqualTo(7);
+        Assertions.assertThat(baos3.toByteArray()).containsExactlyInOrder(5, 7);
+        Assertions.assertThat(isw3.read()).isEqualTo(10);
+        Assertions.assertThat(baos3.toByteArray()).containsExactlyInOrder(5, 7, 10);
+        Assertions.assertThat(isw3.skip(3)).isEqualTo(3);
+        Assertions.assertThat(baos3.toByteArray()).containsExactlyInOrder(5, 7, 10);
+        Assertions.assertThat(isw3.read()).isEqualTo(9);
+        Assertions.assertThat(baos3.toByteArray()).containsExactlyInOrder(5, 7, 10, 9);
+        Assertions.assertThat(isw3.read()).isEqualTo(2);
+        Assertions.assertThat(baos3.toByteArray()).containsExactlyInOrder(5, 7, 10, 9, 2);
+        Assertions.assertThat(isw3.skip(3)).isEqualTo(2);
+        Assertions.assertThat(baos3.toByteArray()).containsExactlyInOrder(5, 7, 10, 9, 2);
+        Assertions.assertThat(isw3.read()).isLessThan(0);
+        Assertions.assertThat(baos3.toByteArray()).containsExactlyInOrder(5, 7, 10, 9, 2);
     }
 
     /**
@@ -264,7 +308,10 @@ public final class InputStreamWrapperTest extends BaseCliTest {
      */
     @Test
     public void markSupportedTest() {
-
+        byte[] data = new byte[]{};
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        InputStreamWrapper isw = new InputStreamWrapper(bais);
+        Assertions.assertThat(isw.markSupported()).isFalse();
     }
 
 }
