@@ -307,7 +307,6 @@ public final class InputStreamWrapperTest extends BaseCliTest {
         Assertions.assertThat(isw1).hasAvailable(2);
         Assertions.assertThat(isw1).isNextBytesEqualTo(4, 8);
         Assertions.assertThat(isw1).hasAvailable(0);
-        Assertions.assertThat(isw1).isCompleted();
 
         ByteArrayInputStream bais2 = new ByteArrayInputStream(data);
         InputStreamWrapper isw2 = new InputStreamWrapper(bais2, null);
@@ -320,7 +319,6 @@ public final class InputStreamWrapperTest extends BaseCliTest {
         Assertions.assertThat(isw2).hasAvailable(2);
         Assertions.assertThat(isw2).isNextBytesEqualTo(4, 8);
         Assertions.assertThat(isw2).hasAvailable(0);
-        Assertions.assertThat(isw2).isCompleted();
 
         ByteArrayInputStream bais3 = new ByteArrayInputStream(data);
         ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
@@ -334,7 +332,6 @@ public final class InputStreamWrapperTest extends BaseCliTest {
         Assertions.assertThat(isw3).hasAvailable(2);
         Assertions.assertThat(isw3).isNextBytesEqualTo(4, 8);
         Assertions.assertThat(isw3).hasAvailable(0);
-        Assertions.assertThat(isw3).isCompleted();
     }
 
     /**
