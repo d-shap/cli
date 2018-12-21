@@ -19,6 +19,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 /**
  * Base CLI test class.
  *
@@ -31,6 +35,84 @@ public class BaseCliTest {
      */
     protected BaseCliTest() {
         super();
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class ClosedInputStream extends InputStream {
+
+        private boolean _closed;
+
+        /**
+         * Create new object.
+         */
+        public ClosedInputStream() {
+            super();
+            _closed = false;
+        }
+
+        /**
+         * Check if this stream is closed.
+         *
+         * @return true if this stream is closed.
+         */
+        public boolean isClosed() {
+            return _closed;
+        }
+
+        @Override
+        public int read() throws IOException {
+            return -1;
+        }
+
+        @Override
+        public void close() throws IOException {
+            super.close();
+            _closed = true;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class ClosedOutputStream extends OutputStream {
+
+        private boolean _closed;
+
+        /**
+         * Create new object.
+         */
+        public ClosedOutputStream() {
+            super();
+            _closed = false;
+        }
+
+        /**
+         * Check if this stream is closed.
+         *
+         * @return true if this stream is closed.
+         */
+        public boolean isClosed() {
+            return _closed;
+        }
+
+        @Override
+        public void write(final int b) throws IOException {
+            // Ignore
+        }
+
+        @Override
+        public void close() throws IOException {
+            super.close();
+            _closed = true;
+        }
+
     }
 
 }
