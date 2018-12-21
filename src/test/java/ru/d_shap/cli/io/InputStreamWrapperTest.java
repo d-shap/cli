@@ -289,10 +289,52 @@ public final class InputStreamWrapperTest extends BaseCliTest {
 
     /**
      * {@link InputStreamWrapper} class test.
+     *
+     * @throws IOException IO exception.
      */
     @Test
-    public void availableTest() {
+    public void availableTest() throws IOException {
+        byte[] data = new byte[]{5, 7, 10, 1, 6, 3, 9, 2, 4, 8};
 
+        ByteArrayInputStream bais1 = new ByteArrayInputStream(data);
+        InputStreamWrapper isw1 = new InputStreamWrapper(bais1);
+        Assertions.assertThat(isw1).hasAvailable(10);
+        Assertions.assertThat(isw1).isNextBytesEqualTo(5, 7, 10);
+        Assertions.assertThat(isw1).hasAvailable(7);
+        Assertions.assertThat(isw1.skip(3)).isEqualTo(3);
+        Assertions.assertThat(isw1).hasAvailable(4);
+        Assertions.assertThat(isw1).isNextBytesEqualTo(9, 2);
+        Assertions.assertThat(isw1).hasAvailable(2);
+        Assertions.assertThat(isw1).isNextBytesEqualTo(4, 8);
+        Assertions.assertThat(isw1).hasAvailable(0);
+        Assertions.assertThat(isw1).isCompleted();
+
+        ByteArrayInputStream bais2 = new ByteArrayInputStream(data);
+        InputStreamWrapper isw2 = new InputStreamWrapper(bais2, null);
+        Assertions.assertThat(isw2).hasAvailable(10);
+        Assertions.assertThat(isw2).isNextBytesEqualTo(5, 7, 10);
+        Assertions.assertThat(isw2).hasAvailable(7);
+        Assertions.assertThat(isw2.skip(3)).isEqualTo(3);
+        Assertions.assertThat(isw2).hasAvailable(4);
+        Assertions.assertThat(isw2).isNextBytesEqualTo(9, 2);
+        Assertions.assertThat(isw2).hasAvailable(2);
+        Assertions.assertThat(isw2).isNextBytesEqualTo(4, 8);
+        Assertions.assertThat(isw2).hasAvailable(0);
+        Assertions.assertThat(isw2).isCompleted();
+
+        ByteArrayInputStream bais3 = new ByteArrayInputStream(data);
+        ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
+        InputStreamWrapper isw3 = new InputStreamWrapper(bais3, baos3);
+        Assertions.assertThat(isw3).hasAvailable(10);
+        Assertions.assertThat(isw3).isNextBytesEqualTo(5, 7, 10);
+        Assertions.assertThat(isw3).hasAvailable(7);
+        Assertions.assertThat(isw3.skip(3)).isEqualTo(3);
+        Assertions.assertThat(isw3).hasAvailable(4);
+        Assertions.assertThat(isw3).isNextBytesEqualTo(9, 2);
+        Assertions.assertThat(isw3).hasAvailable(2);
+        Assertions.assertThat(isw3).isNextBytesEqualTo(4, 8);
+        Assertions.assertThat(isw3).hasAvailable(0);
+        Assertions.assertThat(isw3).isCompleted();
     }
 
     /**
