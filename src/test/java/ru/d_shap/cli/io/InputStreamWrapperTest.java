@@ -107,10 +107,67 @@ public final class InputStreamWrapperTest extends BaseCliTest {
 
     /**
      * {@link InputStreamWrapper} class test.
+     *
+     * @throws IOException IO exception.
      */
     @Test
-    public void readByteArrayTest() {
+    public void readByteArrayTest() throws IOException {
+        byte[] data1 = new byte[]{};
+        ByteArrayInputStream bais11 = new ByteArrayInputStream(data1);
+        InputStreamWrapper isw11 = new InputStreamWrapper(bais11);
+        byte[] buffer11 = new byte[5];
+        Assertions.assertThat(isw11.read(buffer11)).isLessThan(0);
+        Assertions.assertThat(buffer11).containsExactlyInOrder(0, 0, 0, 0, 0);
+        ByteArrayInputStream bais12 = new ByteArrayInputStream(data1);
+        InputStreamWrapper isw12 = new InputStreamWrapper(bais12, null);
+        byte[] buffer12 = new byte[5];
+        Assertions.assertThat(isw12.read(buffer12)).isLessThan(0);
+        Assertions.assertThat(buffer12).containsExactlyInOrder(0, 0, 0, 0, 0);
+        ByteArrayInputStream bais13 = new ByteArrayInputStream(data1);
+        ByteArrayOutputStream baos13 = new ByteArrayOutputStream();
+        InputStreamWrapper isw13 = new InputStreamWrapper(bais13, baos13);
+        byte[] buffer13 = new byte[5];
+        Assertions.assertThat(isw13.read(buffer13)).isLessThan(0);
+        Assertions.assertThat(buffer13).containsExactlyInOrder(0, 0, 0, 0, 0);
+        Assertions.assertThat(baos13.toByteArray()).containsExactlyInOrder();
 
+        byte[] data2 = new byte[]{5};
+        ByteArrayInputStream bais21 = new ByteArrayInputStream(data2);
+        InputStreamWrapper isw21 = new InputStreamWrapper(bais21);
+        byte[] buffer21 = new byte[5];
+        Assertions.assertThat(isw21.read(buffer21)).isEqualTo(1);
+        Assertions.assertThat(buffer21).containsExactlyInOrder(5, 0, 0, 0, 0);
+        ByteArrayInputStream bais22 = new ByteArrayInputStream(data2);
+        InputStreamWrapper isw22 = new InputStreamWrapper(bais22, null);
+        byte[] buffer22 = new byte[5];
+        Assertions.assertThat(isw22.read(buffer22)).isEqualTo(1);
+        Assertions.assertThat(buffer22).containsExactlyInOrder(5, 0, 0, 0, 0);
+        ByteArrayInputStream bais23 = new ByteArrayInputStream(data2);
+        ByteArrayOutputStream baos23 = new ByteArrayOutputStream();
+        InputStreamWrapper isw23 = new InputStreamWrapper(bais23, baos23);
+        byte[] buffer23 = new byte[5];
+        Assertions.assertThat(isw23.read(buffer23)).isEqualTo(1);
+        Assertions.assertThat(buffer23).containsExactlyInOrder(5, 0, 0, 0, 0);
+        Assertions.assertThat(baos23.toByteArray()).containsExactlyInOrder(5);
+
+        byte[] data3 = new byte[]{5, 7, 10};
+        ByteArrayInputStream bais31 = new ByteArrayInputStream(data3);
+        InputStreamWrapper isw31 = new InputStreamWrapper(bais31);
+        byte[] buffer31 = new byte[5];
+        Assertions.assertThat(isw31.read(buffer31)).isEqualTo(3);
+        Assertions.assertThat(buffer31).containsExactlyInOrder(5, 7, 10, 0, 0);
+        ByteArrayInputStream bais32 = new ByteArrayInputStream(data3);
+        InputStreamWrapper isw32 = new InputStreamWrapper(bais32, null);
+        byte[] buffer32 = new byte[5];
+        Assertions.assertThat(isw32.read(buffer32)).isEqualTo(3);
+        Assertions.assertThat(buffer32).containsExactlyInOrder(5, 7, 10, 0, 0);
+        ByteArrayInputStream bais33 = new ByteArrayInputStream(data3);
+        ByteArrayOutputStream baos33 = new ByteArrayOutputStream();
+        InputStreamWrapper isw33 = new InputStreamWrapper(bais33, baos33);
+        byte[] buffer33 = new byte[5];
+        Assertions.assertThat(isw33.read(buffer33)).isEqualTo(3);
+        Assertions.assertThat(buffer33).containsExactlyInOrder(5, 7, 10, 0, 0);
+        Assertions.assertThat(baos33.toByteArray()).containsExactlyInOrder(5, 7, 10);
     }
 
     /**
