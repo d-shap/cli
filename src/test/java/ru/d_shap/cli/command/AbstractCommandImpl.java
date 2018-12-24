@@ -31,7 +31,7 @@ import ru.d_shap.cli.Command;
  */
 public final class AbstractCommandImpl extends AbstractCommand {
 
-    private final static String COUNTER_KEY = "__COUNTER_KEY__";
+    private static final String COUNTER_KEY = "__COUNTER_KEY__";
 
     private final String _message;
 
