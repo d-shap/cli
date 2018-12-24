@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.data;
 
+import org.junit.Test;
+
 import ru.d_shap.cli.BaseCliTest;
 
 /**
@@ -33,6 +35,46 @@ public final class ContextTest extends BaseCliTest {
      */
     public ContextTest() {
         super();
+    }
+
+    /**
+     * {@link Context} class test.
+     */
+    @Test
+    public void getNamesTest() {
+
+    }
+
+    /**
+     * {@link Context} class test.
+     */
+    @Test
+    public void hasValueTest() {
+
+    }
+
+    /**
+     * {@link Context} class test.
+     */
+    @Test
+    public void getValueTest() {
+
+    }
+
+    /**
+     * {@link Context} class test.
+     */
+    @Test
+    public void putValueTest() {
+
+    }
+
+    /**
+     * {@link Context} class test.
+     */
+    @Test
+    public void removeValueTest() {
+
     }
 
 }
