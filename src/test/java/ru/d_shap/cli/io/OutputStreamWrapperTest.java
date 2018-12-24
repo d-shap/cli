@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.io;
 
+import org.junit.Test;
+
 import ru.d_shap.cli.BaseCliTest;
 
 /**
@@ -33,6 +35,46 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
      */
     public OutputStreamWrapperTest() {
         super();
+    }
+
+    /**
+     * {@link OutputStreamWrapper} class test.
+     */
+    @Test
+    public void writeByteTest() {
+
+    }
+
+    /**
+     * {@link OutputStreamWrapper} class test.
+     */
+    @Test
+    public void writeByteArrayTest() {
+
+    }
+
+    /**
+     * {@link OutputStreamWrapper} class test.
+     */
+    @Test
+    public void writeByteArrayWithOffsetTest() {
+
+    }
+
+    /**
+     * {@link OutputStreamWrapper} class test.
+     */
+    @Test
+    public void flushTest() {
+
+    }
+
+    /**
+     * {@link OutputStreamWrapper} class test.
+     */
+    @Test
+    public void closeTest() {
+
     }
 
 }
