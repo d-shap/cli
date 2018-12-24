@@ -42,6 +42,15 @@ public class BaseCliTest {
     }
 
     /**
+     * Create the output stream.
+     *
+     * @return the output stream.
+     */
+    public ByteArrayOutputStream createOutputStream() {
+        return new ByteArrayOutputStream();
+    }
+
+    /**
      * Create the input stream for the specified lines.
      *
      * @param lines the specified lines.
