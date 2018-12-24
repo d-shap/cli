@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli;
 
+import org.junit.Test;
+
 /**
  * Tests for {@link CommandRunner}.
  *
@@ -31,6 +33,30 @@ public final class CommandRunnerTest extends BaseCliTest {
      */
     public CommandRunnerTest() {
         super();
+    }
+
+    /**
+     * {@link CommandRunner} class test.
+     */
+    @Test
+    public void getWriterTest() {
+
+    }
+
+    /**
+     * {@link CommandRunner} class test.
+     */
+    @Test
+    public void getReaderTest() {
+
+    }
+
+    /**
+     * {@link CommandRunner} class test.
+     */
+    @Test
+    public void executeTest() {
+
     }
 
 }
