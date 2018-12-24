@@ -51,7 +51,7 @@ public class BaseCliTest {
      *
      * @return the output stream.
      */
-    public ByteArrayOutputStream createOutputStream() {
+    public final ByteArrayOutputStream createOutputStream() {
         return new ByteArrayOutputStream();
     }
 
@@ -62,7 +62,7 @@ public class BaseCliTest {
      *
      * @return the output lines.
      */
-    public List<String> getLines(final ByteArrayOutputStream baos) {
+    public final List<String> getLines(final ByteArrayOutputStream baos) {
         return getLines(CommandRunner.ENCODING, baos);
     }
 
@@ -74,7 +74,7 @@ public class BaseCliTest {
      *
      * @return the output lines.
      */
-    public List<String> getLines(final String encoding, final ByteArrayOutputStream baos) {
+    public final List<String> getLines(final String encoding, final ByteArrayOutputStream baos) {
         try {
             byte[] bytes = baos.toByteArray();
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
@@ -102,7 +102,7 @@ public class BaseCliTest {
      *
      * @return the input stream.
      */
-    public InputStream createInputStream(final String... lines) {
+    public final InputStream createInputStream(final String... lines) {
         return createInputStreamWithEncoding(CommandRunner.ENCODING, lines);
     }
 
@@ -114,7 +114,7 @@ public class BaseCliTest {
      *
      * @return the input stream.
      */
-    public InputStream createInputStreamWithEncoding(final String encoding, final String... lines) {
+    public final InputStream createInputStreamWithEncoding(final String encoding, final String... lines) {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, encoding);
