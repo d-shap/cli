@@ -20,6 +20,7 @@
 package ru.d_shap.cli.data;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 import org.junit.Test;
 
@@ -51,8 +52,8 @@ public final class LinesTest extends BaseCliTest {
         Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
         lines1.addLine("");
         Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
-        lines1.addLine("line");
-        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("", "line");
+        lines1.addLine("line3");
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("", "line3");
 
         Lines lines2 = new Lines("line1");
         Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1");
@@ -60,8 +61,8 @@ public final class LinesTest extends BaseCliTest {
         Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1");
         lines2.addLine("");
         Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1", "");
-        lines2.addLine("line2");
-        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1", "", "line2");
+        lines2.addLine("line3");
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1", "", "line3");
 
         Lines lines3 = new Lines("line1", "line2");
         Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2");
@@ -87,7 +88,33 @@ public final class LinesTest extends BaseCliTest {
      */
     @Test
     public void addLinesArrayTest() {
+        Lines lines1 = new Lines();
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
+        lines1.addLines((String[]) null);
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
+        lines1.addLines(null, "", "line3");
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("", "line3");
 
+        Lines lines2 = new Lines("line1");
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1");
+        lines2.addLines((String[]) null);
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1");
+        lines2.addLines(null, "", "line3");
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1", "", "line3");
+
+        Lines lines3 = new Lines("line1", "line2");
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2");
+        lines3.addLines((String[]) null);
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2");
+        lines3.addLines(null, "", "line3");
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2", "", "line3");
+
+        Lines lines4 = new Lines(Arrays.asList("line1", "line2"));
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2");
+        lines4.addLines((String[]) null);
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2");
+        lines4.addLines(null, "", "line3");
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2", "", "line3");
     }
 
     /**
@@ -95,7 +122,33 @@ public final class LinesTest extends BaseCliTest {
      */
     @Test
     public void addLinesCollectionTest() {
+        Lines lines1 = new Lines();
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
+        lines1.addLines((Collection<String>) null);
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
+        lines1.addLines(Arrays.asList(null, "", "line3"));
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("", "line3");
 
+        Lines lines2 = new Lines("line1");
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1");
+        lines2.addLines((Collection<String>) null);
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1");
+        lines2.addLines(Arrays.asList(null, "", "line3"));
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1", "", "line3");
+
+        Lines lines3 = new Lines("line1", "line2");
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2");
+        lines3.addLines((Collection<String>) null);
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2");
+        lines3.addLines(Arrays.asList(null, "", "line3"));
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2", "", "line3");
+
+        Lines lines4 = new Lines(Arrays.asList("line1", "line2"));
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2");
+        lines4.addLines((Collection<String>) null);
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2");
+        lines4.addLines(Arrays.asList(null, "", "line3"));
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2", "", "line3");
     }
 
     /**
