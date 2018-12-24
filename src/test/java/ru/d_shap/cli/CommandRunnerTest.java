@@ -38,7 +38,7 @@ public final class CommandRunnerTest extends BaseCliTest {
 
     private static final String CHARSET_NAME = "Cp1251";
 
-    public static final String WRONG_CHARSET_NAME = "Wrong!!!";
+    private static final String WRONG_CHARSET_NAME = "Wrong!!!";
 
     /**
      * Test class constructor.
