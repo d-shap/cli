@@ -322,7 +322,38 @@ public final class ContextTest extends BaseCliTest {
      */
     @Test
     public void putValueTest() {
+        Context context1 = new Context();
+        context1.putValue("name1", "value1");
+        context1.putValue("name2", "value2");
+        context1.putValue("name3", "value3");
+        Context context2 = new Context(context1);
+        Assertions.assertThat(context1.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context1.getValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(context1.getValue("name3")).isEqualTo("value3");
+        Assertions.assertThat(context2.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context2.getValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(context2.getValue("name3")).isEqualTo("value3");
 
+        context1.putValue("name2", "value");
+        context1.putValue("name4", "value4");
+        Assertions.assertThat(context1.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context1.getValue("name2")).isEqualTo("value");
+        Assertions.assertThat(context1.getValue("name3")).isEqualTo("value3");
+        Assertions.assertThat(context1.getValue("name4")).isEqualTo("value4");
+        Assertions.assertThat(context2.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context2.getValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(context2.getValue("name3")).isEqualTo("value3");
+
+        context2.putValue("name3", "value");
+        context2.putValue("name5", "value5");
+        Assertions.assertThat(context1.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context1.getValue("name2")).isEqualTo("value");
+        Assertions.assertThat(context1.getValue("name3")).isEqualTo("value3");
+        Assertions.assertThat(context1.getValue("name4")).isEqualTo("value4");
+        Assertions.assertThat(context2.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context2.getValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(context2.getValue("name3")).isEqualTo("value");
+        Assertions.assertThat(context2.getValue("name5")).isEqualTo("value5");
     }
 
     /**
