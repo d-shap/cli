@@ -361,7 +361,32 @@ public final class ContextTest extends BaseCliTest {
      */
     @Test
     public void removeValueTest() {
+        Context context1 = new Context();
+        context1.putValue("name1", "value1");
+        context1.putValue("name2", "value2");
+        context1.putValue("name3", "value3");
+        Context context2 = new Context(context1);
+        Assertions.assertThat(context1.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context1.getValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(context1.getValue("name3")).isEqualTo("value3");
+        Assertions.assertThat(context2.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context2.getValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(context2.getValue("name3")).isEqualTo("value3");
 
+        context1.removeValue("name");
+        context1.removeValue("name2");
+        Assertions.assertThat(context1.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context1.getValue("name3")).isEqualTo("value3");
+        Assertions.assertThat(context2.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context2.getValue("name2")).isEqualTo("value2");
+        Assertions.assertThat(context2.getValue("name3")).isEqualTo("value3");
+
+        context2.removeValue("name");
+        context2.removeValue("name3");
+        Assertions.assertThat(context1.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context1.getValue("name3")).isEqualTo("value3");
+        Assertions.assertThat(context2.getValue("name1")).isEqualTo("value1");
+        Assertions.assertThat(context2.getValue("name2")).isEqualTo("value2");
     }
 
 }
