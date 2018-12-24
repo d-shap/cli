@@ -22,6 +22,7 @@ package ru.d_shap.cli;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 import org.junit.Test;
@@ -36,6 +37,8 @@ import ru.d_shap.assertions.Assertions;
 public final class CommandRunnerTest extends BaseCliTest {
 
     private static final String CHARSET_NAME = "Cp1251";
+
+    public static final String WRONG_CHARSET_NAME = "Wrong!!!";
 
     /**
      * Test class constructor.
@@ -108,6 +111,25 @@ public final class CommandRunnerTest extends BaseCliTest {
         printWriter6.flush();
         Assertions.assertThat(getLines(CHARSET_NAME, os61)).containsExactlyInOrder("Строка 1", "Строка 2");
         Assertions.assertThat(getLines(CHARSET_NAME, os62)).containsExactlyInOrder("Строка 1", "Строка 2");
+
+        try {
+            ByteArrayOutputStream os7 = createOutputStream();
+            InputStream is7 = createInputStream();
+            new CommandRunner(os7, is7, WRONG_CHARSET_NAME);
+            Assertions.fail("CommandRunner test fail");
+        } catch (CliIOException ex) {
+            Assertions.assertThat(ex).hasCause(UnsupportedEncodingException.class);
+        }
+
+        try {
+            ByteArrayOutputStream os81 = createOutputStream();
+            ByteArrayOutputStream os82 = createOutputStream();
+            InputStream is8 = createInputStream();
+            new CommandRunner(os81, is8, os82, WRONG_CHARSET_NAME);
+            Assertions.fail("CommandRunner test fail");
+        } catch (CliIOException ex) {
+            Assertions.assertThat(ex).hasCause(UnsupportedEncodingException.class);
+        }
     }
 
     /**
