@@ -49,7 +49,7 @@ public class BaseCliTest {
      * @return the input stream.
      */
     public InputStream createInputStream(final String... lines) {
-        return createInputStream(CommandRunner.ENCODING, lines);
+        return createInputStreamWithEncoding(CommandRunner.ENCODING, lines);
     }
 
     /**
@@ -60,7 +60,7 @@ public class BaseCliTest {
      *
      * @return the input stream.
      */
-    public InputStream createInputStream(final String encoding, final String... lines) {
+    public InputStream createInputStreamWithEncoding(final String encoding, final String... lines) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             OutputStreamWriter osw = new OutputStreamWriter(baos, encoding);
