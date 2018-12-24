@@ -41,7 +41,7 @@ import ru.d_shap.cli.io.OutputStreamWrapper;
  */
 public final class CommandRunner {
 
-    private static final String ENCODING = "UTF-8";
+    public static final String ENCODING = "UTF-8";
 
     private final PrintWriter _writer;
 
