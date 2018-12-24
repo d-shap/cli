@@ -19,9 +19,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 /**
  * Base CLI test class.
@@ -35,6 +39,40 @@ public class BaseCliTest {
      */
     protected BaseCliTest() {
         super();
+    }
+
+    /**
+     * Create the input stream for the specified lines.
+     *
+     * @param lines the specified lines.
+     *
+     * @return the input stream.
+     */
+    public InputStream createInputStream(final String... lines) {
+        return createInputStream(CommandRunner.ENCODING, lines);
+    }
+
+    /**
+     * Create the input stream for the specified lines.
+     *
+     * @param encoding the encoding for the lines.
+     * @param lines    the specified lines.
+     *
+     * @return the input stream.
+     */
+    public InputStream createInputStream(final String encoding, final String... lines) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(baos, encoding);
+            PrintWriter printWriter = new PrintWriter(osw);
+            for (String line : lines) {
+                printWriter.println(line);
+            }
+            byte[] bytes = baos.toByteArray();
+            return new ByteArrayInputStream(bytes);
+        } catch (IOException ex) {
+            throw new CliIOException(ex);
+        }
     }
 
     /**
