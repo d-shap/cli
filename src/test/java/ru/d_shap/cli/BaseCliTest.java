@@ -19,13 +19,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Base CLI test class.
@@ -51,6 +56,46 @@ public class BaseCliTest {
     }
 
     /**
+     * Get the output lines from the specified output stream.
+     *
+     * @param baos the specified output stream.
+     *
+     * @return the output lines.
+     */
+    public List<String> getLines(final ByteArrayOutputStream baos) {
+        return getLines(CommandRunner.ENCODING, baos);
+    }
+
+    /**
+     * Get the output lines from the specified output stream.
+     *
+     * @param encoding the encoding for the lines.
+     * @param baos     the specified output stream.
+     *
+     * @return the output lines.
+     */
+    public List<String> getLines(final String encoding, final ByteArrayOutputStream baos) {
+        try {
+            byte[] bytes = baos.toByteArray();
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+            Reader reader = new InputStreamReader(byteArrayInputStream, encoding);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            List<String> lines = new ArrayList<>();
+            String line;
+            while (true) {
+                line = bufferedReader.readLine();
+                if (line == null) {
+                    break;
+                }
+                lines.add(line);
+            }
+            return lines;
+        } catch (IOException ex) {
+            throw new CliIOException(ex);
+        }
+    }
+
+    /**
      * Create the input stream for the specified lines.
      *
      * @param lines the specified lines.
@@ -71,13 +116,13 @@ public class BaseCliTest {
      */
     public InputStream createInputStreamWithEncoding(final String encoding, final String... lines) {
         try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(baos, encoding);
-            PrintWriter printWriter = new PrintWriter(osw);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, encoding);
+            PrintWriter printWriter = new PrintWriter(outputStreamWriter);
             for (String line : lines) {
                 printWriter.println(line);
             }
-            byte[] bytes = baos.toByteArray();
+            byte[] bytes = byteArrayOutputStream.toByteArray();
             return new ByteArrayInputStream(bytes);
         } catch (IOException ex) {
             throw new CliIOException(ex);
