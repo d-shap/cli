@@ -19,8 +19,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.data;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
 
 /**
@@ -42,7 +45,41 @@ public final class LinesTest extends BaseCliTest {
      */
     @Test
     public void addLineTest() {
+        Lines lines1 = new Lines();
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
+        lines1.addLine(null);
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
+        lines1.addLine("");
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
+        lines1.addLine("line");
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("", "line");
 
+        Lines lines2 = new Lines("line1");
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1");
+        lines2.addLine(null);
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1");
+        lines2.addLine("");
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1", "");
+        lines2.addLine("line2");
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("line1", "", "line2");
+
+        Lines lines3 = new Lines("line1", "line2");
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2");
+        lines3.addLine(null);
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2");
+        lines3.addLine("");
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2", "");
+        lines3.addLine("line3");
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("line1", "line2", "", "line3");
+
+        Lines lines4 = new Lines(Arrays.asList("line1", "line2"));
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2");
+        lines4.addLine(null);
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2");
+        lines4.addLine("");
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2", "");
+        lines4.addLine("line3");
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("line1", "line2", "", "line3");
     }
 
     /**
