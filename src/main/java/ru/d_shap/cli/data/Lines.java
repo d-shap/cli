@@ -57,11 +57,7 @@ public final class Lines {
      */
     public Lines(final String... lines) {
         this();
-        if (lines != null) {
-            for (String line : lines) {
-                addLine(line);
-            }
-        }
+        addLines(lines);
     }
 
     /**
@@ -71,11 +67,7 @@ public final class Lines {
      */
     public Lines(final Collection<String> lines) {
         this();
-        if (lines != null) {
-            for (String line : lines) {
-                addLine(line);
-            }
-        }
+        addLines(lines);
     }
 
     /**
@@ -86,6 +78,32 @@ public final class Lines {
     public void addLine(final String line) {
         if (line != null) {
             _lines.add(line);
+        }
+    }
+
+    /**
+     * Add the output lines.
+     *
+     * @param lines the output lines.
+     */
+    public void addLines(final String... lines) {
+        if (lines != null) {
+            for (String line : lines) {
+                addLine(line);
+            }
+        }
+    }
+
+    /**
+     * Add the output lines.
+     *
+     * @param lines the output lines.
+     */
+    public void addLines(final Collection<String> lines) {
+        if (lines != null) {
+            for (String line : lines) {
+                addLine(line);
+            }
         }
     }
 
