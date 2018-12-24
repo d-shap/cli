@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.data;
 
+import org.junit.Test;
+
 import ru.d_shap.cli.BaseCliTest;
 
 /**
@@ -33,6 +35,38 @@ public final class LinesTest extends BaseCliTest {
      */
     public LinesTest() {
         super();
+    }
+
+    /**
+     * {@link Lines} class test.
+     */
+    @Test
+    public void addLineTest() {
+
+    }
+
+    /**
+     * {@link Lines} class test.
+     */
+    @Test
+    public void addLinesArrayTest() {
+
+    }
+
+    /**
+     * {@link Lines} class test.
+     */
+    @Test
+    public void addLinesCollectionTest() {
+
+    }
+
+    /**
+     * {@link Lines} class test.
+     */
+    @Test
+    public void getLinesTest() {
+
     }
 
 }
