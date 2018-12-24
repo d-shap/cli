@@ -19,6 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.data;
 
+import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
 
 /**
@@ -33,6 +36,41 @@ public final class ValueHolderTest extends BaseCliTest {
      */
     public ValueHolderTest() {
         super();
+    }
+
+    /**
+     * {@link ValueHolder} class test.
+     */
+    @Test
+    public void getValueTest() {
+        ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>(null);
+        ValueHolder<String> valueHolder1 = new ValueHolder<>(valueLoader1);
+        Assertions.assertThat(valueHolder1.getValue()).isNull();
+        Assertions.assertThat(valueHolder1.getValue()).isNull();
+
+        ValueLoaderImpl<String> valueLoader2 = new ValueLoaderImpl<>("");
+        ValueHolder<String> valueHolder2 = new ValueHolder<>(valueLoader2);
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("");
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("");
+
+        ValueLoaderImpl<String> valueLoader3 = new ValueLoaderImpl<>("value");
+        ValueHolder<String> valueHolder3 = new ValueHolder<>(valueLoader3);
+        Assertions.assertThat(valueHolder3.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder3.getValue()).isEqualTo("value");
+
+        ValueLoaderImpl<Integer> valueLoader4 = new ValueLoaderImpl<>(10);
+        ValueHolder<Integer> valueHolder4 = new ValueHolder<>(valueLoader4);
+        Assertions.assertThat(valueHolder4.getValue()).isEqualTo(10);
+        Assertions.assertThat(valueHolder4.getValue()).isEqualTo(10);
+    }
+
+    /**
+     * {@link ValueHolder} class test.
+     */
+    @Test(expected = NullPointerException.class)
+    public void getValueNullValueLoaderFailTest() {
+        ValueHolder<String> valueHolder = new ValueHolder<>(null);
+        valueHolder.getValue();
     }
 
 }
