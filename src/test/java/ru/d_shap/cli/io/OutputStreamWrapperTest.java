@@ -87,32 +87,66 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
      */
     @Test
     public void writeByteArrayTest() throws IOException {
-        byte[] data = new byte[]{5, 7, 10};
+        byte[] data1 = new byte[]{5, 7, 10};
+        byte[] data2 = new byte[]{1, 6, 3};
 
         ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
         OutputStreamWrapper osw1 = new OutputStreamWrapper(baos1);
-        osw1.write(data);
+        osw1.write(data1);
         Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(5, 7, 10);
+        osw1.write(data2);
+        Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(5, 7, 10, 1, 6, 3);
 
         ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
         OutputStreamWrapper osw2 = new OutputStreamWrapper(baos2, null);
-        osw2.write(data);
+        osw2.write(data1);
         Assertions.assertThat(baos2.toByteArray()).containsExactlyInOrder(5, 7, 10);
+        osw2.write(data2);
+        Assertions.assertThat(baos2.toByteArray()).containsExactlyInOrder(5, 7, 10, 1, 6, 3);
 
         ByteArrayOutputStream baos31 = new ByteArrayOutputStream();
         ByteArrayOutputStream baos32 = new ByteArrayOutputStream();
         OutputStreamWrapper osw3 = new OutputStreamWrapper(baos31, baos32);
-        osw3.write(data);
+        osw3.write(data1);
         Assertions.assertThat(baos31.toByteArray()).containsExactlyInOrder(5, 7, 10);
         Assertions.assertThat(baos32.toByteArray()).containsExactlyInOrder(5, 7, 10);
+        osw3.write(data2);
+        Assertions.assertThat(baos31.toByteArray()).containsExactlyInOrder(5, 7, 10, 1, 6, 3);
+        Assertions.assertThat(baos32.toByteArray()).containsExactlyInOrder(5, 7, 10, 1, 6, 3);
     }
 
     /**
      * {@link OutputStreamWrapper} class test.
+     *
+     * @throws IOException IO exception.
      */
     @Test
-    public void writeByteArrayWithOffsetTest() {
+    public void writeByteArrayWithOffsetTest() throws IOException {
+        byte[] data = new byte[]{5, 7, 10, 1, 6, 3, 9, 2, 4, 8};
 
+        ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+        OutputStreamWrapper osw1 = new OutputStreamWrapper(baos1);
+        osw1.write(data, 1, 4);
+        Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(7, 10, 1, 6);
+        osw1.write(data, 0, 2);
+        Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(7, 10, 1, 6, 5, 7);
+
+        ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+        OutputStreamWrapper osw2 = new OutputStreamWrapper(baos2, null);
+        osw2.write(data, 1, 4);
+        Assertions.assertThat(baos2.toByteArray()).containsExactlyInOrder(7, 10, 1, 6);
+        osw2.write(data, 0, 2);
+        Assertions.assertThat(baos2.toByteArray()).containsExactlyInOrder(7, 10, 1, 6, 5, 7);
+
+        ByteArrayOutputStream baos31 = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos32 = new ByteArrayOutputStream();
+        OutputStreamWrapper osw3 = new OutputStreamWrapper(baos31, baos32);
+        osw3.write(data, 1, 4);
+        Assertions.assertThat(baos31.toByteArray()).containsExactlyInOrder(7, 10, 1, 6);
+        Assertions.assertThat(baos32.toByteArray()).containsExactlyInOrder(7, 10, 1, 6);
+        osw3.write(data, 0, 2);
+        Assertions.assertThat(baos31.toByteArray()).containsExactlyInOrder(7, 10, 1, 6, 5, 7);
+        Assertions.assertThat(baos32.toByteArray()).containsExactlyInOrder(7, 10, 1, 6, 5, 7);
     }
 
     /**
