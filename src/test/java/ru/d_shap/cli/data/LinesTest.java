@@ -21,6 +21,7 @@ package ru.d_shap.cli.data;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -156,7 +157,34 @@ public final class LinesTest extends BaseCliTest {
      */
     @Test
     public void getLinesTest() {
+        Lines lines1 = new Lines();
+        Assertions.assertThat(lines1.getLines()).containsExactlyInOrder("");
 
+        Lines lines2 = new Lines((String) null);
+        Assertions.assertThat(lines2.getLines()).containsExactlyInOrder("");
+
+        Lines lines3 = new Lines((String[]) null);
+        Assertions.assertThat(lines3.getLines()).containsExactlyInOrder("");
+
+        Lines lines4 = new Lines((Collection<String>) null);
+        Assertions.assertThat(lines4.getLines()).containsExactlyInOrder("");
+
+        Lines lines5 = new Lines();
+        lines5.addLine("line1");
+        lines5.addLines("line2", "line3", "line4");
+        lines5.addLines(Arrays.asList("line5", "line6"));
+        List<String> lines5List = lines5.getLines();
+        Assertions.assertThat(lines5.getLines()).containsExactlyInOrder("line1", "line2", "line3", "line4", "line5", "line6");
+        Assertions.assertThat(lines5List).containsExactlyInOrder("line1", "line2", "line3", "line4", "line5", "line6");
+
+        lines5.addLine("line7");
+        Assertions.assertThat(lines5.getLines()).containsExactlyInOrder("line1", "line2", "line3", "line4", "line5", "line6", "line7");
+        Assertions.assertThat(lines5List).containsExactlyInOrder("line1", "line2", "line3", "line4", "line5", "line6");
+
+        lines5List.add("line8");
+        lines5List.add("line9");
+        Assertions.assertThat(lines5.getLines()).containsExactlyInOrder("line1", "line2", "line3", "line4", "line5", "line6", "line7");
+        Assertions.assertThat(lines5List).containsExactlyInOrder("line1", "line2", "line3", "line4", "line5", "line6", "line8", "line9");
     }
 
 }
