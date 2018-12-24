@@ -82,10 +82,29 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
 
     /**
      * {@link OutputStreamWrapper} class test.
+     *
+     * @throws IOException IO exception.
      */
     @Test
-    public void writeByteArrayTest() {
+    public void writeByteArrayTest() throws IOException {
+        byte[] data = new byte[]{5, 7, 10};
 
+        ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+        OutputStreamWrapper osw1 = new OutputStreamWrapper(baos1);
+        osw1.write(data);
+        Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(5, 7, 10);
+
+        ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+        OutputStreamWrapper osw2 = new OutputStreamWrapper(baos2, null);
+        osw2.write(data);
+        Assertions.assertThat(baos2.toByteArray()).containsExactlyInOrder(5, 7, 10);
+
+        ByteArrayOutputStream baos31 = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos32 = new ByteArrayOutputStream();
+        OutputStreamWrapper osw3 = new OutputStreamWrapper(baos31, baos32);
+        osw3.write(data);
+        Assertions.assertThat(baos31.toByteArray()).containsExactlyInOrder(5, 7, 10);
+        Assertions.assertThat(baos32.toByteArray()).containsExactlyInOrder(5, 7, 10);
     }
 
     /**
