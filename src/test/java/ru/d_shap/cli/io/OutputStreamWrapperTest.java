@@ -151,10 +151,31 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
 
     /**
      * {@link OutputStreamWrapper} class test.
+     *
+     * @throws IOException IO exception.
      */
     @Test
-    public void flushTest() {
+    public void flushTest() throws IOException {
+        FlushedOutputStream fos1 = new FlushedOutputStream();
+        OutputStreamWrapper osw1 = new OutputStreamWrapper(fos1);
+        Assertions.assertThat(fos1.isFlushed()).isFalse();
+        osw1.flush();
+        Assertions.assertThat(fos1.isFlushed()).isTrue();
 
+        FlushedOutputStream fos2 = new FlushedOutputStream();
+        OutputStreamWrapper osw2 = new OutputStreamWrapper(fos2, null);
+        Assertions.assertThat(fos2.isFlushed()).isFalse();
+        osw2.flush();
+        Assertions.assertThat(fos2.isFlushed()).isTrue();
+
+        FlushedOutputStream fos31 = new FlushedOutputStream();
+        FlushedOutputStream fos32 = new FlushedOutputStream();
+        OutputStreamWrapper osw3 = new OutputStreamWrapper(fos31, fos32);
+        Assertions.assertThat(fos31.isFlushed()).isFalse();
+        Assertions.assertThat(fos32.isFlushed()).isFalse();
+        osw3.flush();
+        Assertions.assertThat(fos31.isFlushed()).isTrue();
+        Assertions.assertThat(fos32.isFlushed()).isTrue();
     }
 
     /**
