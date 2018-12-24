@@ -120,6 +120,45 @@ public class BaseCliTest {
      *
      * @author Dmitry Shapovalov
      */
+    public static final class FlushedOutputStream extends OutputStream {
+
+        private boolean _flushed;
+
+        /**
+         * Create new object.
+         */
+        public FlushedOutputStream() {
+            super();
+            _flushed = false;
+        }
+
+        /**
+         * Check if this stream is flushed.
+         *
+         * @return true if this stream is flushed.
+         */
+        public boolean isFlushed() {
+            return _flushed;
+        }
+
+        @Override
+        public void write(final int b) throws IOException {
+            // Ignore
+        }
+
+        @Override
+        public void flush() throws IOException {
+            super.flush();
+            _flushed = true;
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
     public static final class FailOnCloseInputStream extends InputStream {
 
         private final String _message;
