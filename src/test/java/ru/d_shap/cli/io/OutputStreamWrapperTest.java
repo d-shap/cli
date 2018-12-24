@@ -180,10 +180,79 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
 
     /**
      * {@link OutputStreamWrapper} class test.
+     *
+     * @throws IOException IO exception.
      */
     @Test
-    public void closeTest() {
+    public void closeTest() throws IOException {
+        ClosedOutputStream cos1 = new ClosedOutputStream();
+        OutputStreamWrapper osw1 = new OutputStreamWrapper(cos1);
+        Assertions.assertThat(cos1.isClosed()).isFalse();
+        osw1.close();
+        Assertions.assertThat(cos1.isClosed()).isTrue();
 
+        ClosedOutputStream cos2 = new ClosedOutputStream();
+        OutputStreamWrapper osw2 = new OutputStreamWrapper(cos2, null);
+        Assertions.assertThat(cos2.isClosed()).isFalse();
+        osw2.close();
+        Assertions.assertThat(cos2.isClosed()).isTrue();
+
+        ClosedOutputStream cos31 = new ClosedOutputStream();
+        ClosedOutputStream cos32 = new ClosedOutputStream();
+        OutputStreamWrapper osw3 = new OutputStreamWrapper(cos31, cos32);
+        Assertions.assertThat(cos31.isClosed()).isFalse();
+        Assertions.assertThat(cos32.isClosed()).isFalse();
+        osw3.close();
+        Assertions.assertThat(cos31.isClosed()).isTrue();
+        Assertions.assertThat(cos32.isClosed()).isTrue();
+
+        FailOnCloseOutputStream focos4 = new FailOnCloseOutputStream("main");
+        OutputStreamWrapper osw4 = new OutputStreamWrapper(focos4);
+        try {
+            osw4.close();
+            Assertions.fail("OutputStreamWrapper test fail");
+        } catch (IOException ex) {
+            Assertions.assertThat(ex).hasMessage("main");
+        }
+
+        FailOnCloseOutputStream focos5 = new FailOnCloseOutputStream("main");
+        OutputStreamWrapper osw5 = new OutputStreamWrapper(focos5, null);
+        try {
+            osw5.close();
+            Assertions.fail("OutputStreamWrapper test fail");
+        } catch (IOException ex) {
+            Assertions.assertThat(ex).hasMessage("main");
+        }
+
+        FailOnCloseOutputStream focos6 = new FailOnCloseOutputStream("main");
+        ByteArrayOutputStream baos6 = new ByteArrayOutputStream();
+        OutputStreamWrapper osw6 = new OutputStreamWrapper(focos6, baos6);
+        try {
+            osw6.close();
+            Assertions.fail("OutputStreamWrapper test fail");
+        } catch (IOException ex) {
+            Assertions.assertThat(ex).hasMessage("main");
+        }
+
+        ByteArrayOutputStream baos7 = new ByteArrayOutputStream();
+        FailOnCloseOutputStream focos7 = new FailOnCloseOutputStream("log");
+        OutputStreamWrapper osw7 = new OutputStreamWrapper(baos7, focos7);
+        try {
+            osw7.close();
+            Assertions.fail("OutputStreamWrapper test fail");
+        } catch (IOException ex) {
+            Assertions.assertThat(ex).hasMessage("log");
+        }
+
+        FailOnCloseOutputStream focos81 = new FailOnCloseOutputStream("main");
+        FailOnCloseOutputStream focos82 = new FailOnCloseOutputStream("log");
+        OutputStreamWrapper osw8 = new OutputStreamWrapper(focos81, focos82);
+        try {
+            osw8.close();
+            Assertions.fail("OutputStreamWrapper test fail");
+        } catch (IOException ex) {
+            Assertions.assertThat(ex).hasMessage("main");
+        }
     }
 
 }
