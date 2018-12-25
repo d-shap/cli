@@ -104,6 +104,19 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
      * {@link AbstractUserActionCommand} class test.
      */
     @Test
+    public void nullReadLineTest() {
+        ByteArrayOutputStream os = createOutputStream();
+        InputStream is = createInputStream();
+        CommandRunner commandRunner = new CommandRunner(os, is);
+        Command command = new AbstractUserActionCommandImpl("Prompt");
+        command.execute(commandRunner.getWriter(), new NullReadLineBufferedReader());
+        Assertions.assertThat(getLines(os)).containsExactlyInOrder("Prompt", "Default input: ", "");
+    }
+
+    /**
+     * {@link AbstractUserActionCommand} class test.
+     */
+    @Test
     public void isDefaultInputTest() {
         AbstractUserActionCommand command = new AbstractUserActionCommandImpl("Prompt");
         Assertions.assertThat(command.isDefaultInput(null)).isFalse();
