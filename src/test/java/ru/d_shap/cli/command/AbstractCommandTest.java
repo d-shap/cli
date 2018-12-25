@@ -41,7 +41,7 @@ public final class AbstractCommandTest extends BaseCliTest {
     }
 
     /**
-     * {@link AbstractCommandTest} class test.
+     * {@link AbstractCommand} class test.
      */
     @Test
     public void getParentCommandTest() {
@@ -57,7 +57,7 @@ public final class AbstractCommandTest extends BaseCliTest {
     }
 
     /**
-     * {@link AbstractCommandTest} class test.
+     * {@link AbstractCommand} class test.
      */
     @Test
     public void getContextTest() {
@@ -73,7 +73,7 @@ public final class AbstractCommandTest extends BaseCliTest {
     }
 
     /**
-     * {@link AbstractCommandTest} class test.
+     * {@link AbstractCommand} class test.
      */
     @Test
     public void setContextTest() {
@@ -101,7 +101,7 @@ public final class AbstractCommandTest extends BaseCliTest {
     }
 
     /**
-     * {@link AbstractCommandTest} class test.
+     * {@link AbstractCommand} class test.
      */
     @Test
     public void getCommandRunnerTest() {
@@ -117,7 +117,7 @@ public final class AbstractCommandTest extends BaseCliTest {
     }
 
     /**
-     * {@link AbstractCommandTest} class test.
+     * {@link AbstractCommand} class test.
      */
     @Test
     public void setCommandRunnerTest() {
