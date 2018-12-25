@@ -160,7 +160,15 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         @Override
         public Lines loadValue() {
-            return getHeader();
+            Lines header = getHeader();
+            checkHeaderDefined(header);
+            return header;
+        }
+
+        private void checkHeaderDefined(final Lines header) {
+            if (header == null) {
+                throw new CommandDefinitionException("Header is not defined");
+            }
         }
 
     }
@@ -179,13 +187,28 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         @Override
         public List<Option> loadValue() {
             List<Option> options = getOptions();
-            checkSymbolDefined(options);
-            checkSymbolUnique(options);
-            checkSymbolLength(options);
+            checkOptionCount(options);
+            checkOptionSymbolDefined(options);
+            checkOptionSymbolUnique(options);
+            checkOptionSymbolLength(options);
+            checkOptionLabelDefined(options);
             return options;
         }
 
-        private void checkSymbolDefined(final List<Option> options) {
+        private void checkOptionCount(final List<Option> options) {
+            int count = 0;
+            for (Option option : options) {
+                if (option instanceof MenuSeparator) {
+                    continue;
+                }
+                count++;
+            }
+            if (count == 0) {
+                throw new CommandDefinitionException("Options are not defined");
+            }
+        }
+
+        private void checkOptionSymbolDefined(final List<Option> options) {
             for (Option option : options) {
                 if (option instanceof MenuSeparator) {
                     continue;
@@ -196,7 +219,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
             }
         }
 
-        private void checkSymbolUnique(final List<Option> options) {
+        private void checkOptionSymbolUnique(final List<Option> options) {
             for (Option checkOption : options) {
                 for (Option option : options) {
                     if (option == checkOption) {
@@ -212,7 +235,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
             }
         }
 
-        private void checkSymbolLength(final List<Option> options) {
+        private void checkOptionSymbolLength(final List<Option> options) {
             int symbolLength = _symbolLength.getValue();
             for (Option option : options) {
                 if (option instanceof MenuSeparator) {
@@ -220,6 +243,18 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
                 }
                 if (option.getSymbol().length() > symbolLength) {
                     throw new CommandDefinitionException("Option symbol length is too large");
+                }
+            }
+        }
+
+        private void checkOptionLabelDefined(final List<Option> options) {
+            for (Option option : options) {
+                if (option instanceof MenuSeparator) {
+                    continue;
+                }
+                Lines label = option.getLabel();
+                if (label == null) {
+                    throw new CommandDefinitionException("Option label is not defined");
                 }
             }
         }
@@ -239,7 +274,22 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         @Override
         public Integer loadValue() {
-            return getSymbolLength();
+            Integer symbolLength = getSymbolLength();
+            checkSymbolLengthDefined(symbolLength);
+            checkSymbolLengthPositive(symbolLength);
+            return symbolLength;
+        }
+
+        private void checkSymbolLengthDefined(final Integer symbolLength) {
+            if (symbolLength == null) {
+                throw new CommandDefinitionException("Symbol length is not defined");
+            }
+        }
+
+        private void checkSymbolLengthPositive(final Integer symbolLength) {
+            if (symbolLength <= 0) {
+                throw new CommandDefinitionException("Symbol length is not positive");
+            }
         }
 
     }
