@@ -82,6 +82,7 @@ public class BaseCliTest {
             for (String line : lines) {
                 printWriter.println(line);
             }
+            printWriter.flush();
             byte[] bytes = byteArrayOutputStream.toByteArray();
             return new ByteArrayInputStream(bytes);
         } catch (IOException ex) {
