@@ -22,6 +22,7 @@ package ru.d_shap.cli.command.menu;
 import java.io.PrintWriter;
 
 import ru.d_shap.cli.Command;
+import ru.d_shap.cli.data.Lines;
 
 /**
  * Menu separator.
@@ -39,6 +40,11 @@ public final class MenuSeparator implements Option {
 
     @Override
     public String getSymbol() {
+        return null;
+    }
+
+    @Override
+    public Lines getLabel() {
         return null;
     }
 

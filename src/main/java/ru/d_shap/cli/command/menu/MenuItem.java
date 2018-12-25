@@ -88,11 +88,7 @@ public final class MenuItem implements Option {
         return _symbol;
     }
 
-    /**
-     * Get the label.
-     *
-     * @return the label.
-     */
+    @Override
     public Lines getLabel() {
         return _label;
     }

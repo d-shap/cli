@@ -22,6 +22,7 @@ package ru.d_shap.cli.command.menu;
 import java.io.PrintWriter;
 
 import ru.d_shap.cli.Command;
+import ru.d_shap.cli.data.Lines;
 
 /**
  * Menu option.
@@ -36,6 +37,13 @@ public interface Option {
      * @return the symbol to select this option.
      */
     String getSymbol();
+
+    /**
+     * Get the label.
+     *
+     * @return the label.
+     */
+    Lines getLabel();
 
     /**
      * Print the option.
