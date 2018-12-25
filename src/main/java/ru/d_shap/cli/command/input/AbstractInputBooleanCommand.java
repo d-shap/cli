@@ -22,6 +22,7 @@ package ru.d_shap.cli.command.input;
 import java.util.Set;
 
 import ru.d_shap.cli.Command;
+import ru.d_shap.cli.command.CommandDefinitionException;
 import ru.d_shap.cli.data.ValueHolder;
 import ru.d_shap.cli.data.ValueLoader;
 
@@ -128,7 +129,15 @@ public abstract class AbstractInputBooleanCommand extends AbstractInputCommand<B
 
         @Override
         public Set<String> loadValue() {
-            return getTrueValues();
+            Set<String> values = getTrueValues();
+            checkValuesDefined(values);
+            return values;
+        }
+
+        private void checkValuesDefined(final Set<String> values) {
+            if (values == null || values.isEmpty()) {
+                throw new CommandDefinitionException("True values are not defined");
+            }
         }
 
     }
@@ -146,7 +155,15 @@ public abstract class AbstractInputBooleanCommand extends AbstractInputCommand<B
 
         @Override
         public Set<String> loadValue() {
-            return getFalseValues();
+            Set<String> values = getFalseValues();
+            checkValuesDefined(values);
+            return values;
+        }
+
+        private void checkValuesDefined(final Set<String> values) {
+            if (values == null || values.isEmpty()) {
+                throw new CommandDefinitionException("False values are not defined");
+            }
         }
 
     }
