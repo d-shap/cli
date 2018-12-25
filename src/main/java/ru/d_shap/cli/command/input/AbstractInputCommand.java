@@ -24,6 +24,7 @@ import java.util.List;
 
 import ru.d_shap.cli.Command;
 import ru.d_shap.cli.command.AbstractUserActionCommand;
+import ru.d_shap.cli.command.CommandDefinitionException;
 import ru.d_shap.cli.data.Lines;
 import ru.d_shap.cli.data.ValueHolder;
 import ru.d_shap.cli.data.ValueLoader;
@@ -228,7 +229,15 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
 
         @Override
         public Lines loadValue() {
-            return getHeader();
+            Lines lines = getHeader();
+            checkHeaderDefined(lines);
+            return lines;
+        }
+
+        private void checkHeaderDefined(final Lines lines) {
+            if (lines == null) {
+                throw new CommandDefinitionException("Header is not defined");
+            }
         }
 
     }
