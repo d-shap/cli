@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
+import ru.d_shap.cli.CliIOException;
 import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
 import ru.d_shap.cli.data.ValueHolder;
@@ -300,6 +301,23 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
         commandRunner34.getWriter().flush();
         Assertions.assertThat(result34).isSameAs(command);
         Assertions.assertThat(getLines(os34)).containsExactlyInOrder("message: value");
+    }
+
+    /**
+     * {@link AbstractUserActionCommand} class test.
+     */
+    @Test
+    public void readLineFailTest() {
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = new FailOnReadInputStream("read error");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            Command command = new AbstractUserActionCommandImpl("Prompt");
+            commandRunner.execute(command);
+            Assertions.fail("AbstractUserActionCommand test fail");
+        } catch (CliIOException ex) {
+            Assertions.assertThat(ex).hasMessage("read error");
+        }
     }
 
 }
