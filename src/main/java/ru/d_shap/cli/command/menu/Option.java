@@ -31,6 +31,13 @@ import ru.d_shap.cli.Command;
 public interface Option {
 
     /**
+     * Get the symbol to select this option.
+     *
+     * @return the symbol to select this option.
+     */
+    String getSymbol();
+
+    /**
      * Print the option.
      *
      * @param writer    the stream to write the command output.
