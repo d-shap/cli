@@ -129,9 +129,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         int defaultOptionIndex = _defaultOptionIndex.getValue();
         if (defaultOptionIndex >= 0 && defaultOptionIndex < options.size()) {
             Option option = options.get(defaultOptionIndex);
-            if (option instanceof SelectableOption) {
-                return ((SelectableOption) option).getCommand();
-            }
+            return ((SelectableOption) option).getCommand();
         }
 
         return processWrongInput(_wrongInputMessage, input, writer);
@@ -250,7 +248,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
                     continue;
                 }
                 if (((SelectableOption) option).getSymbol().length() > symbolLength) {
-                    throw new CommandDefinitionException("Option symbol length is too large");
+                    throw new CommandDefinitionException("Option symbol length is too large: " + ((SelectableOption) option).getSymbol().length());
                 }
             }
         }
@@ -296,7 +294,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         private void checkSymbolLengthPositive(final Integer symbolLength) {
             if (symbolLength <= 0) {
-                throw new CommandDefinitionException("Symbol length is not positive");
+                throw new CommandDefinitionException("Symbol length is not positive: " + symbolLength);
             }
         }
 
@@ -315,7 +313,22 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         @Override
         public Integer loadValue() {
-            return getDefaultOptionIndex();
+            Integer defaultOptionIndex = getDefaultOptionIndex();
+            checkSelectableOption(defaultOptionIndex);
+            return defaultOptionIndex;
+        }
+
+        private void checkSelectableOption(final Integer defaultOptionIndex) {
+            if (defaultOptionIndex == null) {
+                return;
+            }
+            List<Option> options = _options.getValue();
+            if (defaultOptionIndex >= 0 && defaultOptionIndex < options.size()) {
+                Option option = options.get(defaultOptionIndex);
+                if (!(option instanceof SelectableOption)) {
+                    throw new CommandDefinitionException("Default option is not selectable: " + defaultOptionIndex);
+                }
+            }
         }
 
     }
