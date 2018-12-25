@@ -55,7 +55,9 @@ public final class AbstractExecutionCommandImpl extends AbstractExecutionCommand
 
     @Override
     protected Command execute(final PrintWriter writer) {
-        return null;
+        writer.println(_message);
+        writer.flush();
+        return getParentCommand();
     }
 
 }

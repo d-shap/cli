@@ -19,9 +19,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.command;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 import org.junit.Test;
 
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
+import ru.d_shap.cli.CommandRunner;
 
 /**
  * Tests for {@link AbstractExecutionCommand}.
@@ -42,7 +47,28 @@ public final class AbstractExecutionCommandTest extends BaseCliTest {
      */
     @Test
     public void executeTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream();
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        AbstractExecutionCommand executionCommand1 = new AbstractExecutionCommandImpl("Output 1");
+        commandRunner1.execute(executionCommand1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("Output 1");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream();
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        AbstractExecutionCommand executionCommand2 = new AbstractExecutionCommandImpl("Output 1", null);
+        commandRunner2.execute(executionCommand2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("Output 1");
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream();
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        AbstractExecutionCommand executionCommand33 = new AbstractExecutionCommandImpl("Output 3");
+        AbstractExecutionCommand executionCommand32 = new AbstractExecutionCommandImpl("Output 2", executionCommand33);
+        AbstractExecutionCommand executionCommand31 = new AbstractExecutionCommandImpl("Output 1", executionCommand32);
+        commandRunner3.execute(executionCommand31);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("Output 1", "Output 2", "Output 3");
     }
 
 }
