@@ -21,6 +21,7 @@ package ru.d_shap.cli.command;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.junit.Test;
 
@@ -81,15 +82,22 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
     @Test
     public void executeFailTest() {
         try {
-            ByteArrayOutputStream os = createOutputStream();
-            InputStream is = new FailOnReadInputStream("read error");
-            CommandRunner commandRunner = new CommandRunner(os, is);
-            Command command = new AbstractUserActionCommandImpl("Prompt");
-            commandRunner.execute(command);
+            ByteArrayOutputStream os1 = createOutputStream();
+            InputStream is1 = new FailOnReadInputStream("read error");
+            CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+            Command command1 = new AbstractUserActionCommandImpl("Prompt");
+            commandRunner1.execute(command1);
             Assertions.fail("AbstractUserActionCommand test fail");
         } catch (CliIOException ex) {
             Assertions.assertThat(ex).hasMessage("read error");
         }
+
+        OutputStream os2 = new FailOnWriteOutputStream("write error");
+        InputStream is2 = createInputStream();
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Command command2 = new AbstractUserActionCommandImpl("Prompt");
+        commandRunner2.execute(command2);
+        Assertions.assertThat(commandRunner2.getWriter().checkError()).isTrue();
     }
 
     /**
