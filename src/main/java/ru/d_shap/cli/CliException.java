@@ -31,7 +31,7 @@ public class CliException extends RuntimeException {
     /**
      * Create new object.
      *
-     * @param message message exception message.
+     * @param message exception message.
      */
     protected CliException(final String message) {
         super(message);
@@ -40,7 +40,7 @@ public class CliException extends RuntimeException {
     /**
      * Create new object.
      *
-     * @param message message exception message.
+     * @param message exception message.
      * @param cause   cause exception.
      */
     protected CliException(final String message, final Throwable cause) {
