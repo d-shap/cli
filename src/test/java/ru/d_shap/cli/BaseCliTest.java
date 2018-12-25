@@ -267,6 +267,32 @@ public class BaseCliTest {
      *
      * @author Dmitry Shapovalov
      */
+    public static final class FailOnReadInputStream extends InputStream {
+
+        private final String _message;
+
+        /**
+         * Create new object.
+         *
+         * @param message fail message.
+         */
+        public FailOnReadInputStream(final String message) {
+            super();
+            _message = message;
+        }
+
+        @Override
+        public int read() throws IOException {
+            throw new IOException(_message);
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
     public static final class FailOnCloseInputStream extends InputStream {
 
         private final String _message;
