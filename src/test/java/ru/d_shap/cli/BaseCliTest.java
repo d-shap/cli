@@ -293,6 +293,32 @@ public class BaseCliTest {
      *
      * @author Dmitry Shapovalov
      */
+    public static final class FailOnWriteOutputStream extends OutputStream {
+
+        private final String _message;
+
+        /**
+         * Create new object.
+         *
+         * @param message fail message.
+         */
+        public FailOnWriteOutputStream(final String message) {
+            super();
+            _message = message;
+        }
+
+        @Override
+        public void write(final int b) throws IOException {
+            throw new IOException(_message);
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
     public static final class FailOnCloseInputStream extends InputStream {
 
         private final String _message;
@@ -346,6 +372,27 @@ public class BaseCliTest {
         @Override
         public void close() throws IOException {
             throw new IOException(_message);
+        }
+
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class NullReadLineBufferedReader extends BufferedReader {
+
+        /**
+         * Create new object.
+         */
+        public NullReadLineBufferedReader() {
+            super(null);
+        }
+
+        @Override
+        public String readLine() {
+            return null;
         }
 
     }
