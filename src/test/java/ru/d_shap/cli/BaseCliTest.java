@@ -63,21 +63,21 @@ public class BaseCliTest {
      * @return the input stream.
      */
     public final InputStream createInputStream(final String... lines) {
-        return createInputStreamWithEncoding(CommandRunner.ENCODING, lines);
+        return createInputStreamWithCharset(CommandRunner.CHARSET_NAME, lines);
     }
 
     /**
      * Create the input stream for the specified lines.
      *
-     * @param encoding the encoding for the lines.
-     * @param lines    the specified lines.
+     * @param charset the charset for the lines.
+     * @param lines   the specified lines.
      *
      * @return the input stream.
      */
-    public final InputStream createInputStreamWithEncoding(final String encoding, final String... lines) {
+    public final InputStream createInputStreamWithCharset(final String charset, final String... lines) {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, encoding);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, charset);
             PrintWriter printWriter = new PrintWriter(outputStreamWriter);
             for (String line : lines) {
                 printWriter.println(line);
@@ -98,22 +98,22 @@ public class BaseCliTest {
      * @return the lines.
      */
     public final List<String> getLines(final ByteArrayOutputStream baos) {
-        return getLines(CommandRunner.ENCODING, baos);
+        return getLines(CommandRunner.CHARSET_NAME, baos);
     }
 
     /**
      * Get the lines from the specified stream.
      *
-     * @param encoding the encoding for the lines.
-     * @param baos     the specified stream.
+     * @param charset the charset for the lines.
+     * @param baos    the specified stream.
      *
      * @return the lines.
      */
-    public final List<String> getLines(final String encoding, final ByteArrayOutputStream baos) {
+    public final List<String> getLines(final String charset, final ByteArrayOutputStream baos) {
         try {
             byte[] bytes = baos.toByteArray();
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-            Reader reader = new InputStreamReader(byteArrayInputStream, encoding);
+            Reader reader = new InputStreamReader(byteArrayInputStream, charset);
             BufferedReader bufferedReader = new BufferedReader(reader);
             return getLines(bufferedReader);
         } catch (IOException ex) {
