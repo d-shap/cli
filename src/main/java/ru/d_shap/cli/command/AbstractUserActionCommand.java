@@ -85,7 +85,14 @@ public abstract class AbstractUserActionCommand extends AbstractCommand {
      */
     protected abstract void printMessage(PrintWriter writer);
 
-    private boolean isDefaultInput(final String input) {
+    /**
+     * Check if the user input is the default input.
+     *
+     * @param input the user input.
+     *
+     * @return true if the user input is the default input.
+     */
+    protected final boolean isDefaultInput(final String input) {
         return "".equals(input);
     }
 
