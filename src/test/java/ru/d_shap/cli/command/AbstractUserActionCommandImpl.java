@@ -55,7 +55,7 @@ public final class AbstractUserActionCommandImpl extends AbstractUserActionComma
 
     @Override
     protected void printMessage(final PrintWriter writer) {
-        writer.println();
+        writer.println(_message);
     }
 
     @Override
