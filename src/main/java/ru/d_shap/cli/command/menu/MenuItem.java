@@ -83,11 +83,7 @@ public final class MenuItem implements Option {
         _command = command;
     }
 
-    /**
-     * Get the symbol to select this menu item.
-     *
-     * @return the symbol to select this menu item.
-     */
+    @Override
     public String getSymbol() {
         return _symbol;
     }

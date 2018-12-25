@@ -38,6 +38,11 @@ public final class MenuSeparator implements Option {
     }
 
     @Override
+    public String getSymbol() {
+        return null;
+    }
+
+    @Override
     public void print(final PrintWriter writer, final int length, final boolean isDefault) {
         writer.println();
     }
