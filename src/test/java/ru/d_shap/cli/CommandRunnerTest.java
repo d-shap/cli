@@ -29,6 +29,8 @@ import java.nio.charset.Charset;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.cli.command.AbstractCommandImpl;
+import ru.d_shap.cli.data.Context;
 
 /**
  * Tests for {@link CommandRunner}.
@@ -208,7 +210,77 @@ public final class CommandRunnerTest extends BaseCliTest {
      */
     @Test
     public void executeTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        commandRunner1.execute(null);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder();
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Command command2 = new AbstractCommandImpl("Prompt 1");
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("Prompt 1", "Строка 1");
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Command command33 = new AbstractCommandImpl("Prompt 3");
+        Command command32 = new AbstractCommandImpl("Prompt 2", command33);
+        Command command31 = new AbstractCommandImpl("Prompt 1", command32);
+        commandRunner3.execute(command31);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        commandRunner4.execute(null, null);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder();
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        Command command5 = new AbstractCommandImpl("Prompt 1");
+        commandRunner5.execute(command5, null);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("Prompt 1", "Строка 1");
+
+        ByteArrayOutputStream os6 = createOutputStream();
+        InputStream is6 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner6 = new CommandRunner(os6, is6);
+        Command command63 = new AbstractCommandImpl("Prompt 3");
+        Command command62 = new AbstractCommandImpl("Prompt 2", command63);
+        Command command61 = new AbstractCommandImpl("Prompt 1", command62);
+        commandRunner6.execute(command61, null);
+        Assertions.assertThat(getLines(os6)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3");
+
+        ByteArrayOutputStream os7 = createOutputStream();
+        InputStream is7 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner7 = new CommandRunner(os7, is7);
+        Context context7 = new Context();
+        commandRunner7.execute(null, context7);
+        Assertions.assertThat(getLines(os7)).containsExactlyInOrder();
+        Assertions.assertThat(context7.getValue(AbstractCommandImpl.COUNTER_KEY)).isNull();
+
+        ByteArrayOutputStream os8 = createOutputStream();
+        InputStream is8 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner8 = new CommandRunner(os8, is8);
+        Command command8 = new AbstractCommandImpl("Prompt 1");
+        Context context8 = new Context();
+        commandRunner8.execute(command8, context8);
+        Assertions.assertThat(getLines(os8)).containsExactlyInOrder("Prompt 1", "Строка 1");
+        Assertions.assertThat(context8.getValue(AbstractCommandImpl.COUNTER_KEY)).isEqualTo(1);
+
+        ByteArrayOutputStream os9 = createOutputStream();
+        InputStream is9 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner9 = new CommandRunner(os9, is9);
+        Command command93 = new AbstractCommandImpl("Prompt 3");
+        Command command92 = new AbstractCommandImpl("Prompt 2", command93);
+        Command command91 = new AbstractCommandImpl("Prompt 1", command92);
+        Context context9 = new Context();
+        commandRunner9.execute(command91, context9);
+        Assertions.assertThat(getLines(os9)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3");
+        Assertions.assertThat(context9.getValue(AbstractCommandImpl.COUNTER_KEY)).isEqualTo(3);
     }
 
 }
