@@ -79,6 +79,23 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
      * {@link AbstractUserActionCommand} class test.
      */
     @Test
+    public void executeFailTest() {
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = new FailOnReadInputStream("read error");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            Command command = new AbstractUserActionCommandImpl("Prompt");
+            commandRunner.execute(command);
+            Assertions.fail("AbstractUserActionCommand test fail");
+        } catch (CliIOException ex) {
+            Assertions.assertThat(ex).hasMessage("read error");
+        }
+    }
+
+    /**
+     * {@link AbstractUserActionCommand} class test.
+     */
+    @Test
     public void isDefaultInputTest() {
         AbstractUserActionCommand command = new AbstractUserActionCommandImpl("Prompt");
         Assertions.assertThat(command.isDefaultInput(null)).isFalse();
@@ -301,23 +318,6 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
         commandRunner34.getWriter().flush();
         Assertions.assertThat(result34).isSameAs(command);
         Assertions.assertThat(getLines(os34)).containsExactlyInOrder("message: value");
-    }
-
-    /**
-     * {@link AbstractUserActionCommand} class test.
-     */
-    @Test
-    public void readLineFailTest() {
-        try {
-            ByteArrayOutputStream os = createOutputStream();
-            InputStream is = new FailOnReadInputStream("read error");
-            CommandRunner commandRunner = new CommandRunner(os, is);
-            Command command = new AbstractUserActionCommandImpl("Prompt");
-            commandRunner.execute(command);
-            Assertions.fail("AbstractUserActionCommand test fail");
-        } catch (CliIOException ex) {
-            Assertions.assertThat(ex).hasMessage("read error");
-        }
     }
 
 }
