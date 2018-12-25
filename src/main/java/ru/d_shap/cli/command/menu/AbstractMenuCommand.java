@@ -187,7 +187,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         @Override
         public List<Option> loadValue() {
             List<Option> options = getOptions();
-            checkOptionCount(options);
+            checkOptionsDefined(options);
             checkOptionSymbolDefined(options);
             checkOptionSymbolUnique(options);
             checkOptionSymbolLength(options);
@@ -195,7 +195,10 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
             return options;
         }
 
-        private void checkOptionCount(final List<Option> options) {
+        private void checkOptionsDefined(final List<Option> options) {
+            if (options == null) {
+                throw new CommandDefinitionException("Options are not defined");
+            }
             int count = 0;
             for (Option option : options) {
                 if (option instanceof MenuSeparator) {
