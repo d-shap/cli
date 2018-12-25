@@ -20,8 +20,10 @@
 package ru.d_shap.cli.command;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 
+import ru.d_shap.cli.CliIOException;
 import ru.d_shap.cli.Command;
 
 /**
@@ -58,14 +60,25 @@ public final class AbstractCommandImpl extends AbstractCommand {
 
     @Override
     public Command execute(final PrintWriter writer, final BufferedReader reader) {
-        writer.println(_message);
-        Integer counter = getContext().getValue(COUNTER_KEY);
-        if (counter == null) {
-            getContext().putValue(COUNTER_KEY, 1);
-        } else {
-            getContext().putValue(COUNTER_KEY, counter + 1);
+        try {
+            writer.println(_message);
+            String line = reader.readLine();
+            if (line != null) {
+                writer.println(line);
+            }
+            writer.flush();
+
+            Integer counter = getContext().getValue(COUNTER_KEY);
+            if (counter == null) {
+                getContext().putValue(COUNTER_KEY, 1);
+            } else {
+                getContext().putValue(COUNTER_KEY, counter + 1);
+            }
+
+            return getParentCommand();
+        } catch (IOException ex) {
+            throw new CliIOException(ex);
         }
-        return getParentCommand();
     }
 
 }
