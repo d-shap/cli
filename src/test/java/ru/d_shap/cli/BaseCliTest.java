@@ -387,7 +387,7 @@ public class BaseCliTest {
          * Create new object.
          */
         public NullReadLineBufferedReader() {
-            super(null);
+            super(new InputStreamReader(new ByteArrayInputStream(new byte[]{})));
         }
 
         @Override
