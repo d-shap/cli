@@ -129,13 +129,13 @@ public abstract class AbstractInputBooleanCommand extends AbstractInputCommand<B
 
         @Override
         public Set<String> loadValue() {
-            Set<String> values = getTrueValues();
-            checkValuesDefined(values);
-            return values;
+            Set<String> trueValues = getTrueValues();
+            checkTrueValuesDefined(trueValues);
+            return trueValues;
         }
 
-        private void checkValuesDefined(final Set<String> values) {
-            if (values == null || values.isEmpty()) {
+        private void checkTrueValuesDefined(final Set<String> trueValues) {
+            if (trueValues == null || trueValues.isEmpty()) {
                 throw new CommandDefinitionException("True values are not defined");
             }
         }
@@ -155,13 +155,13 @@ public abstract class AbstractInputBooleanCommand extends AbstractInputCommand<B
 
         @Override
         public Set<String> loadValue() {
-            Set<String> values = getFalseValues();
-            checkValuesDefined(values);
-            return values;
+            Set<String> falseValues = getFalseValues();
+            checkFalseValuesDefined(falseValues);
+            return falseValues;
         }
 
-        private void checkValuesDefined(final Set<String> values) {
-            if (values == null || values.isEmpty()) {
+        private void checkFalseValuesDefined(final Set<String> falseValues) {
+            if (falseValues == null || falseValues.isEmpty()) {
                 throw new CommandDefinitionException("False values are not defined");
             }
         }
