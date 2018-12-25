@@ -217,8 +217,13 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
                 if (!(option instanceof SelectableOption)) {
                     continue;
                 }
-                if (((SelectableOption) option).getSymbol() == null || isDefaultInput(((SelectableOption) option).getSymbol())) {
+                String symbol = ((SelectableOption) option).getSymbol();
+                if (symbol == null || isDefaultInput(symbol)) {
                     throw new CommandDefinitionException("Option symbol is not defined");
+                }
+                String trimmedSymbol = symbol.trim();
+                if (!trimmedSymbol.equals(symbol)) {
+                    throw new CommandDefinitionException("Option symbol is wrong: " + symbol);
                 }
             }
         }
@@ -244,14 +249,14 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         }
 
         private void checkOptionSymbolLength(final List<Option> options) {
-            int symbolLength = _symbolLength.getValue();
+            int maxSymbolLength = _symbolLength.getValue();
             for (Option option : options) {
                 if (!(option instanceof SelectableOption)) {
                     continue;
                 }
-                int currentLength = ((SelectableOption) option).getSymbol().length();
-                if (currentLength > symbolLength) {
-                    throw new CommandDefinitionException("Option symbol length is too large: " + currentLength);
+                int symbolLength = ((SelectableOption) option).getSymbol().length();
+                if (symbolLength > maxSymbolLength) {
+                    throw new CommandDefinitionException("Option symbol length is too large: " + symbolLength);
                 }
             }
         }
