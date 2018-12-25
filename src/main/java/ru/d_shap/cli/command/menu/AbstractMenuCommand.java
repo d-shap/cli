@@ -22,6 +22,7 @@ package ru.d_shap.cli.command.menu;
 import java.io.PrintWriter;
 import java.util.List;
 
+import ru.d_shap.cli.CliConfigurationException;
 import ru.d_shap.cli.Command;
 import ru.d_shap.cli.command.AbstractUserActionCommand;
 import ru.d_shap.cli.data.Lines;
@@ -178,22 +179,49 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         @Override
         public List<Option> loadValue() {
             List<Option> options = getOptions();
-            checkSymbolNonEmpty(options);
+            checkSymbolDefined(options);
             checkSymbolUnique(options);
             checkSymbolLength(options);
             return options;
         }
 
-        private void checkSymbolNonEmpty(final List<Option> options) {
-
+        private void checkSymbolDefined(final List<Option> options) {
+            for (Option option : options) {
+                if (option instanceof MenuSeparator) {
+                    continue;
+                }
+                if (option.getSymbol() == null || isDefaultInput(option.getSymbol())) {
+                    throw new CliConfigurationException("Option symbol is not defined");
+                }
+            }
         }
 
         private void checkSymbolUnique(final List<Option> options) {
-
+            for (Option checkOption : options) {
+                for (Option option : options) {
+                    if (option == checkOption) {
+                        continue;
+                    }
+                    if (option instanceof MenuSeparator) {
+                        continue;
+                    }
+                    if (option.isSelected(checkOption.getSymbol())) {
+                        throw new CliConfigurationException("Option symbol is not unique: " + checkOption.getSymbol());
+                    }
+                }
+            }
         }
 
         private void checkSymbolLength(final List<Option> options) {
-
+            int symbolLength = _symbolLength.getValue();
+            for (Option option : options) {
+                if (option instanceof MenuSeparator) {
+                    continue;
+                }
+                if (option.getSymbol().length() > symbolLength) {
+                    throw new CliConfigurationException("Option symbol length is too large");
+                }
+            }
         }
 
     }
