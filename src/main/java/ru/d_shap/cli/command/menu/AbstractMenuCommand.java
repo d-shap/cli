@@ -22,9 +22,9 @@ package ru.d_shap.cli.command.menu;
 import java.io.PrintWriter;
 import java.util.List;
 
-import ru.d_shap.cli.CliConfigurationException;
 import ru.d_shap.cli.Command;
 import ru.d_shap.cli.command.AbstractUserActionCommand;
+import ru.d_shap.cli.command.CliCommandDefinitionException;
 import ru.d_shap.cli.data.Lines;
 import ru.d_shap.cli.data.ValueHolder;
 import ru.d_shap.cli.data.ValueLoader;
@@ -191,7 +191,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
                     continue;
                 }
                 if (option.getSymbol() == null || isDefaultInput(option.getSymbol())) {
-                    throw new CliConfigurationException("Option symbol is not defined");
+                    throw new CliCommandDefinitionException("Option symbol is not defined");
                 }
             }
         }
@@ -206,7 +206,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
                         continue;
                     }
                     if (option.isSelected(checkOption.getSymbol())) {
-                        throw new CliConfigurationException("Option symbol is not unique: " + checkOption.getSymbol());
+                        throw new CliCommandDefinitionException("Option symbol is not unique: " + checkOption.getSymbol());
                     }
                 }
             }
@@ -219,7 +219,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
                     continue;
                 }
                 if (option.getSymbol().length() > symbolLength) {
-                    throw new CliConfigurationException("Option symbol length is too large");
+                    throw new CliCommandDefinitionException("Option symbol length is too large");
                 }
             }
         }

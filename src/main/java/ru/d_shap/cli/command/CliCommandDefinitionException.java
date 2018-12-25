@@ -17,14 +17,16 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-package ru.d_shap.cli;
+package ru.d_shap.cli.command;
+
+import ru.d_shap.cli.CliException;
 
 /**
- * Configuration exception.
+ * Exception is thrown when the command definition is wrong.
  *
  * @author Dmitry Shapovalov
  */
-public final class CliConfigurationException extends CliException {
+public final class CliCommandDefinitionException extends CliException {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +35,7 @@ public final class CliConfigurationException extends CliException {
      *
      * @param message exception message.
      */
-    public CliConfigurationException(final String message) {
+    public CliCommandDefinitionException(final String message) {
         super(message);
     }
 
