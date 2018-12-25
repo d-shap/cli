@@ -55,17 +55,19 @@ public final class AbstractUserActionCommandImpl extends AbstractUserActionComma
 
     @Override
     protected void printMessage(final PrintWriter writer) {
-
+        writer.println();
     }
 
     @Override
     protected Command processDefaultInput(final String input, final PrintWriter writer) {
-        return null;
+        writer.println("Default input: " + input);
+        return getParentCommand();
     }
 
     @Override
     protected Command processInput(final String input, final PrintWriter writer) {
-        return null;
+        writer.println("Input: " + input);
+        return getParentCommand();
     }
 
 }
