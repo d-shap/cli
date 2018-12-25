@@ -29,16 +29,22 @@ import ru.d_shap.cli.data.Context;
  */
 public final class AbstractContainerCommandImpl extends AbstractContainerCommand {
 
+    public static final String CONTAINER_KEY = "__CONTAINER_KEY__";
+
     private final String _message;
+
+    private final Command _startCommand;
 
     /**
      * Create new object.
      *
-     * @param message the message to write to the output.
+     * @param message      the message to write to the output.
+     * @param startCommand the command to execute within container.
      */
-    public AbstractContainerCommandImpl(final String message) {
+    public AbstractContainerCommandImpl(final String message, final Command startCommand) {
         super();
         _message = message;
+        _startCommand = startCommand;
     }
 
     /**
@@ -46,25 +52,29 @@ public final class AbstractContainerCommandImpl extends AbstractContainerCommand
      *
      * @param message       the message to write to the output.
      * @param parentCommand the parent command.
+     * @param startCommand  the command to execute within container.
      */
-    public AbstractContainerCommandImpl(final String message, final Command parentCommand) {
+    public AbstractContainerCommandImpl(final String message, final Command parentCommand, final Command startCommand) {
         super(parentCommand);
         _message = message;
+        _startCommand = startCommand;
     }
 
     @Override
     protected Command getStartCommand() {
-        return null;
+        return _startCommand;
     }
 
     @Override
     protected void initContext(final Context context) {
-
+        context.putValue(AbstractCommandImpl.COUNTER_KEY, 100);
     }
 
     @Override
     protected Command processContext(final Context context) {
-        return null;
+        Integer counter = context.getValue(AbstractCommandImpl.COUNTER_KEY);
+        getContext().putValue(CONTAINER_KEY, counter);
+        return getParentCommand();
     }
 
 }
