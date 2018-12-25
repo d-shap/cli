@@ -41,7 +41,7 @@ import ru.d_shap.cli.io.OutputStreamWrapper;
  */
 public final class CommandRunner {
 
-    public static final String ENCODING = "UTF-8";
+    public static final String CHARSET_NAME = "UTF-8";
 
     private final PrintWriter _writer;
 
@@ -54,7 +54,7 @@ public final class CommandRunner {
      * @param inputStream  the stream to read the user input.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream) {
-        this(outputStream, inputStream, null, ENCODING);
+        this(outputStream, inputStream, null, CHARSET_NAME);
     }
 
     /**
@@ -65,7 +65,7 @@ public final class CommandRunner {
      * @param logOutputStream the stream to log the user input and the command output.
      */
     public CommandRunner(final OutputStream outputStream, final InputStream inputStream, final OutputStream logOutputStream) {
-        this(outputStream, inputStream, logOutputStream, ENCODING);
+        this(outputStream, inputStream, logOutputStream, CHARSET_NAME);
     }
 
     /**
