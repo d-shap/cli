@@ -129,7 +129,9 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         int defaultOptionIndex = _defaultOptionIndex.getValue();
         if (defaultOptionIndex >= 0 && defaultOptionIndex < options.size()) {
             Option option = options.get(defaultOptionIndex);
-            return option.getCommand();
+            if (option instanceof SelectableOption) {
+                return ((SelectableOption) option).getCommand();
+            }
         }
 
         return processWrongInput(_wrongInputMessage, input, writer);
@@ -139,8 +141,8 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
     protected final Command processInput(final String input, final PrintWriter writer) {
         List<Option> options = _options.getValue();
         for (Option option : options) {
-            if (option.isSelected(input)) {
-                return option.getCommand();
+            if (option instanceof SelectableOption && ((SelectableOption) option).isSelected(input)) {
+                return ((SelectableOption) option).getCommand();
             }
         }
 
@@ -201,7 +203,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
             }
             int count = 0;
             for (Option option : options) {
-                if (option instanceof MenuSeparator) {
+                if (!(option instanceof SelectableOption)) {
                     continue;
                 }
                 count++;
@@ -213,10 +215,10 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         private void checkOptionSymbolDefined(final List<Option> options) {
             for (Option option : options) {
-                if (option instanceof MenuSeparator) {
+                if (!(option instanceof SelectableOption)) {
                     continue;
                 }
-                if (option.getSymbol() == null || isDefaultInput(option.getSymbol())) {
+                if (((SelectableOption) option).getSymbol() == null || isDefaultInput(((SelectableOption) option).getSymbol())) {
                     throw new CommandDefinitionException("Option symbol is not defined");
                 }
             }
@@ -224,15 +226,18 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         private void checkOptionSymbolUnique(final List<Option> options) {
             for (Option checkOption : options) {
+                if (!(checkOption instanceof SelectableOption)) {
+                    continue;
+                }
                 for (Option option : options) {
                     if (option == checkOption) {
                         continue;
                     }
-                    if (option instanceof MenuSeparator) {
+                    if (!(option instanceof SelectableOption)) {
                         continue;
                     }
-                    if (option.isSelected(checkOption.getSymbol())) {
-                        throw new CommandDefinitionException("Option symbol is not unique: " + checkOption.getSymbol());
+                    if (((SelectableOption) option).isSelected(((SelectableOption) checkOption).getSymbol())) {
+                        throw new CommandDefinitionException("Option symbol is not unique: " + ((SelectableOption) checkOption).getSymbol());
                     }
                 }
             }
@@ -241,10 +246,10 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         private void checkOptionSymbolLength(final List<Option> options) {
             int symbolLength = _symbolLength.getValue();
             for (Option option : options) {
-                if (option instanceof MenuSeparator) {
+                if (!(option instanceof SelectableOption)) {
                     continue;
                 }
-                if (option.getSymbol().length() > symbolLength) {
+                if (((SelectableOption) option).getSymbol().length() > symbolLength) {
                     throw new CommandDefinitionException("Option symbol length is too large");
                 }
             }
@@ -252,10 +257,10 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         private void checkOptionLabelDefined(final List<Option> options) {
             for (Option option : options) {
-                if (option instanceof MenuSeparator) {
+                if (!(option instanceof SelectableOption)) {
                     continue;
                 }
-                Lines label = option.getLabel();
+                Lines label = ((SelectableOption) option).getLabel();
                 if (label == null) {
                     throw new CommandDefinitionException("Option label is not defined");
                 }
