@@ -178,21 +178,21 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         @Override
         public List<Option> loadValue() {
             List<Option> options = getOptions();
-            validateSymbolNonEmpty(options);
-            validateSymbolUnique(options);
-            validateSymbolLength(options);
+            checkSymbolNonEmpty(options);
+            checkSymbolUnique(options);
+            checkSymbolLength(options);
             return options;
         }
 
-        private void validateSymbolNonEmpty(final List<Option> options) {
+        private void checkSymbolNonEmpty(final List<Option> options) {
 
         }
 
-        private void validateSymbolUnique(final List<Option> options) {
+        private void checkSymbolUnique(final List<Option> options) {
 
         }
 
-        private void validateSymbolLength(final List<Option> options) {
+        private void checkSymbolLength(final List<Option> options) {
 
         }
 
