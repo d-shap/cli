@@ -41,39 +41,7 @@ public final class MenuSeparatorTest extends BaseCliTest {
      * {@link MenuSeparator} class test.
      */
     @Test
-    public void getSymbolTest() {
-
-    }
-
-    /**
-     * {@link MenuSeparator} class test.
-     */
-    @Test
-    public void getLabelTest() {
-
-    }
-
-    /**
-     * {@link MenuSeparator} class test.
-     */
-    @Test
     public void printTest() {
-
-    }
-
-    /**
-     * {@link MenuSeparator} class test.
-     */
-    @Test
-    public void isSelectedTest() {
-
-    }
-
-    /**
-     * {@link MenuSeparator} class test.
-     */
-    @Test
-    public void getCommandTest() {
 
     }
 
