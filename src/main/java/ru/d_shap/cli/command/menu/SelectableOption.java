@@ -19,22 +19,44 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.command.menu;
 
-import java.io.PrintWriter;
+import ru.d_shap.cli.Command;
+import ru.d_shap.cli.data.Lines;
 
 /**
- * Menu option.
+ * Selectable menu option.
  *
  * @author Dmitry Shapovalov
  */
-public interface Option {
+public interface SelectableOption extends Option {
 
     /**
-     * Print the option.
+     * Get the symbol to select this option.
      *
-     * @param writer    the stream to write the command output.
-     * @param length    the number of characters to display the symbol.
-     * @param isDefault true if this option is the default option.
+     * @return the symbol to select this option.
      */
-    void print(PrintWriter writer, int length, boolean isDefault);
+    String getSymbol();
+
+    /**
+     * Get the label.
+     *
+     * @return the label.
+     */
+    Lines getLabel();
+
+    /**
+     * Check if this option is selected.
+     *
+     * @param symbol the user input.
+     *
+     * @return true if this option is selected.
+     */
+    boolean isSelected(String symbol);
+
+    /**
+     * Get the command to execute.
+     *
+     * @return the command to execute.
+     */
+    Command getCommand();
 
 }

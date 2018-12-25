@@ -30,7 +30,7 @@ import ru.d_shap.cli.data.Lines;
  *
  * @author Dmitry Shapovalov
  */
-public final class MenuItem implements Option {
+public final class MenuItem implements SelectableOption {
 
     private final String _symbol;
 
