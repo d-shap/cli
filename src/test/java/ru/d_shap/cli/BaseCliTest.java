@@ -56,46 +56,6 @@ public class BaseCliTest {
     }
 
     /**
-     * Get the output lines from the specified output stream.
-     *
-     * @param baos the specified output stream.
-     *
-     * @return the output lines.
-     */
-    public final List<String> getLines(final ByteArrayOutputStream baos) {
-        return getLines(CommandRunner.ENCODING, baos);
-    }
-
-    /**
-     * Get the output lines from the specified output stream.
-     *
-     * @param encoding the encoding for the lines.
-     * @param baos     the specified output stream.
-     *
-     * @return the output lines.
-     */
-    public final List<String> getLines(final String encoding, final ByteArrayOutputStream baos) {
-        try {
-            byte[] bytes = baos.toByteArray();
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-            Reader reader = new InputStreamReader(byteArrayInputStream, encoding);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            List<String> lines = new ArrayList<>();
-            String line;
-            while (true) {
-                line = bufferedReader.readLine();
-                if (line == null) {
-                    break;
-                }
-                lines.add(line);
-            }
-            return lines;
-        } catch (IOException ex) {
-            throw new CliIOException(ex);
-        }
-    }
-
-    /**
      * Create the input stream for the specified lines.
      *
      * @param lines the specified lines.
@@ -124,6 +84,61 @@ public class BaseCliTest {
             }
             byte[] bytes = byteArrayOutputStream.toByteArray();
             return new ByteArrayInputStream(bytes);
+        } catch (IOException ex) {
+            throw new CliIOException(ex);
+        }
+    }
+
+    /**
+     * Get the lines from the specified stream.
+     *
+     * @param baos the specified stream.
+     *
+     * @return the lines.
+     */
+    public final List<String> getLines(final ByteArrayOutputStream baos) {
+        return getLines(CommandRunner.ENCODING, baos);
+    }
+
+    /**
+     * Get the lines from the specified stream.
+     *
+     * @param encoding the encoding for the lines.
+     * @param baos     the specified stream.
+     *
+     * @return the lines.
+     */
+    public final List<String> getLines(final String encoding, final ByteArrayOutputStream baos) {
+        try {
+            byte[] bytes = baos.toByteArray();
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+            Reader reader = new InputStreamReader(byteArrayInputStream, encoding);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            return getLines(bufferedReader);
+        } catch (IOException ex) {
+            throw new CliIOException(ex);
+        }
+    }
+
+    /**
+     * Get the lines from the specified reader.
+     *
+     * @param bufferedReader the specified reader.
+     *
+     * @return the lines.
+     */
+    public final List<String> getLines(final BufferedReader bufferedReader) {
+        try {
+            List<String> lines = new ArrayList<>();
+            String line;
+            while (true) {
+                line = bufferedReader.readLine();
+                if (line == null) {
+                    break;
+                }
+                lines.add(line);
+            }
+            return lines;
         } catch (IOException ex) {
             throw new CliIOException(ex);
         }
