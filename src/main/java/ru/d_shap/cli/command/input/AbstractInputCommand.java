@@ -229,13 +229,13 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
 
         @Override
         public Lines loadValue() {
-            Lines lines = getHeader();
-            checkHeaderDefined(lines);
-            return lines;
+            Lines header = getHeader();
+            checkHeaderDefined(header);
+            return header;
         }
 
-        private void checkHeaderDefined(final Lines lines) {
-            if (lines == null) {
+        private void checkHeaderDefined(final Lines header) {
+            if (header == null) {
                 throw new CommandDefinitionException("Header is not defined");
             }
         }
