@@ -21,6 +21,7 @@ package ru.d_shap.cli.command.menu;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
+import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
 import ru.d_shap.cli.command.CommandDefinitionException;
 import ru.d_shap.cli.data.Lines;
@@ -119,6 +121,22 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(null, new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner3.execute(command3);
         Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      1: Option 1 line 1", "         Option 1 line 2", "      2: Option 2 line 1", "         Option 2 line 2", "");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("1");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        List<Option> options4 = getOptions(new MenuItem("1", (String) null));
+        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(null, new Lines("line"), options4, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        commandRunner4.execute(command4);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "      1: ", "");
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("1");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        List<Option> options5 = getOptions(new MenuItem("1", (Lines) null));
+        AbstractMenuCommandImpl command5 = new AbstractMenuCommandImpl(null, new Lines("line"), options5, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        commandRunner5.execute(command5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("line", "      1: ", "");
 
         try {
             ByteArrayOutputStream os = createOutputStream();
@@ -227,6 +245,18 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         } catch (CommandDefinitionException ex) {
             Assertions.assertThat(ex).hasMessage("Option symbol length is too large: 234567");
         }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"), new SelectableOptionImpl());
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Option label is not defined");
+        }
     }
 
     /**
@@ -255,6 +285,47 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
 
     private List<Option> getOptions(final Option... options) {
         return Arrays.asList(options);
+    }
+
+    /**
+     * Test class.
+     *
+     * @author Dmitry Shapovalov
+     */
+    public static final class SelectableOptionImpl implements SelectableOption {
+
+        /**
+         * Create new object.
+         */
+        public SelectableOptionImpl() {
+            super();
+        }
+
+        @Override
+        public String getSymbol() {
+            return "s";
+        }
+
+        @Override
+        public Lines getLabel() {
+            return null;
+        }
+
+        @Override
+        public void print(final PrintWriter writer, final int length, final boolean isDefault) {
+            writer.println(getSymbol());
+        }
+
+        @Override
+        public boolean isSelected(final String symbol) {
+            return false;
+        }
+
+        @Override
+        public Command getCommand() {
+            return null;
+        }
+
     }
 
 }
