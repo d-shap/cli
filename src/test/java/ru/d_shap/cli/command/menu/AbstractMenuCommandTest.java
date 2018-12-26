@@ -225,7 +225,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
-            Assertions.assertThat(ex).hasMessage("");
+            Assertions.assertThat(ex).hasMessage("Option symbol length is too large: 234567");
         }
     }
 
