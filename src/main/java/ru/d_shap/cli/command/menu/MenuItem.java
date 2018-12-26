@@ -79,7 +79,11 @@ public final class MenuItem implements SelectableOption {
     public MenuItem(final String symbol, final Lines label, final Command command) {
         super();
         _symbol = symbol;
-        _label = label;
+        if (label == null) {
+            _label = new Lines();
+        } else {
+            _label = label;
+        }
         _command = command;
     }
 
