@@ -127,7 +127,7 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
     protected final Command processDefaultInput(final String input, final PrintWriter writer) {
         List<Option> options = _options.getValue();
         int defaultOptionIndex = _defaultOptionIndex.getValue();
-        if (defaultOptionIndex >= 0 && defaultOptionIndex < options.size()) {
+        if (defaultOptionIndex >= 0) {
             Option option = options.get(defaultOptionIndex);
             return ((SelectableOption) option).getCommand();
         }
@@ -321,8 +321,11 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         private void checkSelectableOption(final int defaultOptionIndex) {
             List<Option> options = _options.getValue();
-            if (defaultOptionIndex < 0 || defaultOptionIndex >= options.size()) {
+            if (defaultOptionIndex < 0) {
                 return;
+            }
+            if (defaultOptionIndex >= options.size()) {
+                throw new CommandDefinitionException("Default option is not selectable: " + defaultOptionIndex);
             }
             Option option = options.get(defaultOptionIndex);
             if (!(option instanceof SelectableOption)) {
