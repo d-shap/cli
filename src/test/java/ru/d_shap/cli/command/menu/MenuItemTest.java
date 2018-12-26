@@ -21,7 +21,11 @@ package ru.d_shap.cli.command.menu;
 
 import org.junit.Test;
 
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
+import ru.d_shap.cli.Command;
+import ru.d_shap.cli.command.AbstractCommandImpl;
+import ru.d_shap.cli.data.Lines;
 
 /**
  * Tests for {@link MenuItem}.
@@ -42,7 +46,29 @@ public final class MenuItemTest extends BaseCliTest {
      */
     @Test
     public void getSymbolTest() {
+        Assertions.assertThat(new MenuItem(null, (String) null).getSymbol()).isNull();
+        Assertions.assertThat(new MenuItem("", (String) null).getSymbol()).isEqualTo("");
+        Assertions.assertThat(new MenuItem(" ", (String) null).getSymbol()).isEqualTo(" ");
+        Assertions.assertThat(new MenuItem("s", (String) null).getSymbol()).isEqualTo("s");
+        Assertions.assertThat(new MenuItem("symbol", (String) null).getSymbol()).isEqualTo("symbol");
 
+        Assertions.assertThat(new MenuItem(null, (Lines) null).getSymbol()).isNull();
+        Assertions.assertThat(new MenuItem("", (Lines) null).getSymbol()).isEqualTo("");
+        Assertions.assertThat(new MenuItem(" ", (Lines) null).getSymbol()).isEqualTo(" ");
+        Assertions.assertThat(new MenuItem("s", (Lines) null).getSymbol()).isEqualTo("s");
+        Assertions.assertThat(new MenuItem("symbol", (Lines) null).getSymbol()).isEqualTo("symbol");
+
+        Assertions.assertThat(new MenuItem(null, (String) null, null).getSymbol()).isNull();
+        Assertions.assertThat(new MenuItem("", (String) null, null).getSymbol()).isEqualTo("");
+        Assertions.assertThat(new MenuItem(" ", (String) null, null).getSymbol()).isEqualTo(" ");
+        Assertions.assertThat(new MenuItem("s", (String) null, null).getSymbol()).isEqualTo("s");
+        Assertions.assertThat(new MenuItem("symbol", (String) null, null).getSymbol()).isEqualTo("symbol");
+
+        Assertions.assertThat(new MenuItem(null, (Lines) null, null).getSymbol()).isNull();
+        Assertions.assertThat(new MenuItem("", (Lines) null, null).getSymbol()).isEqualTo("");
+        Assertions.assertThat(new MenuItem(" ", (Lines) null, null).getSymbol()).isEqualTo(" ");
+        Assertions.assertThat(new MenuItem("s", (Lines) null, null).getSymbol()).isEqualTo("s");
+        Assertions.assertThat(new MenuItem("symbol", (Lines) null, null).getSymbol()).isEqualTo("symbol");
     }
 
     /**
@@ -50,7 +76,27 @@ public final class MenuItemTest extends BaseCliTest {
      */
     @Test
     public void getLabelTest() {
+        Assertions.assertThat(new MenuItem(null, (String) null).getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, "").getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, " ").getLabel().getLines()).containsExactlyInOrder(" ");
+        Assertions.assertThat(new MenuItem(null, "label").getLabel().getLines()).containsExactlyInOrder("label");
 
+        Assertions.assertThat(new MenuItem(null, (Lines) null).getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, new Lines()).getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, new Lines("")).getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, new Lines("line")).getLabel().getLines()).containsExactlyInOrder("line");
+        Assertions.assertThat(new MenuItem(null, new Lines("line1", "line2")).getLabel().getLines()).containsExactlyInOrder("line1", "line2");
+
+        Assertions.assertThat(new MenuItem(null, (String) null, null).getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, "", null).getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, " ", null).getLabel().getLines()).containsExactlyInOrder(" ");
+        Assertions.assertThat(new MenuItem(null, "label", null).getLabel().getLines()).containsExactlyInOrder("label");
+
+        Assertions.assertThat(new MenuItem(null, (Lines) null, null).getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, new Lines(), null).getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, new Lines(""), null).getLabel().getLines()).containsExactlyInOrder("");
+        Assertions.assertThat(new MenuItem(null, new Lines("line"), null).getLabel().getLines()).containsExactlyInOrder("line");
+        Assertions.assertThat(new MenuItem(null, new Lines("line1", "line2"), null).getLabel().getLines()).containsExactlyInOrder("line1", "line2");
     }
 
     /**
@@ -74,7 +120,17 @@ public final class MenuItemTest extends BaseCliTest {
      */
     @Test
     public void getCommandTest() {
+        Assertions.assertThat(new MenuItem(null, (String) null).getCommand()).isNull();
 
+        Assertions.assertThat(new MenuItem(null, (Lines) null).getCommand()).isNull();
+
+        Command command = new AbstractCommandImpl("message");
+
+        Assertions.assertThat(new MenuItem(null, (String) null, null).getCommand()).isNull();
+        Assertions.assertThat(new MenuItem(null, (String) null, command).getCommand()).isSameAs(command);
+
+        Assertions.assertThat(new MenuItem(null, (Lines) null, null).getCommand()).isNull();
+        Assertions.assertThat(new MenuItem(null, (Lines) null, command).getCommand()).isSameAs(command);
     }
 
 }
