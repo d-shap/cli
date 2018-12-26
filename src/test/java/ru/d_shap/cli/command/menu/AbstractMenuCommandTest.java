@@ -81,7 +81,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
 
         try {
             ByteArrayOutputStream os = createOutputStream();
-            InputStream is = createInputStream("s");
+            InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, null, getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
@@ -96,7 +96,137 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
      */
     @Test
     public void getOptionsTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("1");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        List<Option> options1 = getOptions(new MenuItem("1", "Option 1"));
+        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(null, new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      1: Option 1", "");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("1");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        List<Option> options2 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"), new MenuSeparator(), new MenuItem("3", "Option 3"));
+        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(null, new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "", "      3: Option 3", "");
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("1");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        List<Option> options3 = getOptions(new MenuItem("1", new Lines("Option 1 line 1", "Option 1 line 2")), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
+        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(null, new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        commandRunner3.execute(command3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      1: Option 1 line 1", "         Option 1 line 2", "      2: Option 2 line 1", "         Option 2 line 2", "");
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = null;
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Options are not defined");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions();
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Options are not defined");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuSeparator(), new MenuSeparator());
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Options are not defined");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem(null, "Option 2"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Option symbol is not defined");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("", "Option 2"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Option symbol is not defined");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem(" ", "Option 2"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Option symbol is wrong:  ");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem(" 2 ", "Option 2"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Option symbol is wrong:  2 ");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"), new MenuItem("4", "Option 3"), new MenuItem("4", "Option 4"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Option symbol is not unique: 4");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream();
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("12345", "Option 1"), new MenuSeparator(), new MenuItem("234567", "Option 2"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, 5, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("");
+        }
     }
 
     /**
