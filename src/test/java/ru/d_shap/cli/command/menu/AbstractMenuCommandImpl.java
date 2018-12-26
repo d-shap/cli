@@ -44,6 +44,24 @@ public final class AbstractMenuCommandImpl extends AbstractMenuCommand {
     /**
      * Create new object.
      *
+     * @param header             the menu header.
+     * @param options            the menu options.
+     * @param symbolLength       the number of characters to display the symbol.
+     * @param defaultOptionIndex the index of the default option.
+     * @param wrongInputMessage  the message for the wrong input.
+     */
+    public AbstractMenuCommandImpl(final Lines header, final List<Option> options, final int symbolLength, final int defaultOptionIndex, final String wrongInputMessage) {
+        super();
+        _header = header;
+        _options = options;
+        _symbolLength = symbolLength;
+        _defaultOptionIndex = defaultOptionIndex;
+        _wrongInputMessage = wrongInputMessage;
+    }
+
+    /**
+     * Create new object.
+     *
      * @param parentCommand      the parent command.
      * @param header             the menu header.
      * @param options            the menu options.
