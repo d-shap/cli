@@ -288,19 +288,12 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         @Override
         public Integer loadValue() {
-            Integer symbolLength = getSymbolLength();
-            checkSymbolLengthDefined(symbolLength);
+            int symbolLength = getSymbolLength();
             checkSymbolLengthPositive(symbolLength);
             return symbolLength;
         }
 
-        private void checkSymbolLengthDefined(final Integer symbolLength) {
-            if (symbolLength == null) {
-                throw new CommandDefinitionException("Symbol length is not defined");
-            }
-        }
-
-        private void checkSymbolLengthPositive(final Integer symbolLength) {
+        private void checkSymbolLengthPositive(final int symbolLength) {
             if (symbolLength <= 0) {
                 throw new CommandDefinitionException("Symbol length is not positive: " + symbolLength);
             }
@@ -321,15 +314,12 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
 
         @Override
         public Integer loadValue() {
-            Integer defaultOptionIndex = getDefaultOptionIndex();
+            int defaultOptionIndex = getDefaultOptionIndex();
             checkSelectableOption(defaultOptionIndex);
             return defaultOptionIndex;
         }
 
-        private void checkSelectableOption(final Integer defaultOptionIndex) {
-            if (defaultOptionIndex == null) {
-                return;
-            }
+        private void checkSelectableOption(final int defaultOptionIndex) {
             List<Option> options = _options.getValue();
             if (defaultOptionIndex < 0 || defaultOptionIndex >= options.size()) {
                 return;
