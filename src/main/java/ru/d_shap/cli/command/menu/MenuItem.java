@@ -102,10 +102,13 @@ public final class MenuItem implements SelectableOption {
         String firstLinePattern = "%" + length + "s: %s";
         String nextLinesPattern = "%" + length + "s  %s";
         String symbol;
-        if (isDefault) {
-            symbol = "*" + _symbol;
+        if (_symbol == null) {
+            symbol = "";
         } else {
             symbol = _symbol;
+        }
+        if (isDefault) {
+            symbol = "*" + symbol;
         }
         List<String> lines = _label.getLines();
         boolean firstLine = true;
