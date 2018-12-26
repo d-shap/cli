@@ -123,7 +123,7 @@ public final class MenuItem implements SelectableOption {
 
     @Override
     public boolean isSelected(final String symbol) {
-        return _symbol.equalsIgnoreCase(symbol);
+        return _symbol != null && _symbol.equalsIgnoreCase(symbol);
     }
 
     @Override
