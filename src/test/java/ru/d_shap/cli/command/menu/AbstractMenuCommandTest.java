@@ -80,11 +80,11 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line1", "line2", "      s: label", "");
 
         try {
-            ByteArrayOutputStream os5 = createOutputStream();
-            InputStream is5 = createInputStream("s");
-            CommandRunner commandRunner5 = new CommandRunner(os5, is5);
-            AbstractMenuCommandImpl command5 = new AbstractMenuCommandImpl(null, null, getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
-            commandRunner5.execute(command5);
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("s");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, null, getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
             Assertions.assertThat(ex).hasMessage("Header is not defined");
