@@ -499,6 +499,14 @@ public final class AbstractYesNoCancelCommandTest extends BaseCliTest {
         AbstractYesNoCancelCommandImpl command6 = new AbstractYesNoCancelCommandImpl(parentCommand6, new Lines("line"), "y", new Lines("Yes"), childCommand61, "n", new Lines("No"), childCommand62, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
         commandRunner6.execute(command6);
         Assertions.assertThat(getLines(os6)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "wrong: <x>", "", "line", "      y: Yes", "      n: No", "      c: Cancel", "", "parent command");
+
+        ByteArrayOutputStream os7 = createOutputStream();
+        InputStream is7 = createInputStream("y");
+        CommandRunner commandRunner7 = new CommandRunner(os7, is7);
+        Command parentCommand7 = new AbstractExecutionCommandImpl("parent command");
+        AbstractYesNoCancelCommandImpl command7 = new AbstractYesNoCancelCommandImpl(parentCommand7, new Lines("line"), "y", new Lines("Yes"), null, "n", new Lines("No"), null, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner7.execute(command7);
+        Assertions.assertThat(getLines(os7)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "", "parent command");
     }
 
 }
