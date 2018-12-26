@@ -57,28 +57,28 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os1 = createOutputStream();
         InputStream is1 = createInputStream("s");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
-        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(null, new Lines(), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(new Lines(), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner1.execute(command1);
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("", "      s: label", "");
 
         ByteArrayOutputStream os2 = createOutputStream();
         InputStream is2 = createInputStream("s");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
-        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(null, new Lines(""), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(new Lines(""), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner2.execute(command2);
         Assertions.assertThat(getLines(os2)).containsExactlyInOrder("", "      s: label", "");
 
         ByteArrayOutputStream os3 = createOutputStream();
         InputStream is3 = createInputStream("s");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
-        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(null, new Lines("line"), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(new Lines("line"), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner3.execute(command3);
         Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      s: label", "");
 
         ByteArrayOutputStream os4 = createOutputStream();
         InputStream is4 = createInputStream("s");
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
-        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(null, new Lines("line1", "line2"), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(new Lines("line1", "line2"), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner4.execute(command4);
         Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line1", "line2", "      s: label", "");
 
@@ -86,7 +86,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             ByteArrayOutputStream os = createOutputStream();
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, null, getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -103,7 +103,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is1 = createInputStream("1");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
         List<Option> options1 = getOptions(new MenuItem("1", "Option 1"));
-        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(null, new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner1.execute(command1);
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      1: Option 1", "");
 
@@ -111,7 +111,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is2 = createInputStream("1");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
         List<Option> options2 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"), new MenuSeparator(), new MenuItem("3", "Option 3"));
-        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(null, new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner2.execute(command2);
         Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "", "      3: Option 3", "");
 
@@ -119,7 +119,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is3 = createInputStream("1");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
         List<Option> options3 = getOptions(new MenuItem("1", new Lines("Option 1 line 1", "Option 1 line 2")), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
-        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(null, new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner3.execute(command3);
         Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      1: Option 1 line 1", "         Option 1 line 2", "      2: Option 2 line 1", "         Option 2 line 2", "");
 
@@ -127,7 +127,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is4 = createInputStream("1");
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
         List<Option> options4 = getOptions(new MenuItem("1", (String) null));
-        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(null, new Lines("line"), options4, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(new Lines("line"), options4, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner4.execute(command4);
         Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "      1: ", "");
 
@@ -135,7 +135,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is5 = createInputStream("1");
         CommandRunner commandRunner5 = new CommandRunner(os5, is5);
         List<Option> options5 = getOptions(new MenuItem("1", (Lines) null));
-        AbstractMenuCommandImpl command5 = new AbstractMenuCommandImpl(null, new Lines("line"), options5, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command5 = new AbstractMenuCommandImpl(new Lines("line"), options5, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner5.execute(command5);
         Assertions.assertThat(getLines(os5)).containsExactlyInOrder("line", "      1: ", "");
 
@@ -144,7 +144,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = null;
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -156,7 +156,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions();
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -168,7 +168,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuSeparator(), new MenuSeparator());
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -180,7 +180,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem(null, "Option 2"));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -192,7 +192,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("", "Option 2"));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -204,7 +204,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem(" ", "Option 2"));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -216,7 +216,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem(" 2 ", "Option 2"));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -228,7 +228,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"), new MenuItem("4", "Option 3"), new MenuItem("4", "Option 4"));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -240,7 +240,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("12345", "Option 1"), new MenuSeparator(), new MenuItem("234567", "Option 2"));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, 5, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, 5, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -252,7 +252,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream();
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"), new SelectableOptionImpl());
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -269,7 +269,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is1 = createInputStream("1");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
         List<Option> options1 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
-        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(null, new Lines("line"), options1, 5, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(new Lines("line"), options1, 5, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner1.execute(command1);
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "    1: Option 1", "    2: Option 2 line 1", "       Option 2 line 2", "");
 
@@ -277,7 +277,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is2 = createInputStream("1");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
         List<Option> options2 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
-        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(null, new Lines("line"), options2, 3, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(new Lines("line"), options2, 3, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner2.execute(command2);
         Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "  1: Option 1", "  2: Option 2 line 1", "     Option 2 line 2", "");
 
@@ -286,7 +286,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream("1");
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, 0, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, 0, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -298,7 +298,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream("1");
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, -1, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, -1, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -315,7 +315,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is1 = createInputStream("1");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
         List<Option> options1 = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
-        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(null, new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, -1, null);
+        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, -1, null);
         commandRunner1.execute(command1);
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      1: Option 1", "", "      2: Option 2", "");
 
@@ -323,7 +323,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is2 = createInputStream("");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
         List<Option> options2 = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
-        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(null, new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 0, null);
+        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 0, null);
         commandRunner2.execute(command2);
         Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "     *1: Option 1", "", "      2: Option 2", "");
 
@@ -331,7 +331,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is3 = createInputStream("");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
         List<Option> options3 = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
-        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(null, new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 2, null);
+        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 2, null);
         commandRunner3.execute(command3);
         Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      1: Option 1", "", "     *2: Option 2", "");
 
@@ -340,7 +340,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream("");
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 3, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 3, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -352,7 +352,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream("");
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 4, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 4, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -364,7 +364,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             InputStream is = createInputStream("");
             CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
-            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 1, null);
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 1, null);
             commandRunner.execute(command);
             Assertions.fail("AbstractMenuCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -381,7 +381,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is1 = createInputStream("x", "1");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
         List<Option> options1 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
-        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(null, new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner1.execute(command1);
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "", "line", "      1: Option 1", "      2: Option 2", "");
 
@@ -389,7 +389,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is2 = createInputStream("x", "1");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
         List<Option> options2 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
-        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(null, new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "");
+        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "");
         commandRunner2.execute(command2);
         Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "", "", "line", "      1: Option 1", "      2: Option 2", "");
 
@@ -397,7 +397,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is3 = createInputStream("x", "1");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
         List<Option> options3 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
-        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(null, new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, " ");
+        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, " ");
         commandRunner3.execute(command3);
         Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", " ", "", "line", "      1: Option 1", "      2: Option 2", "");
 
@@ -405,7 +405,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is4 = createInputStream("x", "1");
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
         List<Option> options4 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
-        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(null, new Lines("line"), options4, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong");
+        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(new Lines("line"), options4, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong");
         commandRunner4.execute(command4);
         Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "wrong", "", "line", "      1: Option 1", "      2: Option 2", "");
 
@@ -413,7 +413,7 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         InputStream is5 = createInputStream("x", "1");
         CommandRunner commandRunner5 = new CommandRunner(os5, is5);
         List<Option> options5 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
-        AbstractMenuCommandImpl command5 = new AbstractMenuCommandImpl(null, new Lines("line"), options5, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        AbstractMenuCommandImpl command5 = new AbstractMenuCommandImpl(new Lines("line"), options5, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
         commandRunner5.execute(command5);
         Assertions.assertThat(getLines(os5)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "wrong: <x>", "", "line", "      1: Option 1", "      2: Option 2", "");
     }
@@ -510,6 +510,16 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         AbstractMenuCommandImpl command8 = new AbstractMenuCommandImpl(parentCommand8, new Lines("line"), options8, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 3, "wrong: <%s>");
         commandRunner8.execute(command8);
         Assertions.assertThat(getLines(os8)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "", "     *3: Option 3", "wrong: <x>", "", "line", "      1: Option 1", "      2: Option 2", "", "     *3: Option 3", "", "parent command");
+
+        ByteArrayOutputStream os9 = createOutputStream();
+        InputStream is9 = createInputStream("", "3");
+        CommandRunner commandRunner9 = new CommandRunner(os9, is9);
+        Command childCommand91 = new AbstractExecutionCommandImpl("child command 1");
+        Command childCommand92 = new AbstractExecutionCommandImpl("child command 2");
+        List<Option> options9 = getOptions(new MenuItem("1", "Option 1", childCommand91), new MenuItem("2", "Option 2", childCommand92), new MenuSeparator(), new MenuItem("3", "Option 3"));
+        AbstractMenuCommandImpl command9 = new AbstractMenuCommandImpl(new Lines("line"), options9, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 3, "wrong: <%s>");
+        commandRunner9.execute(command9);
+        Assertions.assertThat(getLines(os9)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "", "     *3: Option 3", "");
     }
 
     private List<Option> getOptions(final Option... options) {
