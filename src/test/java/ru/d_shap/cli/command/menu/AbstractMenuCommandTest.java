@@ -376,7 +376,45 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
      */
     @Test
     public void getWrongInputMessageTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("x", "1");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        List<Option> options1 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
+        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(null, new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "", "line", "      1: Option 1", "      2: Option 2", "");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("x", "1");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        List<Option> options2 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
+        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(null, new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "");
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "", "", "line", "      1: Option 1", "      2: Option 2", "");
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("x", "1");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        List<Option> options3 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
+        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(null, new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, " ");
+        commandRunner3.execute(command3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", " ", "", "line", "      1: Option 1", "      2: Option 2", "");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("x", "1");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        List<Option> options4 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
+        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(null, new Lines("line"), options4, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong");
+        commandRunner4.execute(command4);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "wrong", "", "line", "      1: Option 1", "      2: Option 2", "");
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("x", "1");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        List<Option> options5 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
+        AbstractMenuCommandImpl command5 = new AbstractMenuCommandImpl(null, new Lines("line"), options5, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner5.execute(command5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "wrong: <x>", "", "line", "      1: Option 1", "      2: Option 2", "");
     }
 
     private List<Option> getOptions(final Option... options) {
