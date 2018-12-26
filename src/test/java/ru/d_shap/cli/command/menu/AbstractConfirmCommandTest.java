@@ -188,9 +188,9 @@ public final class AbstractConfirmCommandTest extends BaseCliTest {
         InputStream is2 = createInputStream("no");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
         Command childCommand2 = new AbstractExecutionCommandImpl("yes selected");
-        AbstractConfirmCommandImpl command2 = new AbstractConfirmCommandImpl(new Lines("line"), "y", new Lines("Yes"), childCommand2, "no", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
+        AbstractConfirmCommandImpl command2 = new AbstractConfirmCommandImpl(new Lines("line"), "yes", new Lines("Yes"), childCommand2, "no", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
         commandRunner2.execute(command2);
-        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      y: Yes", "    *no: No", "");
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "    yes: Yes", "    *no: No", "");
 
         try {
             ByteArrayOutputStream os = createOutputStream();
