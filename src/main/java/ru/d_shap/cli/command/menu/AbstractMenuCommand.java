@@ -320,10 +320,10 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
         }
 
         private void checkSelectableOption(final int defaultOptionIndex) {
-            List<Option> options = _options.getValue();
             if (defaultOptionIndex < 0) {
                 return;
             }
+            List<Option> options = _options.getValue();
             if (defaultOptionIndex >= options.size()) {
                 throw new CommandDefinitionException("Default option is not selectable: " + defaultOptionIndex);
             }
