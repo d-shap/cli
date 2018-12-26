@@ -310,7 +310,65 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
      */
     @Test
     public void getDefaultOptionIndexTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("1");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        List<Option> options1 = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
+        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(null, new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, -1, null);
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      1: Option 1", "", "      2: Option 2", "");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        List<Option> options2 = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
+        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(null, new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 0, null);
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "     *1: Option 1", "", "      2: Option 2", "");
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        List<Option> options3 = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
+        AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(null, new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 2, null);
+        commandRunner3.execute(command3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      1: Option 1", "", "     *2: Option 2", "");
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 3, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Default option is not selectable: 3");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 4, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Default option is not selectable: 4");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 1, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Default option is not selectable: 1");
+        }
     }
 
     /**
