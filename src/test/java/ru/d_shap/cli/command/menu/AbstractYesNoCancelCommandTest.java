@@ -165,7 +165,21 @@ public final class AbstractYesNoCancelCommandTest extends BaseCliTest {
      */
     @Test
     public void getYesMenuItemCommandTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("y");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        AbstractYesNoCancelCommandImpl command1 = new AbstractYesNoCancelCommandImpl(new Lines("line"), "y", new Lines("Yes"), null, "n", new Lines("No"), null, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("y");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Command childCommand21 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand22 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCancelCommandImpl command2 = new AbstractYesNoCancelCommandImpl(new Lines("line"), "y", new Lines("Yes"), childCommand21, "n", new Lines("No"), childCommand22, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "", "yes selected");
     }
 
     /**
@@ -290,7 +304,21 @@ public final class AbstractYesNoCancelCommandTest extends BaseCliTest {
      */
     @Test
     public void getNoMenuItemCommandTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("n");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        AbstractYesNoCancelCommandImpl command1 = new AbstractYesNoCancelCommandImpl(new Lines("line"), "y", new Lines("Yes"), null, "n", new Lines("No"), null, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("n");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Command childCommand21 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand22 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCancelCommandImpl command2 = new AbstractYesNoCancelCommandImpl(new Lines("line"), "y", new Lines("Yes"), childCommand21, "n", new Lines("No"), childCommand22, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "", "no selected");
     }
 
     /**
@@ -412,7 +440,65 @@ public final class AbstractYesNoCancelCommandTest extends BaseCliTest {
      */
     @Test
     public void executeTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("y");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand11 = new AbstractExecutionCommandImpl("child command 1");
+        Command childCommand12 = new AbstractExecutionCommandImpl("child command 2");
+        AbstractYesNoCancelCommandImpl command1 = new AbstractYesNoCancelCommandImpl(parentCommand1, new Lines("line"), "y", new Lines("Yes"), childCommand11, "n", new Lines("No"), childCommand12, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "", "child command 1");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("n");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Command parentCommand2 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand21 = new AbstractExecutionCommandImpl("child command 1");
+        Command childCommand22 = new AbstractExecutionCommandImpl("child command 2");
+        AbstractYesNoCancelCommandImpl command2 = new AbstractYesNoCancelCommandImpl(parentCommand2, new Lines("line"), "y", new Lines("Yes"), childCommand21, "n", new Lines("No"), childCommand22, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "", "child command 2");
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("c");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Command parentCommand3 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand31 = new AbstractExecutionCommandImpl("child command 1");
+        Command childCommand32 = new AbstractExecutionCommandImpl("child command 2");
+        AbstractYesNoCancelCommandImpl command3 = new AbstractYesNoCancelCommandImpl(parentCommand3, new Lines("line"), "y", new Lines("Yes"), childCommand31, "n", new Lines("No"), childCommand32, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner3.execute(command3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "", "parent command");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("", "c");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        Command parentCommand4 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand41 = new AbstractExecutionCommandImpl("child command 1");
+        Command childCommand42 = new AbstractExecutionCommandImpl("child command 2");
+        AbstractYesNoCancelCommandImpl command4 = new AbstractYesNoCancelCommandImpl(parentCommand4, new Lines("line"), "y", new Lines("Yes"), childCommand41, "n", new Lines("No"), childCommand42, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner4.execute(command4);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "wrong: <>", "", "line", "      y: Yes", "      n: No", "      c: Cancel", "", "parent command");
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        Command parentCommand5 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand51 = new AbstractExecutionCommandImpl("child command 1");
+        Command childCommand52 = new AbstractExecutionCommandImpl("child command 2");
+        AbstractYesNoCancelCommandImpl command5 = new AbstractYesNoCancelCommandImpl(parentCommand5, new Lines("line"), "y", new Lines("Yes"), childCommand51, "n", new Lines("No"), childCommand52, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 2, "wrong: <%s>");
+        commandRunner5.execute(command5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "     *c: Cancel", "", "parent command");
+
+        ByteArrayOutputStream os6 = createOutputStream();
+        InputStream is6 = createInputStream("x", "c");
+        CommandRunner commandRunner6 = new CommandRunner(os6, is6);
+        Command parentCommand6 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand61 = new AbstractExecutionCommandImpl("child command 1");
+        Command childCommand62 = new AbstractExecutionCommandImpl("child command 2");
+        AbstractYesNoCancelCommandImpl command6 = new AbstractYesNoCancelCommandImpl(parentCommand6, new Lines("line"), "y", new Lines("Yes"), childCommand61, "n", new Lines("No"), childCommand62, "c", new Lines("Cancel"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner6.execute(command6);
+        Assertions.assertThat(getLines(os6)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "wrong: <x>", "", "line", "      y: Yes", "      n: No", "      c: Cancel", "", "parent command");
     }
 
 }
