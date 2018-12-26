@@ -112,7 +112,45 @@ public final class MenuItemTest extends BaseCliTest {
      */
     @Test
     public void isSelectedTest() {
+        Assertions.assertThat(new MenuItem(null, (String) null).isSelected(null)).isFalse();
+        Assertions.assertThat(new MenuItem(null, (String) null).isSelected("")).isFalse();
+        Assertions.assertThat(new MenuItem(null, (String) null).isSelected(" ")).isFalse();
+        Assertions.assertThat(new MenuItem(null, (String) null).isSelected("s")).isFalse();
+        Assertions.assertThat(new MenuItem(null, (String) null).isSelected("S")).isFalse();
+        Assertions.assertThat(new MenuItem(null, (String) null).isSelected("symbol")).isFalse();
+        Assertions.assertThat(new MenuItem(null, (String) null).isSelected("sYmBOl")).isFalse();
 
+        Assertions.assertThat(new MenuItem("", (String) null).isSelected(null)).isFalse();
+        Assertions.assertThat(new MenuItem("", (String) null).isSelected("")).isTrue();
+        Assertions.assertThat(new MenuItem("", (String) null).isSelected(" ")).isFalse();
+        Assertions.assertThat(new MenuItem("", (String) null).isSelected("s")).isFalse();
+        Assertions.assertThat(new MenuItem("", (String) null).isSelected("S")).isFalse();
+        Assertions.assertThat(new MenuItem("", (String) null).isSelected("symbol")).isFalse();
+        Assertions.assertThat(new MenuItem("", (String) null).isSelected("sYmBOl")).isFalse();
+
+        Assertions.assertThat(new MenuItem(" ", (String) null).isSelected(null)).isFalse();
+        Assertions.assertThat(new MenuItem(" ", (String) null).isSelected("")).isFalse();
+        Assertions.assertThat(new MenuItem(" ", (String) null).isSelected(" ")).isTrue();
+        Assertions.assertThat(new MenuItem(" ", (String) null).isSelected("s")).isFalse();
+        Assertions.assertThat(new MenuItem(" ", (String) null).isSelected("S")).isFalse();
+        Assertions.assertThat(new MenuItem(" ", (String) null).isSelected("symbol")).isFalse();
+        Assertions.assertThat(new MenuItem(" ", (String) null).isSelected("sYmBOl")).isFalse();
+
+        Assertions.assertThat(new MenuItem("s", (String) null).isSelected(null)).isFalse();
+        Assertions.assertThat(new MenuItem("s", (String) null).isSelected("")).isFalse();
+        Assertions.assertThat(new MenuItem("s", (String) null).isSelected(" ")).isFalse();
+        Assertions.assertThat(new MenuItem("s", (String) null).isSelected("s")).isTrue();
+        Assertions.assertThat(new MenuItem("s", (String) null).isSelected("S")).isTrue();
+        Assertions.assertThat(new MenuItem("s", (String) null).isSelected("symbol")).isFalse();
+        Assertions.assertThat(new MenuItem("s", (String) null).isSelected("sYmBOl")).isFalse();
+
+        Assertions.assertThat(new MenuItem("symbol", (String) null).isSelected(null)).isFalse();
+        Assertions.assertThat(new MenuItem("symbol", (String) null).isSelected("")).isFalse();
+        Assertions.assertThat(new MenuItem("symbol", (String) null).isSelected(" ")).isFalse();
+        Assertions.assertThat(new MenuItem("symbol", (String) null).isSelected("s")).isFalse();
+        Assertions.assertThat(new MenuItem("symbol", (String) null).isSelected("S")).isFalse();
+        Assertions.assertThat(new MenuItem("symbol", (String) null).isSelected("symbol")).isTrue();
+        Assertions.assertThat(new MenuItem("symbol", (String) null).isSelected("sYmBOl")).isTrue();
     }
 
     /**
