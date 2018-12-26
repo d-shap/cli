@@ -114,7 +114,50 @@ public final class AbstractYesNoCommandTest extends BaseCliTest {
      */
     @Test
     public void getYesMenuItemLabelTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("y");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Command childCommand11 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand12 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command1 = new AbstractYesNoCommandImpl(new Lines("line"), "y", null, childCommand11, "n", new Lines("No"), childCommand12, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      y: ", "      n: No", "", "yes selected");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("y");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Command childCommand21 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand22 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command2 = new AbstractYesNoCommandImpl(new Lines("line"), "y", new Lines(), childCommand21, "n", new Lines("No"), childCommand22, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      y: ", "      n: No", "", "yes selected");
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("y");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Command childCommand31 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand32 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command3 = new AbstractYesNoCommandImpl(new Lines("line"), "y", new Lines(""), childCommand31, "n", new Lines("No"), childCommand32, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner3.execute(command3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      y: ", "      n: No", "", "yes selected");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("y");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        Command childCommand41 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand42 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command4 = new AbstractYesNoCommandImpl(new Lines("line"), "y", new Lines("line"), childCommand41, "n", new Lines("No"), childCommand42, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner4.execute(command4);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "      y: line", "      n: No", "", "yes selected");
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("y");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        Command childCommand51 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand52 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command5 = new AbstractYesNoCommandImpl(new Lines("line"), "y", new Lines("line 1", "line 2"), childCommand51, "n", new Lines("No"), childCommand52, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner5.execute(command5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("line", "      y: line 1", "         line 2", "      n: No", "", "yes selected");
     }
 
     /**
@@ -193,7 +236,50 @@ public final class AbstractYesNoCommandTest extends BaseCliTest {
      */
     @Test
     public void getNoMenuItemLabelTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("n");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Command childCommand11 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand12 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command1 = new AbstractYesNoCommandImpl(new Lines("line"), "y", new Lines("Yes"), childCommand11, "n", null, childCommand12, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      y: Yes", "      n: ", "", "no selected");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("n");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Command childCommand21 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand22 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command2 = new AbstractYesNoCommandImpl(new Lines("line"), "y", new Lines("Yes"), childCommand21, "n", new Lines(), childCommand22, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      y: Yes", "      n: ", "", "no selected");
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("n");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Command childCommand31 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand32 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command3 = new AbstractYesNoCommandImpl(new Lines("line"), "y", new Lines("Yes"), childCommand31, "n", new Lines(""), childCommand32, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner3.execute(command3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      y: Yes", "      n: ", "", "no selected");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("n");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        Command childCommand41 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand42 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command4 = new AbstractYesNoCommandImpl(new Lines("line"), "y", new Lines("Yes"), childCommand41, "n", new Lines("line"), childCommand42, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner4.execute(command4);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "      y: Yes", "      n: line", "", "no selected");
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("n");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        Command childCommand51 = new AbstractExecutionCommandImpl("yes selected");
+        Command childCommand52 = new AbstractExecutionCommandImpl("no selected");
+        AbstractYesNoCommandImpl command5 = new AbstractYesNoCommandImpl(new Lines("line"), "y", new Lines("Yes"), childCommand51, "n", new Lines("line 1", "line 2"), childCommand52, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
+        commandRunner5.execute(command5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("line", "      y: Yes", "      n: line 1", "         line 2", "", "no selected");
     }
 
     /**
