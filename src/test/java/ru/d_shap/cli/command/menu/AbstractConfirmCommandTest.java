@@ -280,7 +280,41 @@ public final class AbstractConfirmCommandTest extends BaseCliTest {
      */
     @Test
     public void executeTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("y");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand1 = new AbstractExecutionCommandImpl("child command");
+        AbstractConfirmCommandImpl command1 = new AbstractConfirmCommandImpl(parentCommand1, new Lines("line"), "y", new Lines("Yes"), childCommand1, "n", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "      y: Yes", "     *n: No", "", "child command");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("n");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Command parentCommand2 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand2 = new AbstractExecutionCommandImpl("child command");
+        AbstractConfirmCommandImpl command2 = new AbstractConfirmCommandImpl(parentCommand2, new Lines("line"), "y", new Lines("Yes"), childCommand2, "n", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "      y: Yes", "     *n: No", "", "parent command");
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Command parentCommand3 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand3 = new AbstractExecutionCommandImpl("child command");
+        AbstractConfirmCommandImpl command3 = new AbstractConfirmCommandImpl(parentCommand3, new Lines("line"), "y", new Lines("Yes"), childCommand3, "n", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
+        commandRunner3.execute(command3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "      y: Yes", "     *n: No", "", "parent command");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("x", "");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        Command parentCommand4 = new AbstractExecutionCommandImpl("parent command");
+        Command childCommand4 = new AbstractExecutionCommandImpl("child command");
+        AbstractConfirmCommandImpl command4 = new AbstractConfirmCommandImpl(parentCommand4, new Lines("line"), "y", new Lines("Yes"), childCommand4, "n", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
+        commandRunner4.execute(command4);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "      y: Yes", "     *n: No", "wrong: <x>", "", "line", "      y: Yes", "     *n: No", "", "parent command");
     }
 
 }
