@@ -264,7 +264,45 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
      */
     @Test
     public void getSymbolLengthTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("1");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        List<Option> options1 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
+        AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(null, new Lines("line"), options1, 5, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        commandRunner1.execute(command1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "    1: Option 1", "    2: Option 2 line 1", "       Option 2 line 2", "");
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("1");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        List<Option> options2 = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
+        AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(null, new Lines("line"), options2, 3, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        commandRunner2.execute(command2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "  1: Option 1", "  2: Option 2 line 1", "     Option 2 line 2", "");
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("1");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, 0, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Symbol length is not positive: 0");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("1");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuItem("2", new Lines("Option 2 line 1", "Option 2 line 2")));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(null, new Lines("line"), options, -1, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Symbol length is not positive: -1");
+        }
     }
 
     /**
