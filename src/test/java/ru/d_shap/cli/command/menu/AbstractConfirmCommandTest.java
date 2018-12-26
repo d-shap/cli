@@ -72,7 +72,7 @@ public final class AbstractConfirmCommandTest extends BaseCliTest {
             InputStream is = createInputStream("y");
             CommandRunner commandRunner = new CommandRunner(os, is);
             Command childCommand = new AbstractExecutionCommandImpl("yes selected");
-            AbstractConfirmCommandImpl command = new AbstractConfirmCommandImpl(new Lines("line"), null, new Lines("Yes"), childCommand, "no", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
+            AbstractConfirmCommandImpl command = new AbstractConfirmCommandImpl(new Lines("line"), null, new Lines("Yes"), childCommand, "n", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
             commandRunner.execute(command);
             Assertions.fail("AbstractConfirmCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -84,7 +84,7 @@ public final class AbstractConfirmCommandTest extends BaseCliTest {
             InputStream is = createInputStream("y");
             CommandRunner commandRunner = new CommandRunner(os, is);
             Command childCommand = new AbstractExecutionCommandImpl("yes selected");
-            AbstractConfirmCommandImpl command = new AbstractConfirmCommandImpl(new Lines("line"), "", new Lines("Yes"), childCommand, "no", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
+            AbstractConfirmCommandImpl command = new AbstractConfirmCommandImpl(new Lines("line"), "", new Lines("Yes"), childCommand, "n", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
             commandRunner.execute(command);
             Assertions.fail("AbstractConfirmCommand test fail");
         } catch (CommandDefinitionException ex) {
@@ -96,7 +96,7 @@ public final class AbstractConfirmCommandTest extends BaseCliTest {
             InputStream is = createInputStream("y");
             CommandRunner commandRunner = new CommandRunner(os, is);
             Command childCommand = new AbstractExecutionCommandImpl("yes selected");
-            AbstractConfirmCommandImpl command = new AbstractConfirmCommandImpl(new Lines("line"), " ", new Lines("Yes"), childCommand, "no", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
+            AbstractConfirmCommandImpl command = new AbstractConfirmCommandImpl(new Lines("line"), " ", new Lines("Yes"), childCommand, "n", new Lines("No"), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, "wrong: <%s>");
             commandRunner.execute(command);
             Assertions.fail("AbstractConfirmCommand test fail");
         } catch (CommandDefinitionException ex) {
