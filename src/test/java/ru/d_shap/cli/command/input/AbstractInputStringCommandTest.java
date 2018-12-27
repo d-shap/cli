@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// CLI tools provide facilities for the command line Stringerface development.
+// CLI tools provide facilities for the command line interface development.
 // Copyright (C) 2018 Dmitry Shapovalov.
 //
 // This file is part of CLI tools.
