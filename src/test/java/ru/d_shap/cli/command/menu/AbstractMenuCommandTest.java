@@ -78,9 +78,9 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os4 = createOutputStream();
         InputStream is4 = createInputStream("s");
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
-        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(new Lines("line1", "line2"), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
+        AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(new Lines("line 1", "line 2"), getOptions(new MenuItem("s", "label")), AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, null);
         commandRunner4.execute(command4);
-        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line1", "line2", "      s: label", "");
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line 1", "line 2", "      s: label", "");
 
         try {
             ByteArrayOutputStream os = createOutputStream();

@@ -89,7 +89,7 @@ public final class MenuItemTest extends BaseCliTest {
         Assertions.assertThat(new MenuItem(null, new Lines()).getLabel().getLines()).containsExactlyInOrder("");
         Assertions.assertThat(new MenuItem(null, new Lines("")).getLabel().getLines()).containsExactlyInOrder("");
         Assertions.assertThat(new MenuItem(null, new Lines("line")).getLabel().getLines()).containsExactlyInOrder("line");
-        Assertions.assertThat(new MenuItem(null, new Lines("line1", "line2")).getLabel().getLines()).containsExactlyInOrder("line1", "line2");
+        Assertions.assertThat(new MenuItem(null, new Lines("line 1", "line 2")).getLabel().getLines()).containsExactlyInOrder("line 1", "line 2");
 
         Assertions.assertThat(new MenuItem(null, (String) null, null).getLabel().getLines()).containsExactlyInOrder("");
         Assertions.assertThat(new MenuItem(null, "", null).getLabel().getLines()).containsExactlyInOrder("");
@@ -100,7 +100,7 @@ public final class MenuItemTest extends BaseCliTest {
         Assertions.assertThat(new MenuItem(null, new Lines(), null).getLabel().getLines()).containsExactlyInOrder("");
         Assertions.assertThat(new MenuItem(null, new Lines(""), null).getLabel().getLines()).containsExactlyInOrder("");
         Assertions.assertThat(new MenuItem(null, new Lines("line"), null).getLabel().getLines()).containsExactlyInOrder("line");
-        Assertions.assertThat(new MenuItem(null, new Lines("line1", "line2"), null).getLabel().getLines()).containsExactlyInOrder("line1", "line2");
+        Assertions.assertThat(new MenuItem(null, new Lines("line 1", "line 2"), null).getLabel().getLines()).containsExactlyInOrder("line 1", "line 2");
     }
 
     /**
@@ -431,34 +431,34 @@ public final class MenuItemTest extends BaseCliTest {
         ByteArrayOutputStream os111 = createOutputStream();
         InputStream is111 = createInputStream();
         CommandRunner commandRunner111 = new CommandRunner(os111, is111);
-        MenuItem menuItem111 = new MenuItem("s", new Lines("line1", "line2"));
+        MenuItem menuItem111 = new MenuItem("s", new Lines("line 1", "line 2"));
         menuItem111.print(commandRunner111.getWriter(), 1, false);
         commandRunner111.getWriter().flush();
-        Assertions.assertThat(getLines(os111)).containsExactlyInOrder("s: line1", "   line2");
+        Assertions.assertThat(getLines(os111)).containsExactlyInOrder("s: line 1", "   line 2");
 
         ByteArrayOutputStream os112 = createOutputStream();
         InputStream is112 = createInputStream();
         CommandRunner commandRunner112 = new CommandRunner(os112, is112);
-        MenuItem menuItem112 = new MenuItem("s", new Lines("line1", "line2"));
+        MenuItem menuItem112 = new MenuItem("s", new Lines("line 1", "line 2"));
         menuItem112.print(commandRunner112.getWriter(), 1, true);
         commandRunner112.getWriter().flush();
-        Assertions.assertThat(getLines(os112)).containsExactlyInOrder("*s: line1", "   line2");
+        Assertions.assertThat(getLines(os112)).containsExactlyInOrder("*s: line 1", "   line 2");
 
         ByteArrayOutputStream os113 = createOutputStream();
         InputStream is113 = createInputStream();
         CommandRunner commandRunner113 = new CommandRunner(os113, is113);
-        MenuItem menuItem113 = new MenuItem("s", new Lines("line1", "line2"));
+        MenuItem menuItem113 = new MenuItem("s", new Lines("line 1", "line 2"));
         menuItem113.print(commandRunner113.getWriter(), 7, false);
         commandRunner113.getWriter().flush();
-        Assertions.assertThat(getLines(os113)).containsExactlyInOrder("      s: line1", "         line2");
+        Assertions.assertThat(getLines(os113)).containsExactlyInOrder("      s: line 1", "         line 2");
 
         ByteArrayOutputStream os114 = createOutputStream();
         InputStream is114 = createInputStream();
         CommandRunner commandRunner114 = new CommandRunner(os114, is114);
-        MenuItem menuItem114 = new MenuItem("s", new Lines("line1", "line2"));
+        MenuItem menuItem114 = new MenuItem("s", new Lines("line 1", "line 2"));
         menuItem114.print(commandRunner114.getWriter(), 7, true);
         commandRunner114.getWriter().flush();
-        Assertions.assertThat(getLines(os114)).containsExactlyInOrder("     *s: line1", "         line2");
+        Assertions.assertThat(getLines(os114)).containsExactlyInOrder("     *s: line 1", "         line 2");
     }
 
     /**
