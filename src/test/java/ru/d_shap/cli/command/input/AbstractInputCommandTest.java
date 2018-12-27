@@ -55,21 +55,21 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os1 = createOutputStream();
         InputStream is1 = createInputStream("1,2,5");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
-        AbstractInputCommandImpl command1 = new AbstractInputCommandImpl(null, new Lines("line"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command1 = new AbstractInputCommandImpl(null, new Lines("line"), "default: <%s>", "wrong: <%s>");
         commandRunner1.execute(command1);
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "");
 
         ByteArrayOutputStream os2 = createOutputStream();
         InputStream is2 = createInputStream("1,2,5");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
-        AbstractInputCommandImpl command2 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command2 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
         commandRunner2.execute(command2);
         Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "");
 
         ByteArrayOutputStream os3 = createOutputStream();
         InputStream is3 = createInputStream("1,2,5");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
-        AbstractInputCommandImpl command3 = new AbstractInputCommandImpl(null, new Lines("line"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command3 = new AbstractInputCommandImpl(null, new Lines("line"), "default: <%s>", "wrong: <%s>");
         Context context3 = new Context();
         commandRunner3.execute(command3, context3);
         Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "");
@@ -78,7 +78,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os4 = createOutputStream();
         InputStream is4 = createInputStream("1,2,5");
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
-        AbstractInputCommandImpl command4 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command4 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
         Context context4 = new Context();
         commandRunner4.execute(command4, context4);
         Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "");
@@ -94,7 +94,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os1 = createOutputStream();
         InputStream is1 = createInputStream("1,2,5");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
-        AbstractInputCommandImpl command1 = new AbstractInputCommandImpl("key", new Lines(), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command1 = new AbstractInputCommandImpl("key", new Lines(), "default: <%s>", "wrong: <%s>");
         Context context1 = new Context();
         commandRunner1.execute(command1, context1);
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("", "");
@@ -104,7 +104,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os2 = createOutputStream();
         InputStream is2 = createInputStream("1,2,5");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
-        AbstractInputCommandImpl command2 = new AbstractInputCommandImpl("key", new Lines(""), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command2 = new AbstractInputCommandImpl("key", new Lines(""), "default: <%s>", "wrong: <%s>");
         Context context2 = new Context();
         commandRunner2.execute(command2, context2);
         Assertions.assertThat(getLines(os2)).containsExactlyInOrder("", "");
@@ -114,7 +114,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os3 = createOutputStream();
         InputStream is3 = createInputStream("1,2,5");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
-        AbstractInputCommandImpl command3 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command3 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
         Context context3 = new Context();
         commandRunner3.execute(command3, context3);
         Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "");
@@ -124,7 +124,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os4 = createOutputStream();
         InputStream is4 = createInputStream("1,2,5");
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
-        AbstractInputCommandImpl command4 = new AbstractInputCommandImpl("key", new Lines("line 1", "line 2"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command4 = new AbstractInputCommandImpl("key", new Lines("line 1", "line 2"), "default: <%s>", "wrong: <%s>");
         Context context4 = new Context();
         commandRunner4.execute(command4, context4);
         Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line 1", "line 2", "");
@@ -135,7 +135,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
             ByteArrayOutputStream os = createOutputStream();
             InputStream is = createInputStream("1,2,5");
             CommandRunner commandRunner = new CommandRunner(os, is);
-            AbstractInputCommandImpl command = new AbstractInputCommandImpl("key", null, "default: <%s>", "wrong: <%>");
+            AbstractInputCommandImpl command = new AbstractInputCommandImpl("key", null, "default: <%s>", "wrong: <%s>");
             Context context = new Context();
             commandRunner.execute(command, context);
             Assertions.fail("AbstractInputCommand test fail");
@@ -152,7 +152,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os1 = createOutputStream();
         InputStream is1 = createInputStream("1,2,5");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
-        AbstractInputCommandImpl command1 = new AbstractInputCommandImpl("key", new Lines("line"), null, "wrong: <%>");
+        AbstractInputCommandImpl command1 = new AbstractInputCommandImpl("key", new Lines("line"), null, "wrong: <%s>");
         Context context1 = new Context();
         context1.putValue("key", new int[]{7, 9, 3});
         commandRunner1.execute(command1, context1);
@@ -163,7 +163,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os2 = createOutputStream();
         InputStream is2 = createInputStream("1,2,5");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
-        AbstractInputCommandImpl command2 = new AbstractInputCommandImpl("key", new Lines("line"), "", "wrong: <%>");
+        AbstractInputCommandImpl command2 = new AbstractInputCommandImpl("key", new Lines("line"), "", "wrong: <%s>");
         Context context2 = new Context();
         context2.putValue("key", new int[]{7, 9, 3});
         commandRunner2.execute(command2, context2);
@@ -174,7 +174,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os3 = createOutputStream();
         InputStream is3 = createInputStream("1,2,5");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
-        AbstractInputCommandImpl command3 = new AbstractInputCommandImpl("key", new Lines("line"), "default", "wrong: <%>");
+        AbstractInputCommandImpl command3 = new AbstractInputCommandImpl("key", new Lines("line"), "default", "wrong: <%s>");
         Context context3 = new Context();
         context3.putValue("key", new int[]{7, 9, 3});
         commandRunner3.execute(command3, context3);
@@ -185,7 +185,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os4 = createOutputStream();
         InputStream is4 = createInputStream("1,2,5");
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
-        AbstractInputCommandImpl command4 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command4 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
         Context context4 = new Context();
         context4.putValue("key", new int[]{7, 9, 3});
         commandRunner4.execute(command4, context4);
@@ -196,7 +196,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os5 = createOutputStream();
         InputStream is5 = createInputStream("1,2,5");
         CommandRunner commandRunner5 = new CommandRunner(os5, is5);
-        AbstractInputCommandImpl command5 = new AbstractInputCommandImpl(null, new Lines("line"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command5 = new AbstractInputCommandImpl(null, new Lines("line"), "default: <%s>", "wrong: <%s>");
         Context context5 = new Context();
         context5.putValue("key", new int[]{7, 9, 3});
         commandRunner5.execute(command5, context5);
@@ -207,7 +207,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os6 = createOutputStream();
         InputStream is6 = createInputStream("1,2,5");
         CommandRunner commandRunner6 = new CommandRunner(os6, is6);
-        AbstractInputCommandImpl command6 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command6 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
         Context context6 = new Context();
         commandRunner6.execute(command6, context6);
         Assertions.assertThat(getLines(os6)).containsExactlyInOrder("line", "");
@@ -217,7 +217,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         ByteArrayOutputStream os7 = createOutputStream();
         InputStream is7 = createInputStream("1,2,5");
         CommandRunner commandRunner7 = new CommandRunner(os7, is7);
-        AbstractInputCommandImpl command7 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%>");
+        AbstractInputCommandImpl command7 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
         Context context7 = new Context();
         context7.putValue("key", null);
         commandRunner7.execute(command7, context7);
