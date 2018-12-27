@@ -164,7 +164,7 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
 
     private String asString(final T value) {
         if (value == null) {
-            return null;
+            return "";
         } else {
             return getValueAsString(value);
         }
