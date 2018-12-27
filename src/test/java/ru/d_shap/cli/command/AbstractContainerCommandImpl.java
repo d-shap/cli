@@ -66,8 +66,12 @@ public final class AbstractContainerCommandImpl extends AbstractContainerCommand
 
     @Override
     protected Command processContext(final Context context) {
+        Integer containerValue = getContext().getValue(CONTAINER_KEY);
+        if (containerValue == null) {
+            containerValue = 0;
+        }
         Integer counter = context.getValue(AbstractCommandImpl.COUNTER_KEY);
-        getContext().putValue(CONTAINER_KEY, counter);
+        getContext().putValue(CONTAINER_KEY, containerValue + counter);
         return getParentCommand();
     }
 
