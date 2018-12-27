@@ -211,6 +211,17 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os6)).containsExactlyInOrder("line", "");
         Assertions.assertThat(context6.getNames()).containsExactlyInOrder("key");
         Assertions.assertThat((int[]) context6.getValue("key")).containsExactlyInOrder(1, 2, 5);
+
+        ByteArrayOutputStream os7 = createOutputStream();
+        InputStream is7 = createInputStream("1,2,5");
+        CommandRunner commandRunner7 = new CommandRunner(os7, is7);
+        AbstractInputCommandImpl command7 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%>");
+        Context context7 = new Context();
+        context7.putValue("key", null);
+        commandRunner7.execute(command7, context7);
+        Assertions.assertThat(getLines(os7)).containsExactlyInOrder("line", "default: <>", "");
+        Assertions.assertThat(context7.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context7.getValue("key")).containsExactlyInOrder(1, 2, 5);
     }
 
     /**
