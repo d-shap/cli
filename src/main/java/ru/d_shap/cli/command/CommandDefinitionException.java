@@ -26,7 +26,7 @@ import ru.d_shap.cli.CliException;
  *
  * @author Dmitry Shapovalov
  */
-public final class CommandDefinitionException extends CliException {
+public class CommandDefinitionException extends CliException {
 
     private static final long serialVersionUID = 1L;
 
