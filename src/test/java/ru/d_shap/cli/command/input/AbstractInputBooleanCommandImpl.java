@@ -44,6 +44,8 @@ public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanC
 
     private final Set<String> _falseValues;
 
+    private final boolean _validValue;
+
     /**
      * Create new object.
      *
@@ -53,8 +55,9 @@ public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanC
      * @param wrongInputMessage the message for the wrong input.
      * @param trueValues        the valid true values.
      * @param falseValues       the valid false values.
+     * @param validValue        the valid value;
      */
-    public AbstractInputBooleanCommandImpl(final String contextKey, final Lines header, final String defaultMessage, final String wrongInputMessage, final Set<String> trueValues, final Set<String> falseValues) {
+    public AbstractInputBooleanCommandImpl(final String contextKey, final Lines header, final String defaultMessage, final String wrongInputMessage, final Set<String> trueValues, final Set<String> falseValues, final boolean validValue) {
         super();
         _contextKey = contextKey;
         _header = header;
@@ -62,6 +65,7 @@ public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanC
         _wrongInputMessage = wrongInputMessage;
         _trueValues = trueValues;
         _falseValues = falseValues;
+        _validValue = validValue;
     }
 
     /**
@@ -74,8 +78,9 @@ public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanC
      * @param wrongInputMessage the message for the wrong input.
      * @param trueValues        the valid true values.
      * @param falseValues       the valid false values.
+     * @param validValue        the valid value;
      */
-    public AbstractInputBooleanCommandImpl(final Command parentCommand, final String contextKey, final Lines header, final String defaultMessage, final String wrongInputMessage, final Set<String> trueValues, final Set<String> falseValues) {
+    public AbstractInputBooleanCommandImpl(final Command parentCommand, final String contextKey, final Lines header, final String defaultMessage, final String wrongInputMessage, final Set<String> trueValues, final Set<String> falseValues, final boolean validValue) {
         super(parentCommand);
         _contextKey = contextKey;
         _header = header;
@@ -83,6 +88,7 @@ public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanC
         _wrongInputMessage = wrongInputMessage;
         _trueValues = trueValues;
         _falseValues = falseValues;
+        _validValue = validValue;
     }
 
     @Override
@@ -117,7 +123,7 @@ public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanC
 
     @Override
     protected boolean isValidValue(final Boolean value) {
-        return !value;
+        return value == _validValue;
     }
 
     @Override
