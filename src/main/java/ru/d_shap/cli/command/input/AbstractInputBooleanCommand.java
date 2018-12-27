@@ -102,18 +102,10 @@ public abstract class AbstractInputBooleanCommand extends AbstractInputCommand<B
     protected final String getValueAsString(final Boolean value) {
         if (value) {
             Set<String> trueValues = _trueValues.getValue();
-            if (trueValues.isEmpty()) {
-                return String.valueOf(value);
-            } else {
-                return trueValues.iterator().next();
-            }
+            return trueValues.iterator().next();
         } else {
             Set<String> falseValues = _falseValues.getValue();
-            if (falseValues.isEmpty()) {
-                return String.valueOf(value);
-            } else {
-                return falseValues.iterator().next();
-            }
+            return falseValues.iterator().next();
         }
     }
 
