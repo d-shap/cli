@@ -27,6 +27,7 @@ import org.junit.Test;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
 import ru.d_shap.cli.CommandRunner;
+import ru.d_shap.cli.command.CommandDefinitionException;
 import ru.d_shap.cli.data.Context;
 import ru.d_shap.cli.data.Lines;
 
@@ -88,7 +89,57 @@ public final class AbstractInputCommandTest extends BaseCliTest {
      */
     @Test
     public void getHeaderTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("1,2,5");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        AbstractInputCommandImpl command1 = new AbstractInputCommandImpl("key", new Lines(), "default: <%s>", "wrong: <%>");
+        Context context1 = new Context();
+        commandRunner1.execute(command1, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("", "");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context1.getValue("key")).containsExactlyInOrder(1, 2, 5);
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("1,2,5");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        AbstractInputCommandImpl command2 = new AbstractInputCommandImpl("key", new Lines(""), "default: <%s>", "wrong: <%>");
+        Context context2 = new Context();
+        commandRunner2.execute(command2, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("", "");
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context2.getValue("key")).containsExactlyInOrder(1, 2, 5);
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("1,2,5");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        AbstractInputCommandImpl command3 = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%>");
+        Context context3 = new Context();
+        commandRunner3.execute(command3, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "");
+        Assertions.assertThat(context3.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context3.getValue("key")).containsExactlyInOrder(1, 2, 5);
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("1,2,5");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        AbstractInputCommandImpl command4 = new AbstractInputCommandImpl("key", new Lines("line1", "line2"), "default: <%s>", "wrong: <%>");
+        Context context4 = new Context();
+        commandRunner4.execute(command4, context4);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line1", "line2", "");
+        Assertions.assertThat(context4.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context4.getValue("key")).containsExactlyInOrder(1, 2, 5);
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("1,2,5");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            AbstractInputCommandImpl command = new AbstractInputCommandImpl("key", null, "default: <%s>", "wrong: <%>");
+            Context context = new Context();
+            commandRunner.execute(command, context);
+            Assertions.fail("AbstractInputCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Header is not defined");
+        }
     }
 
     /**
