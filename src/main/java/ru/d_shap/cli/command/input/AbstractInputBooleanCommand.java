@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.command.input;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import ru.d_shap.cli.Command;
@@ -137,6 +138,15 @@ public abstract class AbstractInputBooleanCommand extends AbstractInputCommand<B
         private void checkTrueValuesDefined(final Set<String> trueValues) {
             if (trueValues == null || trueValues.isEmpty()) {
                 throw new CommandDefinitionException("True values are not defined");
+            }
+        }
+
+        private void checkSameValues(final Set<String> trueValues) {
+            Set<String> falseValues = _falseValues.getValue();
+            Set<String> set = new HashSet<>(trueValues);
+            set.retainAll(falseValues);
+            if (!set.isEmpty()) {
+                throw new CommandDefinitionException("True values and False values contain the same value");
             }
         }
 
