@@ -26,7 +26,9 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
+import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
+import ru.d_shap.cli.command.AbstractExecutionCommandImpl;
 import ru.d_shap.cli.data.Context;
 import ru.d_shap.cli.data.Lines;
 
@@ -123,6 +125,23 @@ public final class AbstractInputDoubleCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <15.1>", "wrong: <15.1>", "", "line", "default: <15.1>", "6.1", "");
         Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
         Assertions.assertThat((double) context1.getValue("key")).isEqualTo(5.1, 0.01);
+    }
+
+    /**
+     * {@link AbstractInputDoubleCommand} class test.
+     */
+    @Test
+    public void executeTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("1.1");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command");
+        AbstractInputDoubleCommandImpl command1 = new AbstractInputDoubleCommandImpl(parentCommand1, "key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+        Context context1 = new Context();
+        commandRunner1.execute(command1, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "2.1", "", "parent command");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((double) context1.getValue("key")).isEqualTo(1.1, 0.01);
     }
 
 }

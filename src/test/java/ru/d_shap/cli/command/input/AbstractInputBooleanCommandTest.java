@@ -29,7 +29,9 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
+import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
+import ru.d_shap.cli.command.AbstractExecutionCommandImpl;
 import ru.d_shap.cli.command.CommandDefinitionException;
 import ru.d_shap.cli.data.Context;
 import ru.d_shap.cli.data.Lines;
@@ -332,6 +334,23 @@ public final class AbstractInputBooleanCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <false>", "wrong: <false>", "", "line", "default: <false>", "false", "");
         Assertions.assertThat(context2.getNames()).containsExactlyInOrder("key");
         Assertions.assertThat((boolean) context2.getValue("key")).isTrue();
+    }
+
+    /**
+     * {@link AbstractInputBooleanCommand} class test.
+     */
+    @Test
+    public void executeTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("t");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command");
+        AbstractInputBooleanCommandImpl command1 = new AbstractInputBooleanCommandImpl(parentCommand1, "key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t"), createSet("f"), true);
+        Context context1 = new Context();
+        commandRunner1.execute(command1, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "false", "", "parent command");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((boolean) context1.getValue("key")).isTrue();
     }
 
     private Set<String> createSet(final String... values) {

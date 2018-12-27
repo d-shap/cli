@@ -26,7 +26,9 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
+import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
+import ru.d_shap.cli.command.AbstractExecutionCommandImpl;
 import ru.d_shap.cli.data.Context;
 import ru.d_shap.cli.data.Lines;
 
@@ -123,6 +125,23 @@ public final class AbstractInputLongCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <15>", "wrong: <15>", "", "line", "default: <15>", "6", "");
         Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
         Assertions.assertThat((long) context1.getValue("key")).isEqualTo(5L);
+    }
+
+    /**
+     * {@link AbstractInputLongCommand} class test.
+     */
+    @Test
+    public void executeTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("1");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command");
+        AbstractInputLongCommandImpl command1 = new AbstractInputLongCommandImpl(parentCommand1, "key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+        Context context1 = new Context();
+        commandRunner1.execute(command1, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "2", "", "parent command");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((long) context1.getValue("key")).isEqualTo(1L);
     }
 
 }
