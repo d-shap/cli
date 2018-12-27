@@ -132,6 +132,7 @@ public abstract class AbstractInputBooleanCommand extends AbstractInputCommand<B
         public Set<String> loadValue() {
             Set<String> trueValues = getTrueValues();
             checkTrueValuesDefined(trueValues);
+            checkSameValues(trueValues);
             return trueValues;
         }
 
