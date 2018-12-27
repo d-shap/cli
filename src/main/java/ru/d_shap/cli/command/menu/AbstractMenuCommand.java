@@ -200,14 +200,14 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
                 throw new CommandDefinitionException("Options are not defined");
             }
 
-            int count = 0;
+            boolean hasSelectableOption = false;
             for (Option option : options) {
-                if (!(option instanceof SelectableOption)) {
-                    continue;
+                if (option instanceof SelectableOption) {
+                    hasSelectableOption = true;
+                    break;
                 }
-                count++;
             }
-            if (count == 0) {
+            if (!hasSelectableOption) {
                 throw new CommandDefinitionException("Options are not defined");
             }
         }
