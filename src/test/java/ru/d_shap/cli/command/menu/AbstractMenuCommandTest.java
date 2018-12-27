@@ -363,6 +363,18 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
             ByteArrayOutputStream os = createOutputStream();
             InputStream is = createInputStream("");
             CommandRunner commandRunner = new CommandRunner(os, is);
+            List<Option> options = getOptions(new MenuSeparator(), new MenuItem("1", "Option 1"), new MenuItem("2", "Option 2"));
+            AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 0, null);
+            commandRunner.execute(command);
+            Assertions.fail("AbstractMenuCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("Default option is not selectable: 0");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("");
+            CommandRunner commandRunner = new CommandRunner(os, is);
             List<Option> options = getOptions(new MenuItem("1", "Option 1"), new MenuSeparator(), new MenuItem("2", "Option 2"));
             AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 1, null);
             commandRunner.execute(command);
