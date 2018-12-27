@@ -26,7 +26,9 @@ import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
+import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
+import ru.d_shap.cli.command.AbstractExecutionCommandImpl;
 import ru.d_shap.cli.command.CommandDefinitionException;
 import ru.d_shap.cli.data.Context;
 import ru.d_shap.cli.data.Lines;
@@ -275,7 +277,74 @@ public final class AbstractInputCommandTest extends BaseCliTest {
      */
     @Test
     public void executeTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command");
+        AbstractInputCommandImpl command1 = new AbstractInputCommandImpl(parentCommand1, "key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+        Context context1 = new Context();
+        context1.putValue("key", new int[]{7, 9, 3});
+        commandRunner1.execute(command1, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <7,9,3>", "", "parent command");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context1.getValue("key")).containsExactlyInOrder(7, 9, 3);
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("", "1,2,5");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Command parentCommand2 = new AbstractExecutionCommandImpl("parent command");
+        AbstractInputCommandImpl command2 = new AbstractInputCommandImpl(parentCommand2, "key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+        Context context2 = new Context();
+        context2.putValue("key", new int[]{7});
+        commandRunner2.execute(command2, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <7>", "wrong: <7>", "", "line", "default: <7>", "", "parent command");
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context2.getValue("key")).containsExactlyInOrder(1, 2, 5);
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("", "1,2,5");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Command parentCommand3 = new AbstractExecutionCommandImpl("parent command");
+        AbstractInputCommandImpl command3 = new AbstractInputCommandImpl(parentCommand3, "key", new Lines("line"), null, "wrong: <%s>");
+        Context context3 = new Context();
+        context3.putValue("key", new int[]{7});
+        commandRunner3.execute(command3, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "wrong: <7>", "", "line", "", "parent command");
+        Assertions.assertThat(context3.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context3.getValue("key")).containsExactlyInOrder(1, 2, 5);
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("", "1,2,5");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        Command parentCommand4 = new AbstractExecutionCommandImpl("parent command");
+        AbstractInputCommandImpl command4 = new AbstractInputCommandImpl(parentCommand4, "key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+        Context context4 = new Context();
+        commandRunner4.execute(command4, context4);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "wrong: <>", "", "line", "", "parent command");
+        Assertions.assertThat(context4.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context4.getValue("key")).containsExactlyInOrder(1, 2, 5);
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("x", "1,2,5");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        Command parentCommand5 = new AbstractExecutionCommandImpl("parent command");
+        AbstractInputCommandImpl command5 = new AbstractInputCommandImpl(parentCommand5, "key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+        Context context5 = new Context();
+        commandRunner5.execute(command5, context5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("line", "wrong: <x>", "", "line", "", "parent command");
+        Assertions.assertThat(context5.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context5.getValue("key")).containsExactlyInOrder(1, 2, 5);
+
+        ByteArrayOutputStream os6 = createOutputStream();
+        InputStream is6 = createInputStream("7", "1,2,5");
+        CommandRunner commandRunner6 = new CommandRunner(os6, is6);
+        Command parentCommand6 = new AbstractExecutionCommandImpl("parent command");
+        AbstractInputCommandImpl command6 = new AbstractInputCommandImpl(parentCommand6, "key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+        Context context6 = new Context();
+        commandRunner6.execute(command6, context6);
+        Assertions.assertThat(getLines(os6)).containsExactlyInOrder("line", "wrong: <7>", "", "line", "", "parent command");
+        Assertions.assertThat(context6.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context6.getValue("key")).containsExactlyInOrder(1, 2, 5);
     }
 
 }
