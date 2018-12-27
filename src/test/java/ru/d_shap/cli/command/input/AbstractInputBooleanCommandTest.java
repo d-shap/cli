@@ -22,7 +22,7 @@ package ru.d_shap.cli.command.input;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.junit.Test;
@@ -311,11 +311,31 @@ public final class AbstractInputBooleanCommandTest extends BaseCliTest {
      */
     @Test
     public void getValueAsStringTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("", "t");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        AbstractInputBooleanCommandImpl command1 = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t", "true"), createSet("f", "false"), true);
+        Context context1 = new Context();
+        context1.putValue("key", false);
+        commandRunner1.execute(command1, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <f>", "wrong: <f>", "", "line", "default: <f>", "false", "");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((boolean) context1.getValue("key")).isTrue();
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("", "t");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        AbstractInputBooleanCommandImpl command2 = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("true", "t"), createSet("false", "f"), true);
+        Context context2 = new Context();
+        context2.putValue("key", false);
+        commandRunner2.execute(command2, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <false>", "wrong: <false>", "", "line", "default: <false>", "false", "");
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((boolean) context2.getValue("key")).isTrue();
     }
 
     private Set<String> createSet(final String... values) {
-        return new HashSet<>(Arrays.asList(values));
+        return new LinkedHashSet<>(Arrays.asList(values));
     }
 
 }
