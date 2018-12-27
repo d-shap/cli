@@ -113,7 +113,59 @@ public final class AbstractInputBooleanCommandTest extends BaseCliTest {
      */
     @Test
     public void getFalseValuesTest() {
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("f");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        AbstractInputBooleanCommandImpl command1 = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t"), createSet("f"), false);
+        Context context1 = new Context();
+        commandRunner1.execute(command1, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "true", "");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((boolean) context1.getValue("key")).isFalse();
 
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("F");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        AbstractInputBooleanCommandImpl command2 = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t"), createSet("f"), false);
+        Context context2 = new Context();
+        commandRunner2.execute(command2, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "true", "");
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((boolean) context2.getValue("key")).isFalse();
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("false");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        AbstractInputBooleanCommandImpl command3 = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t", "true"), createSet("f", "false"), false);
+        Context context3 = new Context();
+        commandRunner3.execute(command3, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "true", "");
+        Assertions.assertThat(context3.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((boolean) context3.getValue("key")).isFalse();
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("f");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            AbstractInputBooleanCommandImpl command = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t"), null, false);
+            Context context = new Context();
+            commandRunner.execute(command, context);
+            Assertions.fail("AbstractInputBooleanCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("False values are not defined");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("f");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            AbstractInputBooleanCommandImpl command = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t"), createSet(), false);
+            Context context = new Context();
+            commandRunner.execute(command, context);
+            Assertions.fail("AbstractInputBooleanCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("False values are not defined");
+        }
     }
 
     /**
