@@ -106,6 +106,30 @@ public final class AbstractInputBooleanCommandTest extends BaseCliTest {
         } catch (CommandDefinitionException ex) {
             Assertions.assertThat(ex).hasMessage("True values are not defined");
         }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("t");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            AbstractInputBooleanCommandImpl command = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t", "true"), createSet("t"), true);
+            Context context = new Context();
+            commandRunner.execute(command, context);
+            Assertions.fail("AbstractInputBooleanCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("True values and False values contain the same value");
+        }
+
+        try {
+            ByteArrayOutputStream os = createOutputStream();
+            InputStream is = createInputStream("t");
+            CommandRunner commandRunner = new CommandRunner(os, is);
+            AbstractInputBooleanCommandImpl command = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t", "true"), createSet("f", "false", "t"), true);
+            Context context = new Context();
+            commandRunner.execute(command, context);
+            Assertions.fail("AbstractInputBooleanCommand test fail");
+        } catch (CommandDefinitionException ex) {
+            Assertions.assertThat(ex).hasMessage("True values and False values contain the same value");
+        }
     }
 
     /**
