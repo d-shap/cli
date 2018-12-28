@@ -54,11 +54,11 @@
  * the context, another command can use this value to perform some actions.
  * </p>
  * <p>
- * The command flow can contain subflows. Subflow has the nested context. All the commands of the subflow
- * share the same nested context, but subflow does not affect the parent context.
+ * The command flow can contain nested flows. Nested flow has the nested context. All the commands of
+ * the nested flow share the same nested context, but nested flow does not affect the parent context.
  * </p>
  * <p>
- * The sublow is defined by the command class, that extends the {@link ru.d_shap.cli.command.AbstractContainerCommand}.
+ * The nested flow is defined by the command class, that extends the {@link ru.d_shap.cli.command.AbstractContainerCommand}.
  * </p>
  */
 package ru.d_shap.cli;
