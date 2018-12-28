@@ -168,6 +168,22 @@ public final class AbstractContainerCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os10)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "message");
         Assertions.assertThat(context10.getValue(AbstractCommandImpl.COUNTER_KEY)).isNull();
         Assertions.assertThat(context10.getValue(AbstractContainerCommandImpl.CONTAINER_KEY)).isEqualTo(53);
+
+        ByteArrayOutputStream os11 = createOutputStream();
+        InputStream is11 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner11 = new CommandRunner(os11, is11);
+        Command parentCommand11 = new AbstractExecutionCommandImpl("message");
+        Command command113 = new AbstractCommandImpl("Prompt 3");
+        Command command112 = new AbstractCommandImpl("Prompt 2", command113);
+        Command command111 = new AbstractCommandImpl("Prompt 1", command112);
+        Command container11 = new AbstractContainerCommandImpl(parentCommand11, command111);
+        Context context11 = new Context();
+        context11.putValue(AbstractCommandImpl.INCREMENT_KEY, -1);
+        context11.putValue(AbstractContainerCommandImpl.CONTAINER_KEY, 50);
+        commandRunner11.execute(container11, context11);
+        Assertions.assertThat(getLines(os11)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "message");
+        Assertions.assertThat(context11.getValue(AbstractCommandImpl.COUNTER_KEY)).isNull();
+        Assertions.assertThat(context11.getValue(AbstractContainerCommandImpl.CONTAINER_KEY)).isEqualTo(47);
     }
 
 }
