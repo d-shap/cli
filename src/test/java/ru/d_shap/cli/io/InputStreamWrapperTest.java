@@ -103,6 +103,31 @@ public final class InputStreamWrapperTest extends BaseCliTest {
         Assertions.assertThat(baos33.toByteArray()).containsExactlyInOrder(5, 7, 10);
         Assertions.assertThat(isw33.read()).isLessThan(0);
         Assertions.assertThat(baos33.toByteArray()).containsExactlyInOrder(5, 7, 10);
+
+        byte[] data4 = new byte[]{0, 0, 0};
+        ByteArrayInputStream bais41 = new ByteArrayInputStream(data4);
+        InputStreamWrapper isw41 = new InputStreamWrapper(bais41);
+        Assertions.assertThat(isw41.read()).isEqualTo(0);
+        Assertions.assertThat(isw41.read()).isEqualTo(0);
+        Assertions.assertThat(isw41.read()).isEqualTo(0);
+        Assertions.assertThat(isw41.read()).isLessThan(0);
+        ByteArrayInputStream bais42 = new ByteArrayInputStream(data4);
+        InputStreamWrapper isw42 = new InputStreamWrapper(bais42, null);
+        Assertions.assertThat(isw42.read()).isEqualTo(0);
+        Assertions.assertThat(isw42.read()).isEqualTo(0);
+        Assertions.assertThat(isw42.read()).isEqualTo(0);
+        Assertions.assertThat(isw42.read()).isLessThan(0);
+        ByteArrayInputStream bais43 = new ByteArrayInputStream(data4);
+        ByteArrayOutputStream baos43 = new ByteArrayOutputStream();
+        InputStreamWrapper isw43 = new InputStreamWrapper(bais43, baos43);
+        Assertions.assertThat(isw43.read()).isEqualTo(0);
+        Assertions.assertThat(baos43.toByteArray()).containsExactlyInOrder(0);
+        Assertions.assertThat(isw43.read()).isEqualTo(0);
+        Assertions.assertThat(baos43.toByteArray()).containsExactlyInOrder(0, 0);
+        Assertions.assertThat(isw43.read()).isEqualTo(0);
+        Assertions.assertThat(baos43.toByteArray()).containsExactlyInOrder(0, 0, 0);
+        Assertions.assertThat(isw43.read()).isLessThan(0);
+        Assertions.assertThat(baos43.toByteArray()).containsExactlyInOrder(0, 0, 0);
     }
 
     /**
