@@ -61,17 +61,17 @@ public final class AbstractContainerCommandImpl extends AbstractContainerCommand
 
     @Override
     protected void initContext(final Context context) {
-        context.putValue(AbstractCommandImpl.COUNTER_KEY, 100);
+        Integer containerValue = getContext().getValue(CONTAINER_KEY);
+        if (containerValue == null) {
+            containerValue = 100;
+        }
+        context.putValue(AbstractCommandImpl.COUNTER_KEY, containerValue);
     }
 
     @Override
     protected Command processContext(final Context context) {
-        Integer containerValue = getContext().getValue(CONTAINER_KEY);
-        if (containerValue == null) {
-            containerValue = 0;
-        }
         Integer counter = context.getValue(AbstractCommandImpl.COUNTER_KEY);
-        getContext().putValue(CONTAINER_KEY, containerValue + counter);
+        getContext().putValue(CONTAINER_KEY, counter);
         return getParentCommand();
     }
 

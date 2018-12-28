@@ -167,7 +167,7 @@ public final class AbstractContainerCommandTest extends BaseCliTest {
         commandRunner10.execute(container10, context10);
         Assertions.assertThat(getLines(os10)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "message");
         Assertions.assertThat(context10.getValue(AbstractCommandImpl.COUNTER_KEY)).isNull();
-        Assertions.assertThat(context10.getValue(AbstractContainerCommandImpl.CONTAINER_KEY)).isEqualTo(153);
+        Assertions.assertThat(context10.getValue(AbstractContainerCommandImpl.CONTAINER_KEY)).isEqualTo(53);
     }
 
 }
