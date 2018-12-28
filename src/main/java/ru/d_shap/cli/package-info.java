@@ -26,10 +26,9 @@
  * step by step.
  * </p>
  * <p>
- * The command implementation class should extend the {@link ru.d_shap.cli.command.AbstractCommand} class
- * or it's subclasses. The {@link ru.d_shap.cli.command.AbstractCommand#execute(java.io.PrintWriter, java.io.BufferedReader)}
- * method defines the next command to execute. So each command performs some actions and then defines
- * the next command based on this actions. This is the command flow.
+ * The command implementation class should extend the {@link ru.d_shap.cli.command.AbstractCommand}
+ * class or it's subclasses. Each command performs some actions and then defines the next command
+ * based on this actions. This is the command flow.
  * </p>
  * <p>
  * The {@link ru.d_shap.cli.CommandRunner} class is used to run the command flow. This class obtains
