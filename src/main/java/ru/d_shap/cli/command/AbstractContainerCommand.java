@@ -28,7 +28,7 @@ import ru.d_shap.cli.data.ValueHolder;
 import ru.d_shap.cli.data.ValueLoader;
 
 /**
- * Base class for all commands that run contained commands within its own context.
+ * Base class for all commands that execute contained commands with the nested context.
  *
  * @author Dmitry Shapovalov
  */
@@ -54,9 +54,9 @@ public abstract class AbstractContainerCommand extends AbstractCommand {
     }
 
     /**
-     * Get the command to execute within container.
+     * Get the first command to execute within container.
      *
-     * @return the command to execute within container.
+     * @return the first command to execute within container.
      */
     protected abstract Command getStartCommand();
 
@@ -70,16 +70,16 @@ public abstract class AbstractContainerCommand extends AbstractCommand {
     }
 
     /**
-     * Initialize the context.
+     * Initialize the nested context.
      *
-     * @param context the context.
+     * @param context the nested context.
      */
     protected abstract void initContext(Context context);
 
     /**
-     * Process the result context after the contained commands executed.
+     * Process the nested context after the contained commands are executed.
      *
-     * @param context the result context.
+     * @param context the nested context.
      *
      * @return the next command to execute.
      */
