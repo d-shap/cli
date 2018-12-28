@@ -58,7 +58,7 @@
  * the nested flow share the same nested context, but nested flow does not affect the parent context.
  * </p>
  * <p>
- * The nested flow is defined by the command class, that extends the {@link ru.d_shap.cli.command.AbstractContainerCommand}.
+ * The nested flow is defined by the class, that extends the {@link ru.d_shap.cli.command.AbstractContainerCommand}.
  * </p>
  */
 package ru.d_shap.cli;
