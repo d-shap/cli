@@ -33,6 +33,8 @@ import ru.d_shap.cli.Command;
  */
 public final class AbstractCommandImpl extends AbstractCommand {
 
+    public static final String INCREMENT_KEY = "__INCREMENT_KEY__";
+
     public static final String COUNTER_KEY = "__COUNTER_KEY__";
 
     private final String _message;
@@ -68,11 +70,16 @@ public final class AbstractCommandImpl extends AbstractCommand {
             }
             writer.flush();
 
+            Integer increment = getContext().getValue(INCREMENT_KEY);
+            if (increment == null) {
+                increment = 1;
+            }
+
             Integer counter = getContext().getValue(COUNTER_KEY);
             if (counter == null) {
-                getContext().putValue(COUNTER_KEY, 1);
+                getContext().putValue(COUNTER_KEY, increment);
             } else {
-                getContext().putValue(COUNTER_KEY, counter + 1);
+                getContext().putValue(COUNTER_KEY, counter + increment);
             }
 
             return getParentCommand();
