@@ -76,4 +76,9 @@ public interface Command {
      */
     Command execute(PrintWriter writer, BufferedReader reader);
 
+    /**
+     * Reset the command state.
+     */
+    void reset();
+
 }
