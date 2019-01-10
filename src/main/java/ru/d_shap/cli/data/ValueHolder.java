@@ -62,7 +62,7 @@ public final class ValueHolder<T> {
     }
 
     /**
-     * Reset the value.
+     * Reset the value state.
      */
     public void reset() {
         _valueLoaded = false;
