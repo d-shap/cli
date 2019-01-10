@@ -60,10 +60,10 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
      */
     protected AbstractInputCommand(final Command parentCommand) {
         super(parentCommand);
-        _contextKey = new ValueHolder<>(new ContextKeyLoader());
-        _header = new ValueHolder<>(new HeaderLoader());
-        _defaultMessage = new ValueHolder<>(new DefaultMessageLoader());
-        _wrongInputMessage = new ValueHolder<>(new WrongInputMessageLoader());
+        _contextKey = createValueHolder(new ContextKeyLoader());
+        _header = createValueHolder(new HeaderLoader());
+        _defaultMessage = createValueHolder(new DefaultMessageLoader());
+        _wrongInputMessage = createValueHolder(new WrongInputMessageLoader());
     }
 
     /**

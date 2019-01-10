@@ -50,7 +50,7 @@ public abstract class AbstractContainerCommand extends AbstractCommand {
      */
     protected AbstractContainerCommand(final Command parentCommand) {
         super(parentCommand);
-        _startCommand = new ValueHolder<>(new StartCommandLoader());
+        _startCommand = createValueHolder(new StartCommandLoader());
     }
 
     /**

@@ -64,11 +64,11 @@ public abstract class AbstractMenuCommand extends AbstractUserActionCommand {
      */
     protected AbstractMenuCommand(final Command parentCommand) {
         super(parentCommand);
-        _header = new ValueHolder<>(new HeaderLoader());
-        _options = new ValueHolder<>(new OptionsLoader());
-        _symbolLength = new ValueHolder<>(new SymbolLengthLoader());
-        _defaultOptionIndex = new ValueHolder<>(new DefaultOptionIndexLoader());
-        _wrongInputMessage = new ValueHolder<>(new WrongInputMessageLoader());
+        _header = createValueHolder(new HeaderLoader());
+        _options = createValueHolder(new OptionsLoader());
+        _symbolLength = createValueHolder(new SymbolLengthLoader());
+        _defaultOptionIndex = createValueHolder(new DefaultOptionIndexLoader());
+        _wrongInputMessage = createValueHolder(new WrongInputMessageLoader());
     }
 
     /**

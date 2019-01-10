@@ -52,8 +52,8 @@ public abstract class AbstractInputBooleanCommand extends AbstractInputCommand<B
      */
     protected AbstractInputBooleanCommand(final Command parentCommand) {
         super(parentCommand);
-        _trueValues = new ValueHolder<>(new TrueValuesLoader());
-        _falseValues = new ValueHolder<>(new FalseValuesLoader());
+        _trueValues = createValueHolder(new TrueValuesLoader());
+        _falseValues = createValueHolder(new FalseValuesLoader());
     }
 
     /**

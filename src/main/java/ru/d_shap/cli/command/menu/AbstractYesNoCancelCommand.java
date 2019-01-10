@@ -64,14 +64,14 @@ public abstract class AbstractYesNoCancelCommand extends AbstractMenuCommand {
      */
     protected AbstractYesNoCancelCommand(final Command parentCommand) {
         super(parentCommand);
-        _yesMenuItemSymbol = new ValueHolder<>(new YesMenuItemSymbolLoader());
-        _yesMenuItemLabel = new ValueHolder<>(new YesMenuItemLabelLoader());
-        _yesMenuItemCommand = new ValueHolder<>(new YesMenuItemCommandLoader());
-        _noMenuItemSymbol = new ValueHolder<>(new NoMenuItemSymbolLoader());
-        _noMenuItemLabel = new ValueHolder<>(new NoMenuItemLabelLoader());
-        _noMenuItemCommand = new ValueHolder<>(new NoMenuItemCommandLoader());
-        _cancelMenuItemSymbol = new ValueHolder<>(new CancelMenuItemSymbolLoader());
-        _cancelMenuItemLabel = new ValueHolder<>(new CancelMenuItemLabelLoader());
+        _yesMenuItemSymbol = createValueHolder(new YesMenuItemSymbolLoader());
+        _yesMenuItemLabel = createValueHolder(new YesMenuItemLabelLoader());
+        _yesMenuItemCommand = createValueHolder(new YesMenuItemCommandLoader());
+        _noMenuItemSymbol = createValueHolder(new NoMenuItemSymbolLoader());
+        _noMenuItemLabel = createValueHolder(new NoMenuItemLabelLoader());
+        _noMenuItemCommand = createValueHolder(new NoMenuItemCommandLoader());
+        _cancelMenuItemSymbol = createValueHolder(new CancelMenuItemSymbolLoader());
+        _cancelMenuItemLabel = createValueHolder(new CancelMenuItemLabelLoader());
     }
 
     /**
