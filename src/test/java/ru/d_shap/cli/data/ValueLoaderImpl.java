@@ -28,6 +28,8 @@ package ru.d_shap.cli.data;
  */
 public final class ValueLoaderImpl<T> implements ValueLoader<T> {
 
+    private final boolean _onlyFirstCallValid;
+
     private boolean _firstCall;
 
     private final T _value;
@@ -35,22 +37,23 @@ public final class ValueLoaderImpl<T> implements ValueLoader<T> {
     /**
      * Create new object.
      *
-     * @param value the value.
+     * @param value              the value.
+     * @param onlyFirstCallValid true if only the first call valild.
      */
-    public ValueLoaderImpl(final T value) {
+    public ValueLoaderImpl(final T value, final boolean onlyFirstCallValid) {
         super();
+        _onlyFirstCallValid = onlyFirstCallValid;
         _firstCall = true;
         _value = value;
     }
 
     @Override
     public T loadValue() {
-        if (_firstCall) {
-            _firstCall = false;
-            return _value;
-        } else {
+        if (_onlyFirstCallValid && !_firstCall) {
             throw new ValueLoadException("Not first call!");
         }
+        _firstCall = false;
+        return _value;
     }
 
 }
