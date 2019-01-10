@@ -43,22 +43,22 @@ public final class ValueHolderTest extends BaseCliTest {
      */
     @Test
     public void getValueTest() {
-        ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>(null);
+        ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>(null, true);
         ValueHolder<String> valueHolder1 = new ValueHolder<>(valueLoader1);
         Assertions.assertThat(valueHolder1.getValue()).isNull();
         Assertions.assertThat(valueHolder1.getValue()).isNull();
 
-        ValueLoaderImpl<String> valueLoader2 = new ValueLoaderImpl<>("");
+        ValueLoaderImpl<String> valueLoader2 = new ValueLoaderImpl<>("", true);
         ValueHolder<String> valueHolder2 = new ValueHolder<>(valueLoader2);
         Assertions.assertThat(valueHolder2.getValue()).isEqualTo("");
         Assertions.assertThat(valueHolder2.getValue()).isEqualTo("");
 
-        ValueLoaderImpl<String> valueLoader3 = new ValueLoaderImpl<>("value");
+        ValueLoaderImpl<String> valueLoader3 = new ValueLoaderImpl<>("value", true);
         ValueHolder<String> valueHolder3 = new ValueHolder<>(valueLoader3);
         Assertions.assertThat(valueHolder3.getValue()).isEqualTo("value");
         Assertions.assertThat(valueHolder3.getValue()).isEqualTo("value");
 
-        ValueLoaderImpl<Integer> valueLoader4 = new ValueLoaderImpl<>(10);
+        ValueLoaderImpl<Integer> valueLoader4 = new ValueLoaderImpl<>(10, true);
         ValueHolder<Integer> valueHolder4 = new ValueHolder<>(valueLoader4);
         Assertions.assertThat(valueHolder4.getValue()).isEqualTo(10);
         Assertions.assertThat(valueHolder4.getValue()).isEqualTo(10);
@@ -71,6 +71,32 @@ public final class ValueHolderTest extends BaseCliTest {
     public void getValueNullValueLoaderFailTest() {
         ValueHolder<String> valueHolder = new ValueHolder<>(null);
         valueHolder.getValue();
+    }
+
+    /**
+     * {@link ValueHolder} class test.
+     */
+    @Test
+    public void resetTest() {
+        ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>("value", true);
+        ValueHolder<String> valueHolder1 = new ValueHolder<>(valueLoader1);
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+        valueHolder1.reset();
+        try {
+            valueHolder1.getValue();
+            Assertions.fail("ValueHolder test fail");
+        } catch (ValueLoadException ex) {
+            Assertions.assertThat(ex).hasMessage("Not first call!");
+        }
+
+        ValueLoaderImpl<String> valueLoader2 = new ValueLoaderImpl<>("value", false);
+        ValueHolder<String> valueHolder2 = new ValueHolder<>(valueLoader2);
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        valueHolder2.reset();
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
     }
 
 }
