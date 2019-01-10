@@ -19,9 +19,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
 import ru.d_shap.cli.data.Context;
+import ru.d_shap.cli.data.ValueHolder;
+import ru.d_shap.cli.data.ValueLoader;
 
 /**
  * Base class for all commands.
@@ -35,6 +40,8 @@ public abstract class AbstractCommand implements Command {
     private Context _context;
 
     private CommandRunner _commandRunner;
+
+    private final List<ValueHolder<?>> _valueHolders;
 
     /**
      * Create new object.
@@ -53,6 +60,7 @@ public abstract class AbstractCommand implements Command {
         _parentCommand = parentCommand;
         _context = null;
         _commandRunner = null;
+        _valueHolders = new ArrayList<>();
     }
 
     @Override
@@ -78,6 +86,27 @@ public abstract class AbstractCommand implements Command {
     @Override
     public final void setCommandRunner(final CommandRunner commandRunner) {
         _commandRunner = commandRunner;
+    }
+
+    @Override
+    public final void reset() {
+        for (ValueHolder<?> valueHolder : _valueHolders) {
+            valueHolder.reset();
+        }
+    }
+
+    /**
+     * Create the value holder.
+     *
+     * @param valueLoader the loader for the value.
+     * @param <T>         the generic type of the value.
+     *
+     * @return the value holder.
+     */
+    protected final <T> ValueHolder<T> createValueHolder(final ValueLoader<T> valueLoader) {
+        ValueHolder<T> valueHolder = new ValueHolder<>(valueLoader);
+        _valueHolders.add(valueHolder);
+        return valueHolder;
     }
 
 }
