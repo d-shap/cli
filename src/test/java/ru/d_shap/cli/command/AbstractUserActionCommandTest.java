@@ -164,7 +164,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
         Assertions.assertThat(result14).isSameAs(command);
         Assertions.assertThat(getLines(os14)).containsExactlyInOrder();
 
-        ValueHolder<String> wrongMessage = new ValueHolder<>(new ValueLoaderImpl<>("message"));
+        ValueHolder<String> wrongMessage = new ValueHolder<>(new ValueLoaderImpl<>("message", true));
 
         ByteArrayOutputStream os21 = createOutputStream();
         InputStream is21 = createInputStream();
@@ -198,7 +198,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
         Assertions.assertThat(result24).isSameAs(command);
         Assertions.assertThat(getLines(os24)).containsExactlyInOrder("message");
 
-        ValueHolder<String> wrongMessageTemplate = new ValueHolder<>(new ValueLoaderImpl<>("message: %s"));
+        ValueHolder<String> wrongMessageTemplate = new ValueHolder<>(new ValueLoaderImpl<>("message: %s", true));
 
         ByteArrayOutputStream os31 = createOutputStream();
         InputStream is31 = createInputStream();
