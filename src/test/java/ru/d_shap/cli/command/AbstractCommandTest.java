@@ -25,6 +25,9 @@ import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
 import ru.d_shap.cli.CommandRunner;
 import ru.d_shap.cli.data.Context;
+import ru.d_shap.cli.data.ValueHolder;
+import ru.d_shap.cli.data.ValueLoadException;
+import ru.d_shap.cli.data.ValueLoaderImpl;
 
 /**
  * Tests for {@link AbstractCommand}.
@@ -142,6 +145,52 @@ public final class AbstractCommandTest extends BaseCliTest {
         CommandRunner commandRunner4 = new CommandRunner(System.out, System.in);
         abstractCommand6.setCommandRunner(commandRunner4);
         Assertions.assertThat(abstractCommand6.getCommandRunner()).isSameAs(commandRunner4);
+    }
+
+    /**
+     * {@link AbstractCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        AbstractCommand abstractCommand = new AbstractCommandImpl(null, null);
+
+        ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>("value", true);
+        ValueHolder<String> valueHolder1 = abstractCommand.createValueHolder(valueLoader1);
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+        abstractCommand.reset();
+        try {
+            valueHolder1.getValue();
+            Assertions.fail("AbstractCommand test fail");
+        } catch (ValueLoadException ex) {
+            Assertions.assertThat(ex).hasMessage("Not first call!");
+        }
+
+        ValueLoaderImpl<String> valueLoader2 = new ValueLoaderImpl<>("value", false);
+        ValueHolder<String> valueHolder2 = abstractCommand.createValueHolder(valueLoader2);
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        abstractCommand.reset();
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+    }
+
+    /**
+     * {@link AbstractCommand} class test.
+     */
+    @Test
+    public void createValueHolderTest() {
+        AbstractCommand abstractCommand = new AbstractCommandImpl(null, null);
+
+        ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>("value", true);
+        ValueHolder<String> valueHolder1 = abstractCommand.createValueHolder(valueLoader1);
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+
+        ValueLoaderImpl<Integer> valueLoader2 = new ValueLoaderImpl<>(10, true);
+        ValueHolder<Integer> valueHolder2 = abstractCommand.createValueHolder(valueLoader2);
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo(10);
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo(10);
     }
 
 }
