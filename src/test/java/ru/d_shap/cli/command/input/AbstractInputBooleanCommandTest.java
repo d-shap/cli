@@ -353,6 +353,14 @@ public final class AbstractInputBooleanCommandTest extends BaseCliTest {
         Assertions.assertThat((boolean) context1.getValue("key")).isTrue();
     }
 
+    /**
+     * {@link AbstractInputBooleanCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        // TODO
+    }
+
     private Set<String> createSet(final String... values) {
         return new LinkedHashSet<>(Arrays.asList(values));
     }

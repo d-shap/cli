@@ -186,4 +186,12 @@ public final class AbstractContainerCommandTest extends BaseCliTest {
         Assertions.assertThat(context11.getValue(AbstractContainerCommandImpl.CONTAINER_KEY)).isEqualTo(47);
     }
 
+    /**
+     * {@link AbstractContainerCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        // TODO
+    }
+
 }

@@ -509,4 +509,12 @@ public final class AbstractYesNoCancelCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os7)).containsExactlyInOrder("line", "      y: Yes", "      n: No", "      c: Cancel", "", "parent command");
     }
 
+    /**
+     * {@link AbstractYesNoCancelCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        // TODO
+    }
+
 }

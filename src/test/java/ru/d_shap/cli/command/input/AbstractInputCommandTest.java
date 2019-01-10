@@ -347,4 +347,12 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         Assertions.assertThat((int[]) context6.getValue("key")).containsExactlyInOrder(1, 2, 5);
     }
 
+    /**
+     * {@link AbstractInputCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        // TODO
+    }
+
 }

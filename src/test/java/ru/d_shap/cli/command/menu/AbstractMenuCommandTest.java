@@ -534,6 +534,14 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os9)).containsExactlyInOrder("line", "      1: Option 1", "      2: Option 2", "", "     *3: Option 3", "");
     }
 
+    /**
+     * {@link AbstractMenuCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        // TODO
+    }
+
     private List<Option> getOptions(final Option... options) {
         return Arrays.asList(options);
     }
