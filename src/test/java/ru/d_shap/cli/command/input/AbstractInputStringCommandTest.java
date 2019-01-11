@@ -144,4 +144,40 @@ public final class AbstractInputStringCommandTest extends BaseCliTest {
         Assertions.assertThat((String) context1.getValue("key")).isEqualTo("value");
     }
 
+    /**
+     * {@link AbstractInputStringCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        AbstractInputStringCommandImpl command = new AbstractInputStringCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("xxxxxxxxxxx", "value");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Context context1 = new Context();
+        context1.putValue("key", "def");
+        commandRunner1.execute(command, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <def>", "wrong: <xxxxxxxxxxx>", "", "line", "default: <def>", "value1", "");
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("xxxxxxxxxxx", "value");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Context context2 = new Context();
+        context2.putValue("key", "def");
+        context2.putValue(AbstractInputStringCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner2.execute(command, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <def>", "wrong: <xxxxxxxxxxx>", "", "line", "default: <def>", "value1", "");
+
+        command.reset();
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("xxxxxxxxxxx", "value");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Context context3 = new Context();
+        context3.putValue("r!key", "def");
+        context3.putValue(AbstractInputStringCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner3.execute(command, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "r!", "r!default: <def>", "r!wrong: <xxxxxxxxxxx>", "", "line", "r!", "r!default: <def>", "value1", "");
+    }
+
 }
