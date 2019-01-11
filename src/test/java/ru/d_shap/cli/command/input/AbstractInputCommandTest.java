@@ -352,7 +352,35 @@ public final class AbstractInputCommandTest extends BaseCliTest {
      */
     @Test
     public void resetTest() {
-        // TODO
+        AbstractInputCommandImpl command = new AbstractInputCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("7", "1,2,5");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Context context1 = new Context();
+        context1.putValue("key", new int[]{7, 9, 3});
+        commandRunner1.execute(command, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <7,9,3>", "wrong: <7>", "", "line", "default: <7,9,3>", "");
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("7", "1,2,5");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Context context2 = new Context();
+        context2.putValue("key", new int[]{7, 9, 3});
+        context2.putValue(AbstractInputCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner2.execute(command, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <7,9,3>", "wrong: <7>", "", "line", "default: <7,9,3>", "");
+
+        command.reset();
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("7", "1,2,5");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Context context3 = new Context();
+        context3.putValue("r!key", new int[]{7, 9, 3});
+        context3.putValue(AbstractInputCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner3.execute(command, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "r!", "r!default: <7,9,3>", "r!wrong: <7>", "", "line", "r!", "r!default: <7,9,3>", "");
     }
 
 }
