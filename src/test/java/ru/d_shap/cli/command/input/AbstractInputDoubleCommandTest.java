@@ -144,4 +144,40 @@ public final class AbstractInputDoubleCommandTest extends BaseCliTest {
         Assertions.assertThat((double) context1.getValue("key")).isEqualTo(1.1, 0.01);
     }
 
+    /**
+     * {@link AbstractInputDoubleCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        AbstractInputDoubleCommandImpl command = new AbstractInputDoubleCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("11.1", "1.1");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Context context1 = new Context();
+        context1.putValue("key", 7.1);
+        commandRunner1.execute(command, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <7.1>", "wrong: <11.1>", "", "line", "default: <7.1>", "2.1", "");
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("11.1", "1.1");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Context context2 = new Context();
+        context2.putValue("key", 7.1);
+        context2.putValue(AbstractInputDoubleCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner2.execute(command, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <7.1>", "wrong: <11.1>", "", "line", "default: <7.1>", "2.1", "");
+
+        command.reset();
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("11.1", "1.1");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Context context3 = new Context();
+        context3.putValue("r!key", 7.1);
+        context3.putValue(AbstractInputDoubleCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner3.execute(command, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "r!", "r!default: <7.1>", "r!wrong: <11.1>", "", "line", "r!", "r!default: <7.1>", "2.1", "");
+    }
+
 }
