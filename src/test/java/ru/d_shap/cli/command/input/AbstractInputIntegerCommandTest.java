@@ -144,4 +144,40 @@ public final class AbstractInputIntegerCommandTest extends BaseCliTest {
         Assertions.assertThat((int) context1.getValue("key")).isEqualTo(1);
     }
 
+    /**
+     * {@link AbstractInputIntegerCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        AbstractInputIntegerCommandImpl command = new AbstractInputIntegerCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("11", "1");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Context context1 = new Context();
+        context1.putValue("key", 7);
+        commandRunner1.execute(command, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <7>", "wrong: <11>", "", "line", "default: <7>", "2", "");
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("11", "1");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Context context2 = new Context();
+        context2.putValue("key", 7);
+        context2.putValue(AbstractInputIntegerCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner2.execute(command, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <7>", "wrong: <11>", "", "line", "default: <7>", "2", "");
+
+        command.reset();
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("11", "1");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Context context3 = new Context();
+        context3.putValue("r!key", 7);
+        context3.putValue(AbstractInputIntegerCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner3.execute(command, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "r!", "r!default: <7>", "r!wrong: <11>", "", "line", "r!", "r!default: <7>", "2", "");
+    }
+
 }

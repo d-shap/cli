@@ -31,6 +31,8 @@ import ru.d_shap.cli.data.Lines;
  */
 public final class AbstractInputIntegerCommandImpl extends AbstractInputIntegerCommand {
 
+    public static final String CONTEXT_RESET = "CONTEXT_RESET";
+
     private final String _contextKey;
 
     private final Lines _header;
@@ -74,22 +76,38 @@ public final class AbstractInputIntegerCommandImpl extends AbstractInputIntegerC
 
     @Override
     protected String getContextKey() {
-        return _contextKey;
+        if (isContextReset()) {
+            return "r!" + _contextKey;
+        } else {
+            return _contextKey;
+        }
     }
 
     @Override
     protected Lines getHeader() {
-        return _header;
+        if (isContextReset()) {
+            return new Lines(_header, "r!");
+        } else {
+            return _header;
+        }
     }
 
     @Override
     protected String getDefaultMessage() {
-        return _defaultMessage;
+        if (isContextReset()) {
+            return "r!" + _defaultMessage;
+        } else {
+            return _defaultMessage;
+        }
     }
 
     @Override
     protected String getWrongInputMessage() {
-        return _wrongInputMessage;
+        if (isContextReset()) {
+            return "r!" + _wrongInputMessage;
+        } else {
+            return _wrongInputMessage;
+        }
     }
 
     @Override
@@ -101,6 +119,10 @@ public final class AbstractInputIntegerCommandImpl extends AbstractInputIntegerC
     protected Command processValue(final Integer value, final PrintWriter writer) {
         writer.println(value + 1);
         return getParentCommand();
+    }
+
+    private boolean isContextReset() {
+        return getContext().getValue(CONTEXT_RESET) != null;
     }
 
 }
