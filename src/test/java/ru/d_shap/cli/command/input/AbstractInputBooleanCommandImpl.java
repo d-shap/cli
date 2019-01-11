@@ -20,6 +20,7 @@
 package ru.d_shap.cli.command.input;
 
 import java.io.PrintWriter;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import ru.d_shap.cli.Command;
@@ -31,6 +32,8 @@ import ru.d_shap.cli.data.Lines;
  * @author Dmitry Shapovalov
  */
 public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanCommand {
+
+    public static final String CONTEXT_RESET = "CONTEXT_RESET";
 
     private final String _contextKey;
 
@@ -93,32 +96,60 @@ public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanC
 
     @Override
     protected String getContextKey() {
-        return _contextKey;
+        if (isContextReset()) {
+            return "r!" + _contextKey;
+        } else {
+            return _contextKey;
+        }
     }
 
     @Override
     protected Lines getHeader() {
-        return _header;
+        if (isContextReset()) {
+            return new Lines(_header, "r!");
+        } else {
+            return _header;
+        }
     }
 
     @Override
     protected String getDefaultMessage() {
-        return _defaultMessage;
+        if (isContextReset()) {
+            return "r!" + _defaultMessage;
+        } else {
+            return _defaultMessage;
+        }
     }
 
     @Override
     protected String getWrongInputMessage() {
-        return _wrongInputMessage;
+        if (isContextReset()) {
+            return "r!" + _wrongInputMessage;
+        } else {
+            return _wrongInputMessage;
+        }
     }
 
     @Override
     protected Set<String> getTrueValues() {
-        return _trueValues;
+        if (isContextReset()) {
+            Set<String> trueValues = new LinkedHashSet<>(_trueValues);
+            trueValues.add("r!t");
+            return trueValues;
+        } else {
+            return _trueValues;
+        }
     }
 
     @Override
     protected Set<String> getFalseValues() {
-        return _falseValues;
+        if (isContextReset()) {
+            Set<String> falseValues = new LinkedHashSet<>(_falseValues);
+            falseValues.add("r!f");
+            return falseValues;
+        } else {
+            return _falseValues;
+        }
     }
 
     @Override
@@ -130,6 +161,10 @@ public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanC
     protected Command processValue(final Boolean value, final PrintWriter writer) {
         writer.println(!value);
         return getParentCommand();
+    }
+
+    private boolean isContextReset() {
+        return getContext().getValue(CONTEXT_RESET) != null;
     }
 
 }

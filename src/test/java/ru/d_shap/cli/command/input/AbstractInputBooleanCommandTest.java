@@ -358,7 +358,83 @@ public final class AbstractInputBooleanCommandTest extends BaseCliTest {
      */
     @Test
     public void resetTest() {
-        // TODO
+        AbstractInputBooleanCommandImpl commandTrue = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("true", "t"), createSet("false", "f"), true);
+
+        ByteArrayOutputStream osTrue1 = createOutputStream();
+        InputStream isTrue1 = createInputStream("x", "t");
+        CommandRunner commandRunnerTrue1 = new CommandRunner(osTrue1, isTrue1);
+        Context contextTrue1 = new Context();
+        contextTrue1.putValue("key", true);
+        commandRunnerTrue1.execute(commandTrue, contextTrue1);
+        Assertions.assertThat(getLines(osTrue1)).containsExactlyInOrder("line", "default: <true>", "wrong: <x>", "", "line", "default: <true>", "false", "");
+
+        ByteArrayOutputStream osTrue2 = createOutputStream();
+        InputStream isTrue2 = createInputStream("x", "t");
+        CommandRunner commandRunnerTrue2 = new CommandRunner(osTrue2, isTrue2);
+        Context contextTrue2 = new Context();
+        contextTrue2.putValue("key", true);
+        contextTrue2.putValue(AbstractInputBooleanCommandImpl.CONTEXT_RESET, new Object());
+        commandRunnerTrue2.execute(commandTrue, contextTrue2);
+        Assertions.assertThat(getLines(osTrue2)).containsExactlyInOrder("line", "default: <true>", "wrong: <x>", "", "line", "default: <true>", "false", "");
+
+        commandTrue.reset();
+
+        ByteArrayOutputStream osTrue3 = createOutputStream();
+        InputStream isTrue3 = createInputStream("x", "t");
+        CommandRunner commandRunnerTrue3 = new CommandRunner(osTrue3, isTrue3);
+        Context contextTrue3 = new Context();
+        contextTrue3.putValue("r!key", true);
+        contextTrue3.putValue(AbstractInputBooleanCommandImpl.CONTEXT_RESET, new Object());
+        commandRunnerTrue3.execute(commandTrue, contextTrue3);
+        Assertions.assertThat(getLines(osTrue3)).containsExactlyInOrder("line", "r!", "r!default: <true>", "r!wrong: <x>", "", "line", "r!", "r!default: <true>", "false", "");
+
+        ByteArrayOutputStream osTrue4 = createOutputStream();
+        InputStream isTrue4 = createInputStream("x", "r!t");
+        CommandRunner commandRunnerTrue4 = new CommandRunner(osTrue4, isTrue4);
+        Context contextTrue4 = new Context();
+        contextTrue4.putValue("r!key", true);
+        contextTrue4.putValue(AbstractInputBooleanCommandImpl.CONTEXT_RESET, new Object());
+        commandRunnerTrue4.execute(commandTrue, contextTrue4);
+        Assertions.assertThat(getLines(osTrue4)).containsExactlyInOrder("line", "r!", "r!default: <true>", "r!wrong: <x>", "", "line", "r!", "r!default: <true>", "false", "");
+
+        AbstractInputBooleanCommandImpl commandFalse = new AbstractInputBooleanCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("true", "t"), createSet("false", "f"), false);
+
+        ByteArrayOutputStream osFalse1 = createOutputStream();
+        InputStream isFalse1 = createInputStream("x", "f");
+        CommandRunner commandRunnerFalse1 = new CommandRunner(osFalse1, isFalse1);
+        Context contextFalse1 = new Context();
+        contextFalse1.putValue("key", false);
+        commandRunnerFalse1.execute(commandFalse, contextFalse1);
+        Assertions.assertThat(getLines(osFalse1)).containsExactlyInOrder("line", "default: <false>", "wrong: <x>", "", "line", "default: <false>", "true", "");
+
+        ByteArrayOutputStream osFalse2 = createOutputStream();
+        InputStream isFalse2 = createInputStream("x", "f");
+        CommandRunner commandRunnerFalse2 = new CommandRunner(osFalse2, isFalse2);
+        Context contextFalse2 = new Context();
+        contextFalse2.putValue("key", false);
+        contextFalse2.putValue(AbstractInputBooleanCommandImpl.CONTEXT_RESET, new Object());
+        commandRunnerFalse2.execute(commandFalse, contextFalse2);
+        Assertions.assertThat(getLines(osFalse2)).containsExactlyInOrder("line", "default: <false>", "wrong: <x>", "", "line", "default: <false>", "true", "");
+
+        commandFalse.reset();
+
+        ByteArrayOutputStream osFalse3 = createOutputStream();
+        InputStream isFalse3 = createInputStream("x", "f");
+        CommandRunner commandRunnerFalse3 = new CommandRunner(osFalse3, isFalse3);
+        Context contextFalse3 = new Context();
+        contextFalse3.putValue("r!key", false);
+        contextFalse3.putValue(AbstractInputBooleanCommandImpl.CONTEXT_RESET, new Object());
+        commandRunnerFalse3.execute(commandFalse, contextFalse3);
+        Assertions.assertThat(getLines(osFalse3)).containsExactlyInOrder("line", "r!", "r!default: <false>", "r!wrong: <x>", "", "line", "r!", "r!default: <false>", "true", "");
+
+        ByteArrayOutputStream osFalse4 = createOutputStream();
+        InputStream isFalse4 = createInputStream("x", "r!f");
+        CommandRunner commandRunnerFalse4 = new CommandRunner(osFalse4, isFalse4);
+        Context contextFalse4 = new Context();
+        contextFalse4.putValue("r!key", false);
+        contextFalse4.putValue(AbstractInputBooleanCommandImpl.CONTEXT_RESET, new Object());
+        commandRunnerFalse4.execute(commandFalse, contextFalse4);
+        Assertions.assertThat(getLines(osFalse4)).containsExactlyInOrder("line", "r!", "r!default: <false>", "r!wrong: <x>", "", "line", "r!", "r!default: <false>", "true", "");
     }
 
     private Set<String> createSet(final String... values) {
