@@ -36,8 +36,7 @@ public final class Lines {
      * Create new object.
      */
     public Lines() {
-        super();
-        _lines = new ArrayList<>();
+        this((Lines) null);
     }
 
     /**
@@ -46,8 +45,7 @@ public final class Lines {
      * @param line the output line.
      */
     public Lines(final String line) {
-        this();
-        addLine(line);
+        this(null, line);
     }
 
     /**
@@ -56,8 +54,7 @@ public final class Lines {
      * @param lines the output lines.
      */
     public Lines(final String... lines) {
-        this();
-        addLines(lines);
+        this(null, lines);
     }
 
     /**
@@ -66,7 +63,52 @@ public final class Lines {
      * @param lines the output lines.
      */
     public Lines(final Collection<String> lines) {
-        this();
+        this(null, lines);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param base the base lines.
+     */
+    public Lines(final Lines base) {
+        super();
+        _lines = new ArrayList<>();
+        if (base != null) {
+            _lines.addAll(base._lines);
+        }
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param base the base lines.
+     * @param line the output line.
+     */
+    public Lines(final Lines base, final String line) {
+        this(base);
+        addLine(line);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param base  the base lines.
+     * @param lines the output lines.
+     */
+    public Lines(final Lines base, final String... lines) {
+        this(base);
+        addLines(lines);
+    }
+
+    /**
+     * Create new object.
+     *
+     * @param base  the base lines.
+     * @param lines the output lines.
+     */
+    public Lines(final Lines base, final Collection<String> lines) {
+        this(base);
         addLines(lines);
     }
 
