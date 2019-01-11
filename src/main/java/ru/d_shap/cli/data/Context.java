@@ -109,4 +109,19 @@ public final class Context {
         _values.remove(name);
     }
 
+    /**
+     * Copy the value to the specified context.
+     *
+     * @param name    the specified name.
+     * @param context the specified context.
+     */
+    public void copyValueTo(final String name, final Context context) {
+        if (hasValue(name)) {
+            Object value = getValue(name);
+            context.putValue(name, value);
+        } else {
+            context.removeValue(name);
+        }
+    }
+
 }
