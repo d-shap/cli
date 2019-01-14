@@ -20,9 +20,9 @@
 package ru.d_shap.cli.data;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Command execution context.
@@ -48,9 +48,9 @@ public final class Context {
     public Context(final Context context) {
         super();
         if (context == null) {
-            _values = new LinkedHashMap<>();
+            _values = new TreeMap<>();
         } else {
-            _values = new LinkedHashMap<>(context._values);
+            _values = new TreeMap<>(context._values);
         }
     }
 
@@ -71,7 +71,11 @@ public final class Context {
      * @return true if the context has the value.
      */
     public boolean hasValue(final String name) {
-        return _values.containsKey(name);
+        if (name == null) {
+            return false;
+        } else {
+            return _values.containsKey(name);
+        }
     }
 
     /**
@@ -84,7 +88,11 @@ public final class Context {
      */
     @SuppressWarnings("unchecked")
     public <T> T getValue(final String name) {
-        return (T) _values.get(name);
+        if (name == null) {
+            return null;
+        } else {
+            return (T) _values.get(name);
+        }
     }
 
     /**
@@ -106,7 +114,9 @@ public final class Context {
      * @param name the specified name.
      */
     public void removeValue(final String name) {
-        _values.remove(name);
+        if (name != null) {
+            _values.remove(name);
+        }
     }
 
     /**
