@@ -4,7 +4,7 @@
 
     <groupId>ru.d-shap</groupId>
     <artifactId>cli</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>CLI tools</name>
