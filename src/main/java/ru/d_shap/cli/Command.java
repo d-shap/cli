@@ -32,11 +32,38 @@ import ru.d_shap.cli.data.Context;
 public interface Command {
 
     /**
+     * Check if this command has the parent command.
+     *
+     * @return true if this command has the parent command.
+     */
+    boolean hasParentCommand();
+
+    /**
+     * Check if this command has the parent command with the specified class.
+     *
+     * @param clazz the specified class.
+     * @param <T>   the generic type of the specified class.
+     *
+     * @return true if this command has the parent command with the specified class.
+     */
+    <T extends Command> boolean hasParentCommand(Class<T> clazz);
+
+    /**
      * Get the parent command.
      *
      * @return the parent command.
      */
     Command getParentCommand();
+
+    /**
+     * Get the parent command with the specified class.
+     *
+     * @param clazz the specified class.
+     * @param <T>   the generic type of the specified class.
+     *
+     * @return the parent command.
+     */
+    <T extends Command> Command getParentCommand(Class<T> clazz);
 
     /**
      * Get the command context.
