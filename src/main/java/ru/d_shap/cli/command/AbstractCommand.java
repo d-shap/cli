@@ -64,8 +64,27 @@ public abstract class AbstractCommand implements Command {
     }
 
     @Override
+    public final boolean hasParentCommand() {
+        return getParentCommand() != null;
+    }
+
+    @Override
+    public final <T extends Command> boolean hasParentCommand(final Class<T> clazz) {
+        return getParentCommand(clazz) != null;
+    }
+
+    @Override
     public final Command getParentCommand() {
         return _parentCommand;
+    }
+
+    @Override
+    public final <T extends Command> Command getParentCommand(final Class<T> clazz) {
+        Command parentCommand = _parentCommand;
+        while (parentCommand != null && !clazz.isInstance(parentCommand)) {
+            parentCommand = parentCommand.getParentCommand();
+        }
+        return parentCommand;
     }
 
     @Override
@@ -88,13 +107,6 @@ public abstract class AbstractCommand implements Command {
         _commandRunner = commandRunner;
     }
 
-    @Override
-    public final void reset() {
-        for (ValueHolder<?> valueHolder : _valueHolders) {
-            valueHolder.reset();
-        }
-    }
-
     /**
      * Create the value holder.
      *
@@ -107,6 +119,13 @@ public abstract class AbstractCommand implements Command {
         ValueHolder<T> valueHolder = new ValueHolder<>(valueLoader);
         _valueHolders.add(valueHolder);
         return valueHolder;
+    }
+
+    @Override
+    public final void reset() {
+        for (ValueHolder<?> valueHolder : _valueHolders) {
+            valueHolder.reset();
+        }
     }
 
 }
