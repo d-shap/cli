@@ -63,27 +63,29 @@ public abstract class AbstractContainerCommand extends AbstractCommand {
     @Override
     public final Command execute(final PrintWriter writer, final BufferedReader reader) {
         Context context = new Context(getContext());
-        initContext(context);
+        initContext(context, writer);
         Command startCommand = _startCommand.getValue();
         getCommandRunner().execute(startCommand, context);
-        return processContext(context);
+        return processContext(context, writer);
     }
 
     /**
      * Initialize the nested context.
      *
      * @param context the nested context.
+     * @param writer  the stream to write the command output.
      */
-    protected abstract void initContext(Context context);
+    protected abstract void initContext(Context context, PrintWriter writer);
 
     /**
      * Process the nested context after the contained commands are executed.
      *
      * @param context the nested context.
+     * @param writer  the stream to write the command output.
      *
      * @return the next command to execute.
      */
-    protected abstract Command processContext(Context context);
+    protected abstract Command processContext(Context context, PrintWriter writer);
 
     /**
      * Value loader for the start command.
