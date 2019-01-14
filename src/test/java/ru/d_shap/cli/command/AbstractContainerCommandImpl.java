@@ -19,6 +19,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.command;
 
+import java.io.PrintWriter;
+
 import ru.d_shap.cli.Command;
 import ru.d_shap.cli.data.Context;
 
@@ -28,6 +30,8 @@ import ru.d_shap.cli.data.Context;
  * @author Dmitry Shapovalov
  */
 public final class AbstractContainerCommandImpl extends AbstractContainerCommand {
+
+    public static final String CONTEXT_RESET = "CONTEXT_RESET";
 
     public static final String CONTAINER_KEY = "__CONTAINER_KEY__";
 
@@ -56,23 +60,33 @@ public final class AbstractContainerCommandImpl extends AbstractContainerCommand
 
     @Override
     protected Command getStartCommand() {
-        return _startCommand;
+        if (isContextReset()) {
+            return null;
+        } else {
+            return _startCommand;
+        }
     }
 
     @Override
-    protected void initContext(final Context context) {
+    protected void initContext(final Context context, final PrintWriter writer) {
         Integer containerValue = getContext().getValue(CONTAINER_KEY);
         if (containerValue == null) {
             containerValue = 100;
         }
         context.putValue(AbstractCommandImpl.COUNTER_KEY, containerValue);
+        writer.println("containerValue: " + containerValue);
     }
 
     @Override
-    protected Command processContext(final Context context) {
+    protected Command processContext(final Context context, final PrintWriter writer) {
         Integer counter = context.getValue(AbstractCommandImpl.COUNTER_KEY);
         getContext().putValue(CONTAINER_KEY, counter);
+        writer.println("counter: " + counter);
         return getParentCommand();
+    }
+
+    private boolean isContextReset() {
+        return getContext().getValue(CONTEXT_RESET) != null;
     }
 
 }
