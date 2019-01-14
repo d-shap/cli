@@ -75,6 +75,7 @@ public final class AbstractContainerCommandImpl extends AbstractContainerCommand
         }
         context.putValue(AbstractCommandImpl.COUNTER_KEY, containerValue);
         writer.println("containerValue: " + containerValue);
+        writer.flush();
     }
 
     @Override
@@ -82,6 +83,7 @@ public final class AbstractContainerCommandImpl extends AbstractContainerCommand
         Integer counter = context.getValue(AbstractCommandImpl.COUNTER_KEY);
         getContext().putValue(CONTAINER_KEY, counter);
         writer.println("counter: " + counter);
+        writer.flush();
         return getParentCommand();
     }
 
