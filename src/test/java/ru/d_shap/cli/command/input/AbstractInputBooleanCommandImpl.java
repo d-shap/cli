@@ -160,6 +160,7 @@ public final class AbstractInputBooleanCommandImpl extends AbstractInputBooleanC
     @Override
     protected Command processValue(final Boolean value, final PrintWriter writer) {
         writer.println(!value);
+        writer.flush();
         return getParentCommand();
     }
 

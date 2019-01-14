@@ -118,6 +118,7 @@ public final class AbstractInputLongCommandImpl extends AbstractInputLongCommand
     @Override
     protected Command processValue(final Long value, final PrintWriter writer) {
         writer.println(value + 1L);
+        writer.flush();
         return getParentCommand();
     }
 

@@ -118,6 +118,7 @@ public final class AbstractInputDoubleCommandImpl extends AbstractInputDoubleCom
     @Override
     protected Command processValue(final Double value, final PrintWriter writer) {
         writer.println(value + 1.0);
+        writer.flush();
         return getParentCommand();
     }
 

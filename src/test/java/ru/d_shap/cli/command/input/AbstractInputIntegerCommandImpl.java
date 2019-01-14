@@ -118,6 +118,7 @@ public final class AbstractInputIntegerCommandImpl extends AbstractInputIntegerC
     @Override
     protected Command processValue(final Integer value, final PrintWriter writer) {
         writer.println(value + 1);
+        writer.flush();
         return getParentCommand();
     }
 

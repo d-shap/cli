@@ -118,6 +118,7 @@ public final class AbstractInputFloatCommandImpl extends AbstractInputFloatComma
     @Override
     protected Command processValue(final Float value, final PrintWriter writer) {
         writer.println(value + 1.0f);
+        writer.flush();
         return getParentCommand();
     }
 

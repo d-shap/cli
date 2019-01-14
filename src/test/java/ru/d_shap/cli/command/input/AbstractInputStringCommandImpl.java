@@ -118,6 +118,7 @@ public final class AbstractInputStringCommandImpl extends AbstractInputStringCom
     @Override
     protected Command processValue(final String value, final PrintWriter writer) {
         writer.println(value + "1");
+        writer.flush();
         return getParentCommand();
     }
 
