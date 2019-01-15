@@ -19,6 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.command;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
@@ -377,7 +380,37 @@ public final class CommandDelegateTest extends BaseCliTest {
      */
     @Test
     public void executeTest() {
-        // TODO
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        CommandDelegate commandDelegate1 = new CommandDelegate();
+        commandRunner1.execute(commandDelegate1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder();
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        CommandDelegate commandDelegate2 = new CommandDelegate(null);
+        commandRunner2.execute(commandDelegate2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder();
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Command command3 = new AbstractCommandImpl("Prompt 1");
+        CommandDelegate commandDelegate3 = new CommandDelegate(command3);
+        commandRunner3.execute(commandDelegate3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("Prompt 1", "Строка 1");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        Command command43 = new AbstractCommandImpl("Prompt 3");
+        Command command42 = new AbstractCommandImpl("Prompt 2", command43);
+        Command command41 = new AbstractCommandImpl("Prompt 1", command42);
+        CommandDelegate commandDelegate4 = new CommandDelegate(command41);
+        commandRunner4.execute(command41);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3");
     }
 
     /**
