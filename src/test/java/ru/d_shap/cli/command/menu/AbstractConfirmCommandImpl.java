@@ -29,6 +29,8 @@ import ru.d_shap.cli.data.Lines;
  */
 public final class AbstractConfirmCommandImpl extends AbstractConfirmCommand {
 
+    public static final String CONTEXT_RESET = "CONTEXT_RESET";
+
     private final Lines _header;
 
     private final String _yesMenuItemSymbol;
@@ -96,42 +98,78 @@ public final class AbstractConfirmCommandImpl extends AbstractConfirmCommand {
 
     @Override
     protected Lines getHeader() {
-        return _header;
+        if (isContextReset()) {
+            return new Lines(_header, "r!");
+        } else {
+            return _header;
+        }
     }
 
     @Override
     protected String getYesMenuItemSymbol() {
-        return _yesMenuItemSymbol;
+        if (isContextReset()) {
+            return "r!" + _yesMenuItemSymbol;
+        } else {
+            return _yesMenuItemSymbol;
+        }
     }
 
     @Override
     protected Lines getYesMenuItemLabel() {
-        return _yesMenuItemLabel;
+        if (isContextReset()) {
+            return new Lines(_yesMenuItemLabel, "r!");
+        } else {
+            return _yesMenuItemLabel;
+        }
     }
 
     @Override
     protected Command getYesMenuItemCommand() {
-        return _yesMenuItemCommand;
+        if (isContextReset()) {
+            return null;
+        } else {
+            return _yesMenuItemCommand;
+        }
     }
 
     @Override
     protected String getNoMenuItemSymbol() {
-        return _noMenuItemSymbol;
+        if (isContextReset()) {
+            return "r!" + _noMenuItemSymbol;
+        } else {
+            return _noMenuItemSymbol;
+        }
     }
 
     @Override
     protected Lines getNoMenuItemLabel() {
-        return _noMenuItemLabel;
+        if (isContextReset()) {
+            return new Lines(_noMenuItemLabel, "r!");
+        } else {
+            return _noMenuItemLabel;
+        }
     }
 
     @Override
     protected int getSymbolLength() {
-        return _symbolLength;
+        if (isContextReset()) {
+            return _symbolLength + 1;
+        } else {
+            return _symbolLength;
+        }
     }
 
     @Override
     protected String getWrongInputMessage() {
-        return _wrongInputMessage;
+        if (isContextReset()) {
+            return "r!" + _wrongInputMessage;
+        } else {
+            return _wrongInputMessage;
+        }
+    }
+
+    private boolean isContextReset() {
+        return getContext().getValue(CONTEXT_RESET) != null;
     }
 
 }

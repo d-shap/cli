@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.command.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.d_shap.cli.Command;
@@ -30,6 +31,8 @@ import ru.d_shap.cli.data.Lines;
  * @author Dmitry Shapovalov
  */
 public final class AbstractMenuCommandImpl extends AbstractMenuCommand {
+
+    public static final String CONTEXT_RESET = "CONTEXT_RESET";
 
     private final Lines _header;
 
@@ -80,27 +83,54 @@ public final class AbstractMenuCommandImpl extends AbstractMenuCommand {
 
     @Override
     protected Lines getHeader() {
-        return _header;
+        if (isContextReset()) {
+            return new Lines(_header, "r!");
+        } else {
+            return _header;
+        }
     }
 
     @Override
     protected List<Option> getOptions() {
-        return _options;
+        if (isContextReset()) {
+            List<Option> options = new ArrayList<>(_options);
+            Option option = new MenuItem("r!", "r!");
+            options.add(option);
+            return options;
+        } else {
+            return _options;
+        }
     }
 
     @Override
     protected int getSymbolLength() {
-        return _symbolLength;
+        if (isContextReset()) {
+            return _symbolLength + 1;
+        } else {
+            return _symbolLength;
+        }
     }
 
     @Override
     protected int getDefaultOptionIndex() {
-        return _defaultOptionIndex;
+        if (isContextReset()) {
+            return NO_DEFAULT_OPTION_INDEX;
+        } else {
+            return _defaultOptionIndex;
+        }
     }
 
     @Override
     protected String getWrongInputMessage() {
-        return _wrongInputMessage;
+        if (isContextReset()) {
+            return "r!" + _wrongInputMessage;
+        } else {
+            return _wrongInputMessage;
+        }
+    }
+
+    private boolean isContextReset() {
+        return getContext().getValue(CONTEXT_RESET) != null;
     }
 
 }

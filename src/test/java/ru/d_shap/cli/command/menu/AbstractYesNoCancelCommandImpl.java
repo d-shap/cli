@@ -29,6 +29,8 @@ import ru.d_shap.cli.data.Lines;
  */
 public final class AbstractYesNoCancelCommandImpl extends AbstractYesNoCancelCommand {
 
+    public static final String CONTEXT_RESET = "CONTEXT_RESET";
+
     private final Lines _header;
 
     private final String _yesMenuItemSymbol;
@@ -120,62 +122,114 @@ public final class AbstractYesNoCancelCommandImpl extends AbstractYesNoCancelCom
 
     @Override
     protected Lines getHeader() {
-        return _header;
+        if (isContextReset()) {
+            return new Lines(_header, "r!");
+        } else {
+            return _header;
+        }
     }
 
     @Override
     protected String getYesMenuItemSymbol() {
-        return _yesMenuItemSymbol;
+        if (isContextReset()) {
+            return "r!" + _yesMenuItemSymbol;
+        } else {
+            return _yesMenuItemSymbol;
+        }
     }
 
     @Override
     protected Lines getYesMenuItemLabel() {
-        return _yesMenuItemLabel;
+        if (isContextReset()) {
+            return new Lines(_yesMenuItemLabel, "r!");
+        } else {
+            return _yesMenuItemLabel;
+        }
     }
 
     @Override
     protected Command getYesMenuItemCommand() {
-        return _yesMenuItemCommand;
+        if (isContextReset()) {
+            return null;
+        } else {
+            return _yesMenuItemCommand;
+        }
     }
 
     @Override
     protected String getNoMenuItemSymbol() {
-        return _noMenuItemSymbol;
+        if (isContextReset()) {
+            return "r!" + _noMenuItemSymbol;
+        } else {
+            return _noMenuItemSymbol;
+        }
     }
 
     @Override
     protected Lines getNoMenuItemLabel() {
-        return _noMenuItemLabel;
+        if (isContextReset()) {
+            return new Lines(_noMenuItemLabel, "r!");
+        } else {
+            return _noMenuItemLabel;
+        }
     }
 
     @Override
     protected Command getNoMenuItemCommand() {
-        return _noMenuItemCommand;
+        if (isContextReset()) {
+            return null;
+        } else {
+            return _noMenuItemCommand;
+        }
     }
 
     @Override
     protected String getCancelMenuItemSymbol() {
-        return _cancelMenuItemSymbol;
+        if (isContextReset()) {
+            return "r!" + _cancelMenuItemSymbol;
+        } else {
+            return _cancelMenuItemSymbol;
+        }
     }
 
     @Override
     protected Lines getCancelMenuItemLabel() {
-        return _cancelMenuItemLabel;
+        if (isContextReset()) {
+            return new Lines(_cancelMenuItemLabel, "r!");
+        } else {
+            return _cancelMenuItemLabel;
+        }
     }
 
     @Override
     protected int getSymbolLength() {
-        return _symbolLength;
+        if (isContextReset()) {
+            return _symbolLength + 1;
+        } else {
+            return _symbolLength;
+        }
     }
 
     @Override
     protected int getDefaultOptionIndex() {
-        return _defaultOptionIndex;
+        if (isContextReset()) {
+            return NO_DEFAULT_OPTION_INDEX;
+        } else {
+            return _defaultOptionIndex;
+        }
     }
 
     @Override
     protected String getWrongInputMessage() {
-        return _wrongInputMessage;
+        if (isContextReset()) {
+            return "r!" + _wrongInputMessage;
+        } else {
+            return _wrongInputMessage;
+        }
+    }
+
+    private boolean isContextReset() {
+        return getContext().getValue(CONTEXT_RESET) != null;
     }
 
 }
