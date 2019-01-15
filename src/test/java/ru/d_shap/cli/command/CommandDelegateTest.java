@@ -24,6 +24,7 @@ import org.junit.Test;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
 import ru.d_shap.cli.Command;
+import ru.d_shap.cli.CommandRunner;
 import ru.d_shap.cli.data.Context;
 
 /**
@@ -288,7 +289,24 @@ public final class CommandDelegateTest extends BaseCliTest {
      */
     @Test
     public void getCommandRunnerTest() {
-        // TODO
+        CommandDelegate commandDelegate1 = new CommandDelegate();
+        Assertions.assertThat(commandDelegate1.getCommandRunner()).isNull();
+
+        CommandDelegate commandDelegate2 = new CommandDelegate(null);
+        Assertions.assertThat(commandDelegate2.getCommandRunner()).isNull();
+
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
+        Assertions.assertThat(commandDelegate3.getCommandRunner()).isNull();
+
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
+        Assertions.assertThat(commandDelegate4.getCommandRunner()).isNull();
+
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
+        Assertions.assertThat(commandDelegate5.getCommandRunner()).isNull();
     }
 
     /**
@@ -296,7 +314,41 @@ public final class CommandDelegateTest extends BaseCliTest {
      */
     @Test
     public void setCommandRunnerTest() {
-        // TODO
+        CommandDelegate commandDelegate1 = new CommandDelegate();
+        CommandRunner commandRunner1 = new CommandRunner(System.out, System.in);
+        commandDelegate1.setCommandRunner(commandRunner1);
+        Assertions.assertThat(commandDelegate1.getCommandRunner()).isNull();
+
+        CommandDelegate commandDelegate2 = new CommandDelegate(null);
+        CommandRunner commandRunner2 = new CommandRunner(System.out, System.in);
+        commandDelegate2.setCommandRunner(commandRunner2);
+        Assertions.assertThat(commandDelegate2.getCommandRunner()).isNull();
+
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
+        CommandRunner commandRunner3 = new CommandRunner(System.out, System.in);
+        commandDelegate3.setCommandRunner(commandRunner3);
+        Assertions.assertThat(commandDelegate3.getCommandRunner()).isSameAs(commandRunner3);
+
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
+        CommandRunner commandRunner4 = new CommandRunner(System.out, System.in);
+        commandDelegate4.setCommandRunner(commandRunner4);
+        Assertions.assertThat(commandDelegate4.getCommandRunner()).isSameAs(commandRunner4);
+
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
+        CommandRunner commandRunner5 = new CommandRunner(System.out, System.in);
+        abstractCommand51.setCommandRunner(commandRunner5);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
+        Assertions.assertThat(commandDelegate5.getCommandRunner()).isNull();
+
+        AbstractCommand abstractCommand61 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand62 = new AbstractCommandImpl(null, abstractCommand61);
+        CommandDelegate commandDelegate6 = new CommandDelegate(abstractCommand62);
+        CommandRunner commandRunner6 = new CommandRunner(System.out, System.in);
+        commandDelegate6.setCommandRunner(commandRunner6);
+        Assertions.assertThat(commandDelegate6.getCommandRunner()).isSameAs(commandRunner6);
     }
 
     /**
