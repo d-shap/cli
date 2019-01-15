@@ -30,6 +30,7 @@ import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
 import ru.d_shap.cli.command.AbstractExecutionCommandImpl;
 import ru.d_shap.cli.command.CommandDefinitionException;
+import ru.d_shap.cli.data.Context;
 import ru.d_shap.cli.data.Lines;
 
 /**
@@ -330,7 +331,33 @@ public final class AbstractConfirmCommandTest extends BaseCliTest {
      */
     @Test
     public void resetTest() {
-        // TODO
+        Command childCommand = new AbstractExecutionCommandImpl("child command");
+        AbstractConfirmCommandImpl command = new AbstractConfirmCommandImpl(new Lines("line"), "y", new Lines("Yes"), childCommand, "n", new Lines("No"), 3, "wrong: <%s>");
+
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("x", "y");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Context context1 = new Context();
+        commandRunner1.execute(command, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "  y: Yes", " *n: No", "wrong: <x>", "", "line", "  y: Yes", " *n: No", "", "child command");
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("x", "y");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Context context2 = new Context();
+        context2.putValue(AbstractConfirmCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner2.execute(command, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "  y: Yes", " *n: No", "wrong: <x>", "", "line", "  y: Yes", " *n: No", "", "child command");
+
+        command.reset();
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("x", "r!y");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Context context3 = new Context();
+        context3.putValue(AbstractConfirmCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner3.execute(command, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "r!", " r!y: Yes", "      r!", "*r!n: No", "      r!", "r!wrong: <x>", "", "line", "r!", " r!y: Yes", "      r!", "*r!n: No", "      r!", "");
     }
 
 }
