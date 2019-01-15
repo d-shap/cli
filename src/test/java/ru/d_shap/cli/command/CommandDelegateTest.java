@@ -24,6 +24,7 @@ import org.junit.Test;
 import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
 import ru.d_shap.cli.Command;
+import ru.d_shap.cli.data.Context;
 
 /**
  * Tests for {@link CommandDelegate}.
@@ -220,7 +221,24 @@ public final class CommandDelegateTest extends BaseCliTest {
      */
     @Test
     public void getContextTest() {
-        // TODO
+        CommandDelegate commandDelegate1 = new CommandDelegate();
+        Assertions.assertThat(commandDelegate1.getContext()).isNull();
+
+        CommandDelegate commandDelegate2 = new CommandDelegate(null);
+        Assertions.assertThat(commandDelegate2.getContext()).isNull();
+
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
+        Assertions.assertThat(commandDelegate3.getContext()).isNull();
+
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
+        Assertions.assertThat(commandDelegate4.getContext()).isNull();
+
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
+        Assertions.assertThat(commandDelegate5.getContext()).isNull();
     }
 
     /**
@@ -228,7 +246,41 @@ public final class CommandDelegateTest extends BaseCliTest {
      */
     @Test
     public void setContextTest() {
-        // TODO
+        CommandDelegate commandDelegate1 = new CommandDelegate();
+        Context context1 = new Context();
+        commandDelegate1.setContext(context1);
+        Assertions.assertThat(commandDelegate1.getContext()).isNull();
+
+        CommandDelegate commandDelegate2 = new CommandDelegate(null);
+        Context context2 = new Context();
+        commandDelegate2.setContext(context2);
+        Assertions.assertThat(commandDelegate2.getContext()).isNull();
+
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
+        Context context3 = new Context();
+        commandDelegate3.setContext(context3);
+        Assertions.assertThat(commandDelegate3.getContext()).isSameAs(context3);
+
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
+        Context context4 = new Context();
+        commandDelegate4.setContext(context4);
+        Assertions.assertThat(commandDelegate4.getContext()).isSameAs(context4);
+
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
+        Context context5 = new Context();
+        abstractCommand51.setContext(context5);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
+        Assertions.assertThat(commandDelegate5.getContext()).isNull();
+
+        AbstractCommand abstractCommand61 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand62 = new AbstractCommandImpl(null, abstractCommand61);
+        CommandDelegate commandDelegate6 = new CommandDelegate(abstractCommand62);
+        Context context6 = new Context();
+        commandDelegate6.setContext(context6);
+        Assertions.assertThat(commandDelegate6.getContext()).isSameAs(context6);
     }
 
     /**
