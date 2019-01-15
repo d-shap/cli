@@ -26,6 +26,9 @@ import ru.d_shap.cli.BaseCliTest;
 import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
 import ru.d_shap.cli.data.Context;
+import ru.d_shap.cli.data.ValueHolder;
+import ru.d_shap.cli.data.ValueLoadException;
+import ru.d_shap.cli.data.ValueLoaderImpl;
 
 /**
  * Tests for {@link CommandDelegate}.
@@ -364,7 +367,37 @@ public final class CommandDelegateTest extends BaseCliTest {
      */
     @Test
     public void resetTest() {
-        // TODO
+        AbstractCommand abstractCommand = new AbstractCommandImpl(null, null);
+
+        CommandDelegate commandDelegate1 = new CommandDelegate();
+        ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>("value", true);
+        ValueHolder<String> valueHolder1 = abstractCommand.createValueHolder(valueLoader1);
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+        commandDelegate1.reset();
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder1.getValue()).isEqualTo("value");
+        commandDelegate1.setCommand(abstractCommand);
+        commandDelegate1.reset();
+        try {
+            valueHolder1.getValue();
+            Assertions.fail("AbstractCommand test fail");
+        } catch (ValueLoadException ex) {
+            Assertions.assertThat(ex).hasMessage("Not first call!");
+        }
+
+        CommandDelegate commandDelegate2 = new CommandDelegate();
+        ValueLoaderImpl<String> valueLoader2 = new ValueLoaderImpl<>("value", false);
+        ValueHolder<String> valueHolder2 = abstractCommand.createValueHolder(valueLoader2);
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        commandDelegate2.reset();
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        commandDelegate2.setCommand(abstractCommand);
+        commandDelegate2.reset();
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
+        Assertions.assertThat(valueHolder2.getValue()).isEqualTo("value");
     }
 
 }
