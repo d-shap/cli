@@ -49,7 +49,15 @@ public final class CommandDelegateTest extends BaseCliTest {
      */
     @Test
     public void getCommandTest() {
-        // TODO
+        CommandDelegate commandDelegate1 = new CommandDelegate();
+        Assertions.assertThat(commandDelegate1.getCommand()).isNull();
+
+        CommandDelegate commandDelegate2 = new CommandDelegate(null);
+        Assertions.assertThat(commandDelegate2.getCommand()).isNull();
+
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
+        Assertions.assertThat(commandDelegate3.getCommand()).isSameAs(abstractCommand3);
     }
 
     /**
@@ -57,7 +65,17 @@ public final class CommandDelegateTest extends BaseCliTest {
      */
     @Test
     public void setCommandTest() {
-        // TODO
+        CommandDelegate commandDelegate1 = new CommandDelegate();
+        commandDelegate1.setCommand(null);
+        Assertions.assertThat(commandDelegate1.getCommand()).isNull();
+
+        CommandDelegate commandDelegate2 = new CommandDelegate();
+        AbstractCommand abstractCommand21 = new AbstractCommandImpl(null);
+        commandDelegate2.setCommand(abstractCommand21);
+        Assertions.assertThat(commandDelegate2.getCommand()).isSameAs(abstractCommand21);
+        AbstractCommand abstractCommand22 = new AbstractCommandImpl(null);
+        commandDelegate2.setCommand(abstractCommand22);
+        Assertions.assertThat(commandDelegate2.getCommand()).isSameAs(abstractCommand22);
     }
 
     /**
