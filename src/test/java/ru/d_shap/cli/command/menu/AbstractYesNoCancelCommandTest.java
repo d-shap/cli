@@ -527,22 +527,45 @@ public final class AbstractYesNoCancelCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "  y: Yes", " *n: No", "  c: Cancel", "wrong: <x>", "", "line", "  y: Yes", " *n: No", "  c: Cancel", "", "child command 1");
 
         ByteArrayOutputStream os2 = createOutputStream();
-        InputStream is2 = createInputStream("x", "y");
+        InputStream is2 = createInputStream("x", "n");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
         Context context2 = new Context();
-        context2.putValue(AbstractYesNoCancelCommandImpl.CONTEXT_RESET, new Object());
         commandRunner2.execute(command, context2);
-        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "  y: Yes", " *n: No", "  c: Cancel", "wrong: <x>", "", "line", "  y: Yes", " *n: No", "  c: Cancel", "", "child command 1");
-
-        command.reset();
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "  y: Yes", " *n: No", "  c: Cancel", "wrong: <x>", "", "line", "  y: Yes", " *n: No", "  c: Cancel", "", "child command 2");
 
         ByteArrayOutputStream os3 = createOutputStream();
-        InputStream is3 = createInputStream("x", "r!y");
+        InputStream is3 = createInputStream("x", "y");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
         Context context3 = new Context();
         context3.putValue(AbstractYesNoCancelCommandImpl.CONTEXT_RESET, new Object());
         commandRunner3.execute(command, context3);
-        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "r!", " r!y: Yes", "      r!", " r!n: No", "      r!", " r!c: Cancel", "      r!", "r!wrong: <x>", "", "line", "r!", " r!y: Yes", "      r!", " r!n: No", "      r!", " r!c: Cancel", "      r!", "");
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "  y: Yes", " *n: No", "  c: Cancel", "wrong: <x>", "", "line", "  y: Yes", " *n: No", "  c: Cancel", "", "child command 1");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("x", "n");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        Context context4 = new Context();
+        context4.putValue(AbstractYesNoCancelCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner4.execute(command, context4);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("line", "  y: Yes", " *n: No", "  c: Cancel", "wrong: <x>", "", "line", "  y: Yes", " *n: No", "  c: Cancel", "", "child command 2");
+
+        command.reset();
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("x", "r!y");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        Context context5 = new Context();
+        context5.putValue(AbstractYesNoCancelCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner5.execute(command, context5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("line", "r!", " r!y: Yes", "      r!", " r!n: No", "      r!", " r!c: Cancel", "      r!", "r!wrong: <x>", "", "line", "r!", " r!y: Yes", "      r!", " r!n: No", "      r!", " r!c: Cancel", "      r!", "");
+
+        ByteArrayOutputStream os6 = createOutputStream();
+        InputStream is6 = createInputStream("x", "r!n");
+        CommandRunner commandRunner6 = new CommandRunner(os6, is6);
+        Context context6 = new Context();
+        context6.putValue(AbstractYesNoCancelCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner6.execute(command, context6);
+        Assertions.assertThat(getLines(os6)).containsExactlyInOrder("line", "r!", " r!y: Yes", "      r!", " r!n: No", "      r!", " r!c: Cancel", "      r!", "r!wrong: <x>", "", "line", "r!", " r!y: Yes", "      r!", " r!n: No", "      r!", " r!c: Cancel", "      r!", "");
     }
 
 }
