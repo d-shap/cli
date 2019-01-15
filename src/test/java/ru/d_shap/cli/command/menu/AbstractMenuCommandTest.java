@@ -33,6 +33,7 @@ import ru.d_shap.cli.Command;
 import ru.d_shap.cli.CommandRunner;
 import ru.d_shap.cli.command.AbstractExecutionCommandImpl;
 import ru.d_shap.cli.command.CommandDefinitionException;
+import ru.d_shap.cli.data.Context;
 import ru.d_shap.cli.data.Lines;
 
 /**
@@ -539,7 +540,35 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
      */
     @Test
     public void resetTest() {
-        // TODO
+        Command childCommand1 = new AbstractExecutionCommandImpl("child command 1");
+        Command childCommand2 = new AbstractExecutionCommandImpl("child command 2");
+        List<Option> options = getOptions(new MenuItem("1", "Option 1", childCommand1), new MenuItem("2", "Option 2", childCommand2), new MenuSeparator(), new MenuItem("3", "Option 3"));
+        AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, 4, 3, "wrong: <%s>");
+
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("x", "1");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Context context1 = new Context();
+        commandRunner1.execute(command, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "   1: Option 1", "   2: Option 2", "", "  *3: Option 3", "wrong: <x>", "", "line", "   1: Option 1", "   2: Option 2", "", "  *3: Option 3", "", "child command 1");
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("x", "1");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Context context2 = new Context();
+        context2.putValue(AbstractMenuCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner2.execute(command, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "   1: Option 1", "   2: Option 2", "", "  *3: Option 3", "wrong: <x>", "", "line", "   1: Option 1", "   2: Option 2", "", "  *3: Option 3", "", "child command 1");
+
+        command.reset();
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("x", "1");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Context context3 = new Context();
+        context3.putValue(AbstractMenuCommandImpl.CONTEXT_RESET, new Object());
+        commandRunner3.execute(command, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "r!", "    1: Option 1", "    2: Option 2", "", "    3: Option 3", "   r!: r!", "r!wrong: <x>", "", "line", "r!", "    1: Option 1", "    2: Option 2", "", "    3: Option 3", "   r!: r!", "", "child command 1");
     }
 
     private List<Option> getOptions(final Option... options) {
