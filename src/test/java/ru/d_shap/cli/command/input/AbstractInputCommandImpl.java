@@ -146,7 +146,7 @@ public final class AbstractInputCommandImpl extends AbstractInputCommand<int[]> 
 
     @Override
     protected boolean isValidValue(final int[] value) {
-        return value != null && value.length > 1;
+        return value == null || value.length > 1;
     }
 
     @Override

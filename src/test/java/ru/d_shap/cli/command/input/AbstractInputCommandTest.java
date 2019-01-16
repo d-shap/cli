@@ -297,7 +297,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         Context context2 = new Context();
         context2.putValue("key", new int[]{7});
         commandRunner2.execute(command2, context2);
-        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <7>", "wrong: <7>", "", "line", "default: <7>", "", "parent command");
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "wrong: <>", "", "line", "", "parent command");
         Assertions.assertThat(context2.getNames()).containsExactlyInOrder("key");
         Assertions.assertThat((int[]) context2.getValue("key")).containsExactlyInOrder(1, 2, 5);
 
@@ -309,7 +309,7 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         Context context3 = new Context();
         context3.putValue("key", new int[]{7});
         commandRunner3.execute(command3, context3);
-        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "wrong: <7>", "", "line", "", "parent command");
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("line", "wrong: <>", "", "line", "", "parent command");
         Assertions.assertThat(context3.getNames()).containsExactlyInOrder("key");
         Assertions.assertThat((int[]) context3.getValue("key")).containsExactlyInOrder(1, 2, 5);
 
