@@ -107,9 +107,11 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
         String defaultMessage = _defaultMessage.getValue();
         if (hasContextValue && defaultMessage != null) {
             T contextValue = getContext().getValue(contextKey);
-            String stringValue = asString(contextValue);
-            String str = String.format(defaultMessage, stringValue);
-            writer.println(str);
+            if (isValidValue(contextValue)) {
+                String stringValue = asString(contextValue);
+                String str = String.format(defaultMessage, stringValue);
+                writer.println(str);
+            }
         }
     }
 
@@ -121,9 +123,6 @@ public abstract class AbstractInputCommand<T> extends AbstractUserActionCommand 
             T contextValue = getContext().getValue(contextKey);
             if (isValidValue(contextValue)) {
                 return processValue(contextValue, writer);
-            } else {
-                String stringValue = asString(contextValue);
-                return processWrongInput(_wrongInputMessage, stringValue, writer);
             }
         }
 
