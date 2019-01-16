@@ -112,7 +112,7 @@ public final class AbstractInputFloatCommandImpl extends AbstractInputFloatComma
 
     @Override
     protected boolean isValidValue(final Float value) {
-        return value >= 0.0f && value < 10.0f;
+        return value != null && value >= 0.0f && value < 10.0f;
     }
 
     @Override
