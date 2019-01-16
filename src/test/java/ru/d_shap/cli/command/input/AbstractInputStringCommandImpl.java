@@ -112,7 +112,7 @@ public final class AbstractInputStringCommandImpl extends AbstractInputStringCom
 
     @Override
     protected boolean isValidValue(final String value) {
-        return value.length() >= 0 && value.length() < 10;
+        return value != null && value.length() >= 0 && value.length() < 10;
     }
 
     @Override

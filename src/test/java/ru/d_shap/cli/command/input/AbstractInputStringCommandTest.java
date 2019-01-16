@@ -122,9 +122,20 @@ public final class AbstractInputStringCommandTest extends BaseCliTest {
         Context context1 = new Context();
         context1.putValue("key", "xxxxxxxxxxx");
         commandRunner1.execute(command1, context1);
-        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <xxxxxxxxxxx>", "wrong: <xxxxxxxxxxx>", "", "line", "default: <xxxxxxxxxxx>", "value1", "");
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "wrong: <>", "", "line", "value1", "");
         Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
         Assertions.assertThat((String) context1.getValue("key")).isEqualTo("value");
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("", "value");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        AbstractInputStringCommandImpl command2 = new AbstractInputStringCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+        Context context2 = new Context();
+        context2.putValue("key", "def");
+        commandRunner2.execute(command2, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <def>", "def1", "");
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((String) context2.getValue("key")).isEqualTo("def");
     }
 
     /**
