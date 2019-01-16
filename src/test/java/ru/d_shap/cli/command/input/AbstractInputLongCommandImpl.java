@@ -112,7 +112,7 @@ public final class AbstractInputLongCommandImpl extends AbstractInputLongCommand
 
     @Override
     protected boolean isValidValue(final Long value) {
-        return value >= 0L && value < 10L;
+        return value != null && value >= 0L && value < 10L;
     }
 
     @Override
