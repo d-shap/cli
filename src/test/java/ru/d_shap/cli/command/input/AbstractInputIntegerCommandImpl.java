@@ -112,7 +112,7 @@ public final class AbstractInputIntegerCommandImpl extends AbstractInputIntegerC
 
     @Override
     protected boolean isValidValue(final Integer value) {
-        return value >= 0 && value < 10;
+        return value != null && value >= 0 && value < 10;
     }
 
     @Override
