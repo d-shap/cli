@@ -122,9 +122,20 @@ public final class AbstractInputDoubleCommandTest extends BaseCliTest {
         Context context1 = new Context();
         context1.putValue("key", 15.1);
         commandRunner1.execute(command1, context1);
-        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "default: <15.1>", "wrong: <15.1>", "", "line", "default: <15.1>", "6.1", "");
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("line", "wrong: <>", "", "line", "6.1", "");
         Assertions.assertThat(context1.getNames()).containsExactlyInOrder("key");
         Assertions.assertThat((double) context1.getValue("key")).isEqualTo(5.1, 0.01);
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("", "5.1");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        AbstractInputDoubleCommandImpl command2 = new AbstractInputDoubleCommandImpl("key", new Lines("line"), "default: <%s>", "wrong: <%s>");
+        Context context2 = new Context();
+        context2.putValue("key", 6.1);
+        commandRunner2.execute(command2, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("line", "default: <6.1>", "7.1", "");
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((double) context2.getValue("key")).isEqualTo(6.1, 0.01);
     }
 
     /**

@@ -112,7 +112,7 @@ public final class AbstractInputDoubleCommandImpl extends AbstractInputDoubleCom
 
     @Override
     protected boolean isValidValue(final Double value) {
-        return value >= 0.0 && value < 10.0;
+        return value != null && value >= 0.0 && value < 10.0;
     }
 
     @Override
