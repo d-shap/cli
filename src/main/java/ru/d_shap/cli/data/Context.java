@@ -145,4 +145,9 @@ public final class Context {
         }
     }
 
+    @Override
+    public String toString() {
+        return _values.keySet().toString();
+    }
+
 }
