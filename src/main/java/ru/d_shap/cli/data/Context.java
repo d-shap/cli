@@ -122,15 +122,26 @@ public final class Context {
     /**
      * Copy the value to the specified context.
      *
-     * @param name    the specified name.
+     * @param name    the specified name to get the value from this context and to put the value to the specified context.
      * @param context the specified context.
      */
     public void copyValueTo(final String name, final Context context) {
+        copyValueTo(name, context, name);
+    }
+
+    /**
+     * Copy the value to the specified context.
+     *
+     * @param name        the specified name to get the value from this context.
+     * @param context     the specified context.
+     * @param contextName the specified name to put the value to the specified context.
+     */
+    public void copyValueTo(final String name, final Context context, final String contextName) {
         if (hasValue(name)) {
             Object value = getValue(name);
-            context.putValue(name, value);
+            context.putValue(contextName, value);
         } else {
-            context.removeValue(name);
+            context.removeValue(contextName);
         }
     }
 
