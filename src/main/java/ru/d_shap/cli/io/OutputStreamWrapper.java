@@ -33,8 +33,6 @@ public final class OutputStreamWrapper extends OutputStream {
 
     private final OutputStream _logOutputStream;
 
-    private boolean _otherMethodProcessing;
-
     /**
      * Create new object.
      *
@@ -54,48 +52,29 @@ public final class OutputStreamWrapper extends OutputStream {
         super();
         _outputStream = outputStream;
         _logOutputStream = logOutputStream;
-        _otherMethodProcessing = false;
     }
 
     @Override
     public void write(final int value) throws IOException {
-        try {
-            boolean otherMethodProcessing = _otherMethodProcessing;
-            _otherMethodProcessing = true;
-            _outputStream.write(value);
-            if (!otherMethodProcessing && _logOutputStream != null) {
-                _logOutputStream.write(value);
-            }
-        } finally {
-            _otherMethodProcessing = false;
+        _outputStream.write(value);
+        if (_logOutputStream != null) {
+            _logOutputStream.write(value);
         }
     }
 
     @Override
     public void write(final byte[] value) throws IOException {
-        try {
-            boolean otherMethodProcessing = _otherMethodProcessing;
-            _otherMethodProcessing = true;
-            _outputStream.write(value);
-            if (!otherMethodProcessing && _logOutputStream != null) {
-                _logOutputStream.write(value);
-            }
-        } finally {
-            _otherMethodProcessing = false;
+        _outputStream.write(value);
+        if (_logOutputStream != null) {
+            _logOutputStream.write(value);
         }
     }
 
     @Override
     public void write(final byte[] value, final int offset, final int length) throws IOException {
-        try {
-            boolean otherMethodProcessing = _otherMethodProcessing;
-            _otherMethodProcessing = true;
-            _outputStream.write(value, offset, length);
-            if (!otherMethodProcessing && _logOutputStream != null) {
-                _logOutputStream.write(value, offset, length);
-            }
-        } finally {
-            _otherMethodProcessing = false;
+        _outputStream.write(value, offset, length);
+        if (_logOutputStream != null) {
+            _logOutputStream.write(value, offset, length);
         }
     }
 

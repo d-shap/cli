@@ -34,8 +34,6 @@ public final class InputStreamWrapper extends InputStream {
 
     private final OutputStream _logOutputStream;
 
-    private boolean _otherMethodProcessing;
-
     /**
      * Create new object.
      *
@@ -55,52 +53,33 @@ public final class InputStreamWrapper extends InputStream {
         super();
         _inputStream = inputStream;
         _logOutputStream = logOutputStream;
-        _otherMethodProcessing = false;
     }
 
     @Override
     public int read() throws IOException {
-        try {
-            boolean otherMethodProcessing = _otherMethodProcessing;
-            _otherMethodProcessing = true;
-            int value = _inputStream.read();
-            if (!otherMethodProcessing && value >= 0 && _logOutputStream != null) {
-                _logOutputStream.write(value);
-            }
-            return value;
-        } finally {
-            _otherMethodProcessing = false;
+        int value = _inputStream.read();
+        if (value >= 0 && _logOutputStream != null) {
+            _logOutputStream.write(value);
         }
+        return value;
     }
 
     @Override
     public int read(final byte[] buffer) throws IOException {
-        try {
-            boolean otherMethodProcessing = _otherMethodProcessing;
-            _otherMethodProcessing = true;
-            int result = _inputStream.read(buffer);
-            if (!otherMethodProcessing && result > 0 && _logOutputStream != null) {
-                _logOutputStream.write(buffer, 0, result);
-            }
-            return result;
-        } finally {
-            _otherMethodProcessing = false;
+        int result = _inputStream.read(buffer);
+        if (result > 0 && _logOutputStream != null) {
+            _logOutputStream.write(buffer, 0, result);
         }
+        return result;
     }
 
     @Override
     public int read(final byte[] buffer, final int offset, final int length) throws IOException {
-        try {
-            boolean otherMethodProcessing = _otherMethodProcessing;
-            _otherMethodProcessing = true;
-            int result = _inputStream.read(buffer, offset, length);
-            if (!otherMethodProcessing && result > 0 && _logOutputStream != null) {
-                _logOutputStream.write(buffer, offset, result);
-            }
-            return result;
-        } finally {
-            _otherMethodProcessing = false;
+        int result = _inputStream.read(buffer, offset, length);
+        if (result > 0 && _logOutputStream != null) {
+            _logOutputStream.write(buffer, offset, result);
         }
+        return result;
     }
 
     @Override
