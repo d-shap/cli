@@ -162,4 +162,9 @@ public final class Lines {
         return lines;
     }
 
+    @Override
+    public String toString() {
+        return _lines.toString();
+    }
+
 }
