@@ -21,6 +21,7 @@ package ru.d_shap.cli.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import org.junit.Test;
 
@@ -49,7 +50,7 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
     @Test
     public void writeByteTest() throws IOException {
         ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw1 = new OutputStreamWrapper(baos1);
+        OutputStream osw1 = new OutputStreamWrapper(baos1);
         osw1.write(5);
         Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(5);
         osw1.write(7);
@@ -58,7 +59,7 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
         Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(5, 7, 10);
 
         ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw2 = new OutputStreamWrapper(baos2, null);
+        OutputStream osw2 = new OutputStreamWrapper(baos2, null);
         osw2.write(5);
         Assertions.assertThat(baos2.toByteArray()).containsExactlyInOrder(5);
         osw2.write(7);
@@ -68,7 +69,7 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
 
         ByteArrayOutputStream baos31 = new ByteArrayOutputStream();
         ByteArrayOutputStream baos32 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw3 = new OutputStreamWrapper(baos31, baos32);
+        OutputStream osw3 = new OutputStreamWrapper(baos31, baos32);
         osw3.write(5);
         Assertions.assertThat(baos31.toByteArray()).containsExactlyInOrder(5);
         Assertions.assertThat(baos32.toByteArray()).containsExactlyInOrder(5);
@@ -91,14 +92,14 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
         byte[] data2 = new byte[]{1, 6, 3};
 
         ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw1 = new OutputStreamWrapper(baos1);
+        OutputStream osw1 = new OutputStreamWrapper(baos1);
         osw1.write(data1);
         Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(5, 7, 10);
         osw1.write(data2);
         Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(5, 7, 10, 1, 6, 3);
 
         ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw2 = new OutputStreamWrapper(baos2, null);
+        OutputStream osw2 = new OutputStreamWrapper(baos2, null);
         osw2.write(data1);
         Assertions.assertThat(baos2.toByteArray()).containsExactlyInOrder(5, 7, 10);
         osw2.write(data2);
@@ -106,7 +107,7 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
 
         ByteArrayOutputStream baos31 = new ByteArrayOutputStream();
         ByteArrayOutputStream baos32 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw3 = new OutputStreamWrapper(baos31, baos32);
+        OutputStream osw3 = new OutputStreamWrapper(baos31, baos32);
         osw3.write(data1);
         Assertions.assertThat(baos31.toByteArray()).containsExactlyInOrder(5, 7, 10);
         Assertions.assertThat(baos32.toByteArray()).containsExactlyInOrder(5, 7, 10);
@@ -125,14 +126,14 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
         byte[] data = new byte[]{5, 7, 10, 1, 6, 3, 9, 2, 4, 8};
 
         ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw1 = new OutputStreamWrapper(baos1);
+        OutputStream osw1 = new OutputStreamWrapper(baos1);
         osw1.write(data, 1, 4);
         Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(7, 10, 1, 6);
         osw1.write(data, 0, 2);
         Assertions.assertThat(baos1.toByteArray()).containsExactlyInOrder(7, 10, 1, 6, 5, 7);
 
         ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw2 = new OutputStreamWrapper(baos2, null);
+        OutputStream osw2 = new OutputStreamWrapper(baos2, null);
         osw2.write(data, 1, 4);
         Assertions.assertThat(baos2.toByteArray()).containsExactlyInOrder(7, 10, 1, 6);
         osw2.write(data, 0, 2);
@@ -140,7 +141,7 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
 
         ByteArrayOutputStream baos31 = new ByteArrayOutputStream();
         ByteArrayOutputStream baos32 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw3 = new OutputStreamWrapper(baos31, baos32);
+        OutputStream osw3 = new OutputStreamWrapper(baos31, baos32);
         osw3.write(data, 1, 4);
         Assertions.assertThat(baos31.toByteArray()).containsExactlyInOrder(7, 10, 1, 6);
         Assertions.assertThat(baos32.toByteArray()).containsExactlyInOrder(7, 10, 1, 6);
@@ -157,20 +158,20 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
     @Test
     public void flushTest() throws IOException {
         FlushedOutputStream fos1 = new FlushedOutputStream();
-        OutputStreamWrapper osw1 = new OutputStreamWrapper(fos1);
+        OutputStream osw1 = new OutputStreamWrapper(fos1);
         Assertions.assertThat(fos1.isFlushed()).isFalse();
         osw1.flush();
         Assertions.assertThat(fos1.isFlushed()).isTrue();
 
         FlushedOutputStream fos2 = new FlushedOutputStream();
-        OutputStreamWrapper osw2 = new OutputStreamWrapper(fos2, null);
+        OutputStream osw2 = new OutputStreamWrapper(fos2, null);
         Assertions.assertThat(fos2.isFlushed()).isFalse();
         osw2.flush();
         Assertions.assertThat(fos2.isFlushed()).isTrue();
 
         FlushedOutputStream fos31 = new FlushedOutputStream();
         FlushedOutputStream fos32 = new FlushedOutputStream();
-        OutputStreamWrapper osw3 = new OutputStreamWrapper(fos31, fos32);
+        OutputStream osw3 = new OutputStreamWrapper(fos31, fos32);
         Assertions.assertThat(fos31.isFlushed()).isFalse();
         Assertions.assertThat(fos32.isFlushed()).isFalse();
         osw3.flush();
@@ -186,28 +187,28 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
     @Test
     public void closeTest() throws IOException {
         ClosedOutputStream cos1 = new ClosedOutputStream();
-        OutputStreamWrapper osw1 = new OutputStreamWrapper(cos1);
+        OutputStream osw1 = new OutputStreamWrapper(cos1);
         Assertions.assertThat(cos1.isClosed()).isFalse();
         osw1.close();
         Assertions.assertThat(cos1.isClosed()).isTrue();
 
         ClosedOutputStream cos2 = new ClosedOutputStream();
-        OutputStreamWrapper osw2 = new OutputStreamWrapper(cos2, null);
+        OutputStream osw2 = new OutputStreamWrapper(cos2, null);
         Assertions.assertThat(cos2.isClosed()).isFalse();
         osw2.close();
         Assertions.assertThat(cos2.isClosed()).isTrue();
 
         ClosedOutputStream cos31 = new ClosedOutputStream();
         ClosedOutputStream cos32 = new ClosedOutputStream();
-        OutputStreamWrapper osw3 = new OutputStreamWrapper(cos31, cos32);
+        OutputStream osw3 = new OutputStreamWrapper(cos31, cos32);
         Assertions.assertThat(cos31.isClosed()).isFalse();
         Assertions.assertThat(cos32.isClosed()).isFalse();
         osw3.close();
         Assertions.assertThat(cos31.isClosed()).isTrue();
         Assertions.assertThat(cos32.isClosed()).isTrue();
 
-        FailOnCloseOutputStream focos4 = new FailOnCloseOutputStream("main");
-        OutputStreamWrapper osw4 = new OutputStreamWrapper(focos4);
+        OutputStream focos4 = new FailOnCloseOutputStream("main");
+        OutputStream osw4 = new OutputStreamWrapper(focos4);
         try {
             osw4.close();
             Assertions.fail("OutputStreamWrapper test fail");
@@ -215,8 +216,8 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("main");
         }
 
-        FailOnCloseOutputStream focos5 = new FailOnCloseOutputStream("main");
-        OutputStreamWrapper osw5 = new OutputStreamWrapper(focos5, null);
+        OutputStream focos5 = new FailOnCloseOutputStream("main");
+        OutputStream osw5 = new OutputStreamWrapper(focos5, null);
         try {
             osw5.close();
             Assertions.fail("OutputStreamWrapper test fail");
@@ -224,9 +225,9 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("main");
         }
 
-        FailOnCloseOutputStream focos6 = new FailOnCloseOutputStream("main");
-        ByteArrayOutputStream baos6 = new ByteArrayOutputStream();
-        OutputStreamWrapper osw6 = new OutputStreamWrapper(focos6, baos6);
+        OutputStream focos6 = new FailOnCloseOutputStream("main");
+        OutputStream baos6 = new ByteArrayOutputStream();
+        OutputStream osw6 = new OutputStreamWrapper(focos6, baos6);
         try {
             osw6.close();
             Assertions.fail("OutputStreamWrapper test fail");
@@ -234,9 +235,9 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("main");
         }
 
-        ByteArrayOutputStream baos7 = new ByteArrayOutputStream();
-        FailOnCloseOutputStream focos7 = new FailOnCloseOutputStream("log");
-        OutputStreamWrapper osw7 = new OutputStreamWrapper(baos7, focos7);
+        OutputStream baos7 = new ByteArrayOutputStream();
+        OutputStream focos7 = new FailOnCloseOutputStream("log");
+        OutputStream osw7 = new OutputStreamWrapper(baos7, focos7);
         try {
             osw7.close();
             Assertions.fail("OutputStreamWrapper test fail");
@@ -244,9 +245,9 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("log");
         }
 
-        FailOnCloseOutputStream focos81 = new FailOnCloseOutputStream("main");
-        FailOnCloseOutputStream focos82 = new FailOnCloseOutputStream("log");
-        OutputStreamWrapper osw8 = new OutputStreamWrapper(focos81, focos82);
+        OutputStream focos81 = new FailOnCloseOutputStream("main");
+        OutputStream focos82 = new FailOnCloseOutputStream("log");
+        OutputStream osw8 = new OutputStreamWrapper(focos81, focos82);
         try {
             osw8.close();
             Assertions.fail("OutputStreamWrapper test fail");
