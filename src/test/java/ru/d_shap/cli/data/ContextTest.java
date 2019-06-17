@@ -501,4 +501,28 @@ public final class ContextTest extends BaseCliTest {
         Assertions.assertThat(context2.getNames()).containsExactlyInOrder();
     }
 
+    /**
+     * {@link Context} class test.
+     */
+    @Test
+    public void toStringTest() {
+        Context context = new Context();
+        Assertions.assertThat(context).hasToString("[]");
+
+        context.putValue("name1", "value1");
+        Assertions.assertThat(context).hasToString("[name1]");
+
+        context.putValue("name2", "value2");
+        Assertions.assertThat(context).hasToString("[name1, name2]");
+
+        context.putValue("name3", "value3");
+        Assertions.assertThat(context).hasToString("[name1, name2, name3]");
+
+        context.putValue("name2", "value");
+        Assertions.assertThat(context).hasToString("[name1, name2, name3]");
+
+        context.putValue("name4", "value4");
+        Assertions.assertThat(context).hasToString("[name1, name2, name3, name4]");
+    }
+
 }
