@@ -426,7 +426,7 @@ public final class ContextTest extends BaseCliTest {
      * {@link Context} class test.
      */
     @Test
-    public void copyValueToTest() {
+    public void copyValueToSameNameTest() {
         Context context1 = new Context();
         Context context2 = new Context();
         Assertions.assertThat(context1.getNames()).containsExactlyInOrder();
@@ -460,6 +460,43 @@ public final class ContextTest extends BaseCliTest {
         Assertions.assertThat(context2.getValue("name")).isEqualTo("value");
 
         context1.copyValueTo("name", context2);
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder();
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder();
+    }
+
+    /**
+     * {@link Context} class test.
+     */
+    @Test
+    public void copyValueToOtherNameTest() {
+        Context context1 = new Context();
+        Context context2 = new Context();
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder();
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder();
+
+        context1.putValue("name", "value");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("name");
+        Assertions.assertThat(context1.getValue("name")).isEqualTo("value");
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder();
+
+        context1.copyValueTo("name", context2, "otherName");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("name");
+        Assertions.assertThat(context1.getValue("name")).isEqualTo("value");
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder("otherName");
+        Assertions.assertThat(context2.getValue("otherName")).isEqualTo("value");
+
+        context1.copyValueTo("wrongName", context2, "wrongName");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder("name");
+        Assertions.assertThat(context1.getValue("name")).isEqualTo("value");
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder("otherName");
+        Assertions.assertThat(context2.getValue("otherName")).isEqualTo("value");
+
+        context1.removeValue("name");
+        Assertions.assertThat(context1.getNames()).containsExactlyInOrder();
+        Assertions.assertThat(context2.getNames()).containsExactlyInOrder("otherName");
+        Assertions.assertThat(context2.getValue("otherName")).isEqualTo("value");
+
+        context1.copyValueTo("name", context2, "otherName");
         Assertions.assertThat(context1.getNames()).containsExactlyInOrder();
         Assertions.assertThat(context2.getNames()).containsExactlyInOrder();
     }
