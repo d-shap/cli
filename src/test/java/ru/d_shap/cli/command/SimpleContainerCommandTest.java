@@ -143,4 +143,41 @@ public final class SimpleContainerCommandTest extends BaseCliTest {
         Assertions.assertThat(context08.getValue(AbstractCommandImpl.COUNTER_KEY)).isEqualTo(3);
     }
 
+    /**
+     * {@link SimpleContainerCommand} class test.
+     */
+    @Test
+    public void resetTest() {
+        Command command3 = new AbstractCommandImpl("Prompt 3");
+        Command command2 = new AbstractCommandImpl("Prompt 2", command3);
+        Command command1 = new AbstractCommandImpl("Prompt 1", command2);
+        Command container = new SimpleContainerCommand(null, command1);
+
+        ByteArrayOutputStream os1 = createOutputStream();
+        InputStream is1 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner1 = new CommandRunner(os1, is1);
+        Context context1 = new Context();
+        commandRunner1.execute(container, context1);
+        Assertions.assertThat(getLines(os1)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "Prompt 2", "Prompt 3");
+        Assertions.assertThat(context1.getValue(AbstractCommandImpl.COUNTER_KEY)).isEqualTo(2);
+
+        ByteArrayOutputStream os2 = createOutputStream();
+        InputStream is2 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner2 = new CommandRunner(os2, is2);
+        Context context2 = new Context();
+        commandRunner2.execute(container, context2);
+        Assertions.assertThat(getLines(os2)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "Prompt 2", "Prompt 3");
+        Assertions.assertThat(context2.getValue(AbstractCommandImpl.COUNTER_KEY)).isEqualTo(2);
+
+        container.reset();
+
+        ByteArrayOutputStream os3 = createOutputStream();
+        InputStream is3 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner3 = new CommandRunner(os3, is3);
+        Context context3 = new Context();
+        commandRunner3.execute(container, context3);
+        Assertions.assertThat(getLines(os3)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "Prompt 2", "Prompt 3");
+        Assertions.assertThat(context3.getValue(AbstractCommandImpl.COUNTER_KEY)).isEqualTo(2);
+    }
+
 }
