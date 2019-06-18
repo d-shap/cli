@@ -146,7 +146,7 @@ public final class AbstractInputLongCommandTest extends BaseCliTest {
         ByteArrayOutputStream os1 = createOutputStream();
         InputStream is1 = createInputStream("1");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
-        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command");
+        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command", null);
         AbstractInputLongCommandImpl command1 = new AbstractInputLongCommandImpl(parentCommand1, "key", new Lines("line"), "default: <%s>", "wrong: <%s>");
         Context context1 = new Context();
         commandRunner1.execute(command1, context1);

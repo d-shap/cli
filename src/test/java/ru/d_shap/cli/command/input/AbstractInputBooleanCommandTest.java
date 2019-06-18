@@ -366,7 +366,7 @@ public final class AbstractInputBooleanCommandTest extends BaseCliTest {
         ByteArrayOutputStream os1 = createOutputStream();
         InputStream is1 = createInputStream("t");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
-        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command");
+        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command", null);
         AbstractInputBooleanCommandImpl command1 = new AbstractInputBooleanCommandImpl(parentCommand1, "key", new Lines("line"), "default: <%s>", "wrong: <%s>", createSet("t"), createSet("f"), true);
         Context context1 = new Context();
         commandRunner1.execute(command1, context1);
