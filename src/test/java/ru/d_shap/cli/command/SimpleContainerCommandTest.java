@@ -112,6 +112,35 @@ public final class SimpleContainerCommandTest extends BaseCliTest {
         commandRunner06.execute(container06, context06);
         Assertions.assertThat(getLines(os06)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "Prompt parent");
         Assertions.assertThat(context06.getValue(AbstractCommandImpl.COUNTER_KEY)).isEqualTo(1);
+
+        ByteArrayOutputStream os07 = createOutputStream();
+        InputStream is07 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner07 = new CommandRunner(os07, is07);
+        Command command073 = new AbstractCommandImpl("Prompt 3");
+        Command command072 = new AbstractCommandImpl("Prompt 2", command073);
+        Command command071 = new AbstractCommandImpl("Prompt 1", command072);
+        Command container07 = new SimpleContainerCommand(command071);
+        Context context07 = new Context();
+        context07.putValue(AbstractCommandImpl.COUNTER_KEY, 1);
+        context07.putValue(AbstractCommandImpl.INCREMENT_KEY, 2);
+        commandRunner07.execute(container07, context07);
+        Assertions.assertThat(getLines(os07)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "Prompt 2", "Prompt 3");
+        Assertions.assertThat(context07.getValue(AbstractCommandImpl.COUNTER_KEY)).isEqualTo(5);
+
+        ByteArrayOutputStream os08 = createOutputStream();
+        InputStream is08 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner08 = new CommandRunner(os08, is08);
+        Command parentCommand08 = new AbstractCommandImpl("Prompt parent");
+        Command command083 = new AbstractCommandImpl("Prompt 3");
+        Command command082 = new AbstractCommandImpl("Prompt 2", command083);
+        Command command081 = new AbstractCommandImpl("Prompt 1", command082);
+        Command container08 = new SimpleContainerCommand(parentCommand08, command081);
+        Context context08 = new Context();
+        context08.putValue(AbstractCommandImpl.COUNTER_KEY, 1);
+        context08.putValue(AbstractCommandImpl.INCREMENT_KEY, 2);
+        commandRunner08.execute(container08, context08);
+        Assertions.assertThat(getLines(os08)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "Prompt parent");
+        Assertions.assertThat(context08.getValue(AbstractCommandImpl.COUNTER_KEY)).isEqualTo(3);
     }
 
 }
