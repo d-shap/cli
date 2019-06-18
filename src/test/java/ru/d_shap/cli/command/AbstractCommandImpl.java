@@ -37,33 +37,33 @@ public final class AbstractCommandImpl extends AbstractCommand {
 
     public static final String COUNTER_KEY = "__COUNTER_KEY__";
 
-    private final Command _nextCommand;
-
     private final String _message;
+
+    private final Command _nextCommand;
 
     /**
      * Create new object.
      *
-     * @param nextCommand the next command to execute.
      * @param message     the message to write to the output.
+     * @param nextCommand the next command to execute.
      */
-    public AbstractCommandImpl(final Command nextCommand, final String message) {
+    public AbstractCommandImpl(final String message, final Command nextCommand) {
         super();
-        _nextCommand = nextCommand;
         _message = message;
+        _nextCommand = nextCommand;
     }
 
     /**
      * Create new object.
      *
      * @param parentCommand the parent command.
-     * @param nextCommand   the next command to execute.
      * @param message       the message to write to the output.
+     * @param nextCommand   the next command to execute.
      */
-    public AbstractCommandImpl(final Command parentCommand, final Command nextCommand, final String message) {
+    public AbstractCommandImpl(final Command parentCommand, final String message, final Command nextCommand) {
         super(parentCommand);
-        _nextCommand = nextCommand;
         _message = message;
+        _nextCommand = nextCommand;
     }
 
     @Override
