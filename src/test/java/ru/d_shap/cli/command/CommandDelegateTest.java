@@ -58,7 +58,7 @@ public final class CommandDelegateTest extends BaseCliTest {
         CommandDelegate commandDelegate2 = new CommandDelegate(null);
         Assertions.assertThat(commandDelegate2.getCommand()).isNull();
 
-        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null, null);
         CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
         Assertions.assertThat(commandDelegate3.getCommand()).isSameAs(abstractCommand3);
     }
@@ -73,10 +73,10 @@ public final class CommandDelegateTest extends BaseCliTest {
         Assertions.assertThat(commandDelegate1.getCommand()).isNull();
 
         CommandDelegate commandDelegate2 = new CommandDelegate();
-        AbstractCommand abstractCommand21 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand21 = new AbstractCommandImpl(null, null);
         commandDelegate2.setCommand(abstractCommand21);
         Assertions.assertThat(commandDelegate2.getCommand()).isSameAs(abstractCommand21);
-        AbstractCommand abstractCommand22 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand22 = new AbstractCommandImpl(null, null);
         commandDelegate2.setCommand(abstractCommand22);
         Assertions.assertThat(commandDelegate2.getCommand()).isSameAs(abstractCommand22);
     }
@@ -92,16 +92,16 @@ public final class CommandDelegateTest extends BaseCliTest {
         CommandDelegate commandDelegate2 = new CommandDelegate(null);
         Assertions.assertThat(commandDelegate2.hasParentCommand()).isFalse();
 
-        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null, null);
         CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
         Assertions.assertThat(commandDelegate3.hasParentCommand()).isFalse();
 
-        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null, null);
         CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
         Assertions.assertThat(commandDelegate4.hasParentCommand()).isFalse();
 
-        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(abstractCommand51, null, null);
         CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
         Assertions.assertThat(commandDelegate5.hasParentCommand()).isTrue();
     }
@@ -125,7 +125,7 @@ public final class CommandDelegateTest extends BaseCliTest {
         Assertions.assertThat(commandDelegate2.hasParentCommand(AbstractExecutionCommand.class)).isFalse();
         Assertions.assertThat(commandDelegate2.hasParentCommand(AbstractUserActionCommand.class)).isFalse();
 
-        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null, null);
         CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
         Assertions.assertThat(commandDelegate3.hasParentCommand(Command.class)).isFalse();
         Assertions.assertThat(commandDelegate3.hasParentCommand(AbstractCommand.class)).isFalse();
@@ -133,7 +133,7 @@ public final class CommandDelegateTest extends BaseCliTest {
         Assertions.assertThat(commandDelegate3.hasParentCommand(AbstractExecutionCommand.class)).isFalse();
         Assertions.assertThat(commandDelegate3.hasParentCommand(AbstractUserActionCommand.class)).isFalse();
 
-        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null, null);
         CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
         Assertions.assertThat(commandDelegate4.hasParentCommand(Command.class)).isFalse();
         Assertions.assertThat(commandDelegate4.hasParentCommand(AbstractCommand.class)).isFalse();
@@ -141,8 +141,8 @@ public final class CommandDelegateTest extends BaseCliTest {
         Assertions.assertThat(commandDelegate4.hasParentCommand(AbstractExecutionCommand.class)).isFalse();
         Assertions.assertThat(commandDelegate4.hasParentCommand(AbstractUserActionCommand.class)).isFalse();
 
-        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(abstractCommand51, null, null);
         CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
         Assertions.assertThat(commandDelegate5.hasParentCommand(Command.class)).isTrue();
         Assertions.assertThat(commandDelegate5.hasParentCommand(AbstractCommand.class)).isTrue();
@@ -150,9 +150,9 @@ public final class CommandDelegateTest extends BaseCliTest {
         Assertions.assertThat(commandDelegate5.hasParentCommand(AbstractExecutionCommand.class)).isFalse();
         Assertions.assertThat(commandDelegate5.hasParentCommand(AbstractUserActionCommand.class)).isFalse();
 
-        AbstractCommand abstractCommand61 = new AbstractExecutionCommandImpl(null);
-        AbstractCommand abstractCommand62 = new AbstractCommandImpl(null, abstractCommand61);
-        AbstractCommand abstractCommand63 = new AbstractCommandImpl(null, abstractCommand62);
+        AbstractCommand abstractCommand61 = new AbstractExecutionCommandImpl(null, null);
+        AbstractCommand abstractCommand62 = new AbstractCommandImpl(abstractCommand61, null, null);
+        AbstractCommand abstractCommand63 = new AbstractCommandImpl(abstractCommand62, null, null);
         CommandDelegate commandDelegate6 = new CommandDelegate(abstractCommand63);
         Assertions.assertThat(commandDelegate6.hasParentCommand(Command.class)).isTrue();
         Assertions.assertThat(commandDelegate6.hasParentCommand(AbstractCommand.class)).isTrue();
@@ -172,16 +172,16 @@ public final class CommandDelegateTest extends BaseCliTest {
         CommandDelegate commandDelegate2 = new CommandDelegate(null);
         Assertions.assertThat(commandDelegate2.getParentCommand()).isNull();
 
-        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null, null);
         CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
         Assertions.assertThat(commandDelegate3.getParentCommand()).isNull();
 
-        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null, null);
         CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
         Assertions.assertThat(commandDelegate4.getParentCommand()).isNull();
 
-        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(abstractCommand51, null, null);
         CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
         Assertions.assertThat(commandDelegate5.getParentCommand()).isSameAs(abstractCommand51);
     }
@@ -205,7 +205,7 @@ public final class CommandDelegateTest extends BaseCliTest {
         Assertions.assertThat(commandDelegate2.getParentCommand(AbstractExecutionCommand.class)).isNull();
         Assertions.assertThat(commandDelegate2.getParentCommand(AbstractUserActionCommand.class)).isNull();
 
-        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null, null);
         CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
         Assertions.assertThat(commandDelegate3.getParentCommand(Command.class)).isNull();
         Assertions.assertThat(commandDelegate3.getParentCommand(AbstractCommand.class)).isNull();
@@ -213,7 +213,7 @@ public final class CommandDelegateTest extends BaseCliTest {
         Assertions.assertThat(commandDelegate3.getParentCommand(AbstractExecutionCommand.class)).isNull();
         Assertions.assertThat(commandDelegate3.getParentCommand(AbstractUserActionCommand.class)).isNull();
 
-        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null, null);
         CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
         Assertions.assertThat(commandDelegate4.getParentCommand(Command.class)).isNull();
         Assertions.assertThat(commandDelegate4.getParentCommand(AbstractCommand.class)).isNull();
@@ -221,8 +221,8 @@ public final class CommandDelegateTest extends BaseCliTest {
         Assertions.assertThat(commandDelegate4.getParentCommand(AbstractExecutionCommand.class)).isNull();
         Assertions.assertThat(commandDelegate4.getParentCommand(AbstractUserActionCommand.class)).isNull();
 
-        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(abstractCommand51, null, null);
         CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
         Assertions.assertThat(commandDelegate5.getParentCommand(Command.class)).isSameAs(abstractCommand51);
         Assertions.assertThat(commandDelegate5.getParentCommand(AbstractCommand.class)).isSameAs(abstractCommand51);
@@ -230,9 +230,9 @@ public final class CommandDelegateTest extends BaseCliTest {
         Assertions.assertThat(commandDelegate5.getParentCommand(AbstractExecutionCommand.class)).isNull();
         Assertions.assertThat(commandDelegate5.getParentCommand(AbstractUserActionCommand.class)).isNull();
 
-        AbstractCommand abstractCommand61 = new AbstractExecutionCommandImpl(null);
-        AbstractCommand abstractCommand62 = new AbstractCommandImpl(null, abstractCommand61);
-        AbstractCommand abstractCommand63 = new AbstractCommandImpl(null, abstractCommand62);
+        AbstractCommand abstractCommand61 = new AbstractExecutionCommandImpl(null, null);
+        AbstractCommand abstractCommand62 = new AbstractCommandImpl(abstractCommand61, null, null);
+        AbstractCommand abstractCommand63 = new AbstractCommandImpl(abstractCommand62, null, null);
         CommandDelegate commandDelegate6 = new CommandDelegate(abstractCommand63);
         Assertions.assertThat(commandDelegate6.getParentCommand(Command.class)).isSameAs(abstractCommand62);
         Assertions.assertThat(commandDelegate6.getParentCommand(AbstractCommand.class)).isSameAs(abstractCommand62);
@@ -252,16 +252,16 @@ public final class CommandDelegateTest extends BaseCliTest {
         CommandDelegate commandDelegate2 = new CommandDelegate(null);
         Assertions.assertThat(commandDelegate2.getContext()).isNull();
 
-        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null, null);
         CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
         Assertions.assertThat(commandDelegate3.getContext()).isNull();
 
-        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null, null);
         CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
         Assertions.assertThat(commandDelegate4.getContext()).isNull();
 
-        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(abstractCommand51, null, null);
         CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
         Assertions.assertThat(commandDelegate5.getContext()).isNull();
     }
@@ -281,27 +281,27 @@ public final class CommandDelegateTest extends BaseCliTest {
         commandDelegate2.setContext(context2);
         Assertions.assertThat(commandDelegate2.getContext()).isNull();
 
-        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null, null);
         CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
         Context context3 = new Context();
         commandDelegate3.setContext(context3);
         Assertions.assertThat(commandDelegate3.getContext()).isSameAs(context3);
 
-        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null, null);
         CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
         Context context4 = new Context();
         commandDelegate4.setContext(context4);
         Assertions.assertThat(commandDelegate4.getContext()).isSameAs(context4);
 
-        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null, null);
         Context context5 = new Context();
         abstractCommand51.setContext(context5);
-        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(abstractCommand51, null, null);
         CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
         Assertions.assertThat(commandDelegate5.getContext()).isNull();
 
-        AbstractCommand abstractCommand61 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand62 = new AbstractCommandImpl(null, abstractCommand61);
+        AbstractCommand abstractCommand61 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand62 = new AbstractCommandImpl(abstractCommand61, null, null);
         CommandDelegate commandDelegate6 = new CommandDelegate(abstractCommand62);
         Context context6 = new Context();
         commandDelegate6.setContext(context6);
@@ -319,16 +319,16 @@ public final class CommandDelegateTest extends BaseCliTest {
         CommandDelegate commandDelegate2 = new CommandDelegate(null);
         Assertions.assertThat(commandDelegate2.getCommandRunner()).isNull();
 
-        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null, null);
         CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
         Assertions.assertThat(commandDelegate3.getCommandRunner()).isNull();
 
-        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null, null);
         CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
         Assertions.assertThat(commandDelegate4.getCommandRunner()).isNull();
 
-        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(abstractCommand51, null, null);
         CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
         Assertions.assertThat(commandDelegate5.getCommandRunner()).isNull();
     }
@@ -348,27 +348,27 @@ public final class CommandDelegateTest extends BaseCliTest {
         commandDelegate2.setCommandRunner(commandRunner2);
         Assertions.assertThat(commandDelegate2.getCommandRunner()).isNull();
 
-        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand3 = new AbstractCommandImpl(null, null);
         CommandDelegate commandDelegate3 = new CommandDelegate(abstractCommand3);
         CommandRunner commandRunner3 = new CommandRunner(System.out, System.in);
         commandDelegate3.setCommandRunner(commandRunner3);
         Assertions.assertThat(commandDelegate3.getCommandRunner()).isSameAs(commandRunner3);
 
-        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand4 = new AbstractCommandImpl(null, null, null);
         CommandDelegate commandDelegate4 = new CommandDelegate(abstractCommand4);
         CommandRunner commandRunner4 = new CommandRunner(System.out, System.in);
         commandDelegate4.setCommandRunner(commandRunner4);
         Assertions.assertThat(commandDelegate4.getCommandRunner()).isSameAs(commandRunner4);
 
-        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand51 = new AbstractCommandImpl(null, null, null);
         CommandRunner commandRunner5 = new CommandRunner(System.out, System.in);
         abstractCommand51.setCommandRunner(commandRunner5);
-        AbstractCommand abstractCommand52 = new AbstractCommandImpl(null, abstractCommand51);
+        AbstractCommand abstractCommand52 = new AbstractCommandImpl(abstractCommand51, null, null);
         CommandDelegate commandDelegate5 = new CommandDelegate(abstractCommand52);
         Assertions.assertThat(commandDelegate5.getCommandRunner()).isNull();
 
-        AbstractCommand abstractCommand61 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand62 = new AbstractCommandImpl(null, abstractCommand61);
+        AbstractCommand abstractCommand61 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand62 = new AbstractCommandImpl(abstractCommand61, null, null);
         CommandDelegate commandDelegate6 = new CommandDelegate(abstractCommand62);
         CommandRunner commandRunner6 = new CommandRunner(System.out, System.in);
         commandDelegate6.setCommandRunner(commandRunner6);
@@ -397,7 +397,7 @@ public final class CommandDelegateTest extends BaseCliTest {
         ByteArrayOutputStream os3 = createOutputStream();
         InputStream is3 = createInputStream("Строка 1", "Строка 2");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
-        Command command3 = new AbstractCommandImpl("Prompt 1");
+        Command command3 = new AbstractCommandImpl("Prompt 1", null);
         CommandDelegate commandDelegate3 = new CommandDelegate(command3);
         commandRunner3.execute(commandDelegate3);
         Assertions.assertThat(getLines(os3)).containsExactlyInOrder("Prompt 1", "Строка 1");
@@ -405,12 +405,50 @@ public final class CommandDelegateTest extends BaseCliTest {
         ByteArrayOutputStream os4 = createOutputStream();
         InputStream is4 = createInputStream("Строка 1", "Строка 2");
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
-        Command command43 = new AbstractCommandImpl("Prompt 3");
+        Command command43 = new AbstractCommandImpl("Prompt 3", null);
         Command command42 = new AbstractCommandImpl("Prompt 2", command43);
         Command command41 = new AbstractCommandImpl("Prompt 1", command42);
         CommandDelegate commandDelegate4 = new CommandDelegate(command41);
         commandRunner4.execute(command41);
         Assertions.assertThat(getLines(os4)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3");
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        Command command5 = new AbstractCommandImpl(null, "Prompt 1", null);
+        CommandDelegate commandDelegate5 = new CommandDelegate(command5);
+        commandRunner5.execute(commandDelegate5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("Prompt 1", "Строка 1");
+
+        ByteArrayOutputStream os6 = createOutputStream();
+        InputStream is6 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner6 = new CommandRunner(os6, is6);
+        Command command63 = new AbstractCommandImpl(null, "Prompt 3", null);
+        Command command62 = new AbstractCommandImpl(null, "Prompt 2", command63);
+        Command command61 = new AbstractCommandImpl(null, "Prompt 1", command62);
+        CommandDelegate commandDelegate6 = new CommandDelegate(command61);
+        commandRunner6.execute(command61);
+        Assertions.assertThat(getLines(os6)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3");
+
+        ByteArrayOutputStream os7 = createOutputStream();
+        InputStream is7 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner7 = new CommandRunner(os7, is7);
+        Command parentCommand7 = new AbstractExecutionCommandImpl("message", null);
+        Command command7 = new AbstractCommandImpl(parentCommand7, "Prompt 1", null);
+        CommandDelegate commandDelegate7 = new CommandDelegate(command7);
+        commandRunner7.execute(commandDelegate7);
+        Assertions.assertThat(getLines(os7)).containsExactlyInOrder("Prompt 1", "Строка 1", "message");
+
+        ByteArrayOutputStream os8 = createOutputStream();
+        InputStream is8 = createInputStream("Строка 1", "Строка 2");
+        CommandRunner commandRunner8 = new CommandRunner(os8, is8);
+        Command parentCommand8 = new AbstractExecutionCommandImpl("message", null);
+        Command command83 = new AbstractCommandImpl(parentCommand8, "Prompt 3", null);
+        Command command82 = new AbstractCommandImpl(parentCommand8, "Prompt 2", command83);
+        Command command81 = new AbstractCommandImpl(parentCommand8, "Prompt 1", command82);
+        CommandDelegate commandDelegate8 = new CommandDelegate(command81);
+        commandRunner8.execute(command81);
+        Assertions.assertThat(getLines(os8)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "message");
     }
 
     /**
@@ -418,7 +456,7 @@ public final class CommandDelegateTest extends BaseCliTest {
      */
     @Test
     public void resetTest() {
-        AbstractCommand abstractCommand = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand = new AbstractCommandImpl(null, null, null);
 
         CommandDelegate commandDelegate1 = new CommandDelegate();
         ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>("value", true);
