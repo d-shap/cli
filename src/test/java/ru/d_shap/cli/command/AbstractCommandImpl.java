@@ -37,26 +37,32 @@ public final class AbstractCommandImpl extends AbstractCommand {
 
     public static final String COUNTER_KEY = "__COUNTER_KEY__";
 
+    private final Command _nextCommand;
+
     private final String _message;
 
     /**
      * Create new object.
      *
-     * @param message the message to write to the output.
+     * @param nextCommand the next command to execute.
+     * @param message     the message to write to the output.
      */
-    public AbstractCommandImpl(final String message) {
+    public AbstractCommandImpl(final Command nextCommand, final String message) {
         super();
+        _nextCommand = nextCommand;
         _message = message;
     }
 
     /**
      * Create new object.
      *
-     * @param message       the message to write to the output.
      * @param parentCommand the parent command.
+     * @param nextCommand   the next command to execute.
+     * @param message       the message to write to the output.
      */
-    public AbstractCommandImpl(final String message, final Command parentCommand) {
+    public AbstractCommandImpl(final Command parentCommand, final Command nextCommand, final String message) {
         super(parentCommand);
+        _nextCommand = nextCommand;
         _message = message;
     }
 
@@ -82,7 +88,7 @@ public final class AbstractCommandImpl extends AbstractCommand {
                 getContext().putValue(COUNTER_KEY, counter + increment);
             }
 
-            return getParentCommand();
+            return _nextCommand;
         } catch (IOException ex) {
             throw new CliIOException(ex);
         }
