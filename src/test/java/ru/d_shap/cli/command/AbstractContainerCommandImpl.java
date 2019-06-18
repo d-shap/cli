@@ -37,14 +37,18 @@ public final class AbstractContainerCommandImpl extends AbstractContainerCommand
 
     private final Command _startCommand;
 
+    private final Command _nextCommand;
+
     /**
      * Create new object.
      *
      * @param startCommand the command to execute within container.
+     * @param nextCommand  the next command to execute.
      */
-    public AbstractContainerCommandImpl(final Command startCommand) {
+    public AbstractContainerCommandImpl(final Command startCommand, final Command nextCommand) {
         super();
         _startCommand = startCommand;
+        _nextCommand = nextCommand;
     }
 
     /**
@@ -52,10 +56,12 @@ public final class AbstractContainerCommandImpl extends AbstractContainerCommand
      *
      * @param parentCommand the parent command.
      * @param startCommand  the command to execute within container.
+     * @param nextCommand   the next command to execute.
      */
-    public AbstractContainerCommandImpl(final Command parentCommand, final Command startCommand) {
+    public AbstractContainerCommandImpl(final Command parentCommand, final Command startCommand, final Command nextCommand) {
         super(parentCommand);
         _startCommand = startCommand;
+        _nextCommand = nextCommand;
     }
 
     @Override
@@ -84,7 +90,7 @@ public final class AbstractContainerCommandImpl extends AbstractContainerCommand
         getContext().putValue(CONTAINER_KEY, counter);
         writer.println("counter: " + counter);
         writer.flush();
-        return getParentCommand();
+        return _nextCommand;
     }
 
     private boolean isContextReset() {
