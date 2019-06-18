@@ -516,7 +516,7 @@ public final class MenuItemTest extends BaseCliTest {
 
         Assertions.assertThat(new MenuItem(null, (Lines) null).getCommand()).isNull();
 
-        Command command = new AbstractCommandImpl("message");
+        Command command = new AbstractCommandImpl("message", null);
 
         Assertions.assertThat(new MenuItem(null, (String) null, null).getCommand()).isNull();
         Assertions.assertThat(new MenuItem(null, (String) null, command).getCommand()).isSameAs(command);
