@@ -55,25 +55,52 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
         ByteArrayOutputStream os1 = createOutputStream();
         InputStream is1 = createInputStream("Строка 1", "", "Строка 2");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
-        Command command1 = new AbstractUserActionCommandImpl("Prompt 1");
+        Command command1 = new AbstractUserActionCommandImpl("Prompt 1", null);
         commandRunner1.execute(command1);
         Assertions.assertThat(getLines(os1)).containsExactlyInOrder("Prompt 1", "Input: Строка 1", "");
 
         ByteArrayOutputStream os2 = createOutputStream();
         InputStream is2 = createInputStream("Строка 1", "", "Строка 2");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
-        Command command2 = new AbstractUserActionCommandImpl("Prompt 1", null);
+        Command command2 = new AbstractUserActionCommandImpl(null, "Prompt 1", null);
         commandRunner2.execute(command2);
         Assertions.assertThat(getLines(os2)).containsExactlyInOrder("Prompt 1", "Input: Строка 1", "");
 
         ByteArrayOutputStream os3 = createOutputStream();
         InputStream is3 = createInputStream("Строка 1", "", "Строка 2");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
-        Command command33 = new AbstractUserActionCommandImpl("Prompt 3");
+        Command command33 = new AbstractUserActionCommandImpl("Prompt 3", null);
         Command command32 = new AbstractUserActionCommandImpl("Prompt 2", command33);
         Command command31 = new AbstractUserActionCommandImpl("Prompt 1", command32);
         commandRunner3.execute(command31);
         Assertions.assertThat(getLines(os3)).containsExactlyInOrder("Prompt 1", "Input: Строка 1", "", "Prompt 2", "Default input: ", "", "Prompt 3", "Input: Строка 2", "");
+
+        ByteArrayOutputStream os4 = createOutputStream();
+        InputStream is4 = createInputStream("Строка 1", "", "Строка 2");
+        CommandRunner commandRunner4 = new CommandRunner(os4, is4);
+        Command command43 = new AbstractUserActionCommandImpl(null, "Prompt 3", null);
+        Command command42 = new AbstractUserActionCommandImpl(null, "Prompt 2", command43);
+        Command command41 = new AbstractUserActionCommandImpl(null, "Prompt 1", command42);
+        commandRunner4.execute(command41);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("Prompt 1", "Input: Строка 1", "", "Prompt 2", "Default input: ", "", "Prompt 3", "Input: Строка 2", "");
+
+        ByteArrayOutputStream os5 = createOutputStream();
+        InputStream is5 = createInputStream("Строка 1", "", "Строка 2");
+        CommandRunner commandRunner5 = new CommandRunner(os5, is5);
+        Command parentCommand5 = new AbstractExecutionCommandImpl("message", null);
+        Command command5 = new AbstractUserActionCommandImpl(parentCommand5, "Prompt 1", null);
+        commandRunner5.execute(command5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("Prompt 1", "Input: Строка 1", "", "message");
+
+        ByteArrayOutputStream os6 = createOutputStream();
+        InputStream is6 = createInputStream("Строка 1", "", "Строка 2");
+        CommandRunner commandRunner6 = new CommandRunner(os6, is6);
+        Command parentCommand6 = new AbstractExecutionCommandImpl("message", null);
+        Command command63 = new AbstractUserActionCommandImpl(parentCommand6, "Prompt 3", null);
+        Command command62 = new AbstractUserActionCommandImpl(parentCommand6, "Prompt 2", command63);
+        Command command61 = new AbstractUserActionCommandImpl(parentCommand6, "Prompt 1", command62);
+        commandRunner6.execute(command61);
+        Assertions.assertThat(getLines(os6)).containsExactlyInOrder("Prompt 1", "Input: Строка 1", "", "Prompt 2", "Default input: ", "", "Prompt 3", "Input: Строка 2", "", "message");
     }
 
     /**
@@ -85,7 +112,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
             ByteArrayOutputStream os1 = createOutputStream();
             InputStream is1 = new FailOnReadInputStream("read error");
             CommandRunner commandRunner1 = new CommandRunner(os1, is1);
-            Command command1 = new AbstractUserActionCommandImpl("Prompt");
+            Command command1 = new AbstractUserActionCommandImpl("Prompt", null);
             commandRunner1.execute(command1);
             Assertions.fail("AbstractUserActionCommand test fail");
         } catch (CliIOException ex) {
@@ -95,7 +122,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
         OutputStream os2 = new FailOnWriteOutputStream("write error");
         InputStream is2 = createInputStream();
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
-        Command command2 = new AbstractUserActionCommandImpl("Prompt");
+        Command command2 = new AbstractUserActionCommandImpl("Prompt", null);
         commandRunner2.execute(command2);
         Assertions.assertThat(commandRunner2.getWriter().checkError()).isTrue();
     }
@@ -108,7 +135,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
         ByteArrayOutputStream os = createOutputStream();
         InputStream is = createInputStream();
         CommandRunner commandRunner = new CommandRunner(os, is);
-        Command command = new AbstractUserActionCommandImpl("Prompt");
+        Command command = new AbstractUserActionCommandImpl("Prompt", null);
         command.execute(commandRunner.getWriter(), new NullReadLineBufferedReader());
         Assertions.assertThat(getLines(os)).containsExactlyInOrder("Prompt", "Default input: ", "");
     }
@@ -118,7 +145,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
      */
     @Test
     public void isDefaultInputTest() {
-        AbstractUserActionCommand command = new AbstractUserActionCommandImpl("Prompt");
+        AbstractUserActionCommand command = new AbstractUserActionCommandImpl("Prompt", null);
         Assertions.assertThat(command.isDefaultInput(null)).isFalse();
         Assertions.assertThat(command.isDefaultInput("")).isTrue();
         Assertions.assertThat(command.isDefaultInput(" ")).isFalse();
@@ -130,7 +157,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
      */
     @Test
     public void processWrongInputValueHolderTest() {
-        AbstractUserActionCommand command = new AbstractUserActionCommandImpl("Prompt");
+        AbstractUserActionCommand command = new AbstractUserActionCommandImpl("Prompt", null);
 
         ByteArrayOutputStream os11 = createOutputStream();
         InputStream is11 = createInputStream();
@@ -238,7 +265,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
      */
     @Test
     public void processWrongInputStringTest() {
-        AbstractUserActionCommand command = new AbstractUserActionCommandImpl("Prompt");
+        AbstractUserActionCommand command = new AbstractUserActionCommandImpl("Prompt", null);
 
         ByteArrayOutputStream os11 = createOutputStream();
         InputStream is11 = createInputStream();
