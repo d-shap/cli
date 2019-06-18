@@ -32,32 +32,38 @@ public final class AbstractExecutionCommandImpl extends AbstractExecutionCommand
 
     private final String _message;
 
+    private final Command _nextCommand;
+
     /**
      * Create new object.
      *
-     * @param message the message to write to the output.
+     * @param message     the message to write to the output.
+     * @param nextCommand the next command to execute.
      */
-    public AbstractExecutionCommandImpl(final String message) {
+    public AbstractExecutionCommandImpl(final String message, final Command nextCommand) {
         super();
         _message = message;
+        _nextCommand = nextCommand;
     }
 
     /**
      * Create new object.
      *
-     * @param message       the message to write to the output.
      * @param parentCommand the parent command.
+     * @param message       the message to write to the output.
+     * @param nextCommand   the next command to execute.
      */
-    public AbstractExecutionCommandImpl(final String message, final Command parentCommand) {
+    public AbstractExecutionCommandImpl(final Command parentCommand, final String message, final Command nextCommand) {
         super(parentCommand);
         _message = message;
+        _nextCommand = nextCommand;
     }
 
     @Override
     protected Command execute(final PrintWriter writer) {
         writer.println(_message);
         writer.flush();
-        return getParentCommand();
+        return _nextCommand;
     }
 
 }
