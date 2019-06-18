@@ -53,17 +53,17 @@ public final class ParentCommandHelperTest extends BaseCliTest {
     public void getParentCommandTest() {
         Assertions.assertThat(ParentCommandHelper.getParentCommand(null, null)).isNull();
 
-        Assertions.assertThat(ParentCommandHelper.getParentCommand(null, new AbstractCommandImpl(null, null))).isNull();
+        Assertions.assertThat(ParentCommandHelper.getParentCommand(null, new AbstractCommandImpl(null, null, null))).isNull();
 
-        AbstractCommand parentCommand1 = new AbstractCommandImpl(null, null);
-        Assertions.assertThat(ParentCommandHelper.getParentCommand(null, new AbstractCommandImpl(null, parentCommand1))).isSameAs(parentCommand1);
+        AbstractCommand parentCommand1 = new AbstractCommandImpl(null, null, null);
+        Assertions.assertThat(ParentCommandHelper.getParentCommand(null, new AbstractCommandImpl(parentCommand1, null, null))).isSameAs(parentCommand1);
 
-        AbstractCommand parentCommand2 = new AbstractCommandImpl(null, null);
-        Assertions.assertThat(ParentCommandHelper.getParentCommand(parentCommand2, new AbstractCommandImpl(null, null))).isSameAs(parentCommand2);
+        AbstractCommand parentCommand2 = new AbstractCommandImpl(null, null, null);
+        Assertions.assertThat(ParentCommandHelper.getParentCommand(parentCommand2, new AbstractCommandImpl(null, null, null))).isSameAs(parentCommand2);
 
-        AbstractCommand parentCommand31 = new AbstractCommandImpl(null, null);
-        AbstractCommand parentCommand32 = new AbstractCommandImpl(null, null);
-        Assertions.assertThat(ParentCommandHelper.getParentCommand(parentCommand31, new AbstractCommandImpl(null, parentCommand32))).isSameAs(parentCommand31);
+        AbstractCommand parentCommand31 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand parentCommand32 = new AbstractCommandImpl(null, null, null);
+        Assertions.assertThat(ParentCommandHelper.getParentCommand(parentCommand31, new AbstractCommandImpl(parentCommand32, null, null))).isSameAs(parentCommand31);
     }
 
 }
