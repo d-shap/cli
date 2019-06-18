@@ -439,9 +439,9 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os1 = createOutputStream();
         InputStream is1 = createInputStream("1");
         CommandRunner commandRunner1 = new CommandRunner(os1, is1);
-        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command");
-        Command childCommand11 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand12 = new AbstractExecutionCommandImpl("child command 2");
+        Command parentCommand1 = new AbstractExecutionCommandImpl("parent command", null);
+        Command childCommand11 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand12 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options1 = getOptions(new MenuItem("1", "Option 1", childCommand11), new MenuItem("2", "Option 2", childCommand12), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command1 = new AbstractMenuCommandImpl(parentCommand1, new Lines("line"), options1, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
         commandRunner1.execute(command1);
@@ -450,9 +450,9 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os2 = createOutputStream();
         InputStream is2 = createInputStream("2");
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
-        Command parentCommand2 = new AbstractExecutionCommandImpl("parent command");
-        Command childCommand21 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand22 = new AbstractExecutionCommandImpl("child command 2");
+        Command parentCommand2 = new AbstractExecutionCommandImpl("parent command", null);
+        Command childCommand21 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand22 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options2 = getOptions(new MenuItem("1", "Option 1", childCommand21), new MenuItem("2", "Option 2", childCommand22), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command2 = new AbstractMenuCommandImpl(parentCommand2, new Lines("line"), options2, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
         commandRunner2.execute(command2);
@@ -461,9 +461,9 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os3 = createOutputStream();
         InputStream is3 = createInputStream("3");
         CommandRunner commandRunner3 = new CommandRunner(os3, is3);
-        Command parentCommand3 = new AbstractExecutionCommandImpl("parent command");
-        Command childCommand31 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand32 = new AbstractExecutionCommandImpl("child command 2");
+        Command parentCommand3 = new AbstractExecutionCommandImpl("parent command", null);
+        Command childCommand31 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand32 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options3 = getOptions(new MenuItem("1", "Option 1", childCommand31), new MenuItem("2", "Option 2", childCommand32), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command3 = new AbstractMenuCommandImpl(parentCommand3, new Lines("line"), options3, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
         commandRunner3.execute(command3);
@@ -472,9 +472,9 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os4 = createOutputStream();
         InputStream is4 = createInputStream("", "3");
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
-        Command parentCommand4 = new AbstractExecutionCommandImpl("parent command");
-        Command childCommand41 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand42 = new AbstractExecutionCommandImpl("child command 2");
+        Command parentCommand4 = new AbstractExecutionCommandImpl("parent command", null);
+        Command childCommand41 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand42 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options4 = getOptions(new MenuItem("1", "Option 1", childCommand41), new MenuItem("2", "Option 2", childCommand42), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command4 = new AbstractMenuCommandImpl(parentCommand4, new Lines("line"), options4, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
         commandRunner4.execute(command4);
@@ -483,9 +483,9 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os5 = createOutputStream();
         InputStream is5 = createInputStream("x", "3");
         CommandRunner commandRunner5 = new CommandRunner(os5, is5);
-        Command parentCommand5 = new AbstractExecutionCommandImpl("parent command");
-        Command childCommand51 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand52 = new AbstractExecutionCommandImpl("child command 2");
+        Command parentCommand5 = new AbstractExecutionCommandImpl("parent command", null);
+        Command childCommand51 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand52 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options5 = getOptions(new MenuItem("1", "Option 1", childCommand51), new MenuItem("2", "Option 2", childCommand52), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command5 = new AbstractMenuCommandImpl(parentCommand5, new Lines("line"), options5, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, AbstractMenuCommand.NO_DEFAULT_OPTION_INDEX, "wrong: <%s>");
         commandRunner5.execute(command5);
@@ -494,9 +494,9 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os6 = createOutputStream();
         InputStream is6 = createInputStream("2");
         CommandRunner commandRunner6 = new CommandRunner(os6, is6);
-        Command parentCommand6 = new AbstractExecutionCommandImpl("parent command");
-        Command childCommand61 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand62 = new AbstractExecutionCommandImpl("child command 2");
+        Command parentCommand6 = new AbstractExecutionCommandImpl("parent command", null);
+        Command childCommand61 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand62 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options6 = getOptions(new MenuItem("1", "Option 1", childCommand61), new MenuItem("2", "Option 2", childCommand62), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command6 = new AbstractMenuCommandImpl(parentCommand6, new Lines("line"), options6, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 3, "wrong: <%s>");
         commandRunner6.execute(command6);
@@ -505,9 +505,9 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os7 = createOutputStream();
         InputStream is7 = createInputStream("", "3");
         CommandRunner commandRunner7 = new CommandRunner(os7, is7);
-        Command parentCommand7 = new AbstractExecutionCommandImpl("parent command");
-        Command childCommand71 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand72 = new AbstractExecutionCommandImpl("child command 2");
+        Command parentCommand7 = new AbstractExecutionCommandImpl("parent command", null);
+        Command childCommand71 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand72 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options7 = getOptions(new MenuItem("1", "Option 1", childCommand71), new MenuItem("2", "Option 2", childCommand72), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command7 = new AbstractMenuCommandImpl(parentCommand7, new Lines("line"), options7, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 3, "wrong: <%s>");
         commandRunner7.execute(command7);
@@ -516,9 +516,9 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os8 = createOutputStream();
         InputStream is8 = createInputStream("x", "3");
         CommandRunner commandRunner8 = new CommandRunner(os8, is8);
-        Command parentCommand8 = new AbstractExecutionCommandImpl("parent command");
-        Command childCommand81 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand82 = new AbstractExecutionCommandImpl("child command 2");
+        Command parentCommand8 = new AbstractExecutionCommandImpl("parent command", null);
+        Command childCommand81 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand82 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options8 = getOptions(new MenuItem("1", "Option 1", childCommand81), new MenuItem("2", "Option 2", childCommand82), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command8 = new AbstractMenuCommandImpl(parentCommand8, new Lines("line"), options8, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 3, "wrong: <%s>");
         commandRunner8.execute(command8);
@@ -527,8 +527,8 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
         ByteArrayOutputStream os9 = createOutputStream();
         InputStream is9 = createInputStream("", "3");
         CommandRunner commandRunner9 = new CommandRunner(os9, is9);
-        Command childCommand91 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand92 = new AbstractExecutionCommandImpl("child command 2");
+        Command childCommand91 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand92 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options9 = getOptions(new MenuItem("1", "Option 1", childCommand91), new MenuItem("2", "Option 2", childCommand92), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command9 = new AbstractMenuCommandImpl(new Lines("line"), options9, AbstractMenuCommand.DEFAULT_SYMBOL_LENGTH, 3, "wrong: <%s>");
         commandRunner9.execute(command9);
@@ -540,8 +540,8 @@ public final class AbstractMenuCommandTest extends BaseCliTest {
      */
     @Test
     public void resetTest() {
-        Command childCommand1 = new AbstractExecutionCommandImpl("child command 1");
-        Command childCommand2 = new AbstractExecutionCommandImpl("child command 2");
+        Command childCommand1 = new AbstractExecutionCommandImpl("child command 1", null);
+        Command childCommand2 = new AbstractExecutionCommandImpl("child command 2", null);
         List<Option> options = getOptions(new MenuItem("1", "Option 1", childCommand1), new MenuItem("2", "Option 2", childCommand2), new MenuSeparator(), new MenuItem("3", "Option 3"));
         AbstractMenuCommandImpl command = new AbstractMenuCommandImpl(new Lines("line"), options, 4, 3, "wrong: <%s>");
 
