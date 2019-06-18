@@ -49,14 +49,14 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void hasParentCommandTest() {
-        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null, null);
         Assertions.assertThat(abstractCommand1.hasParentCommand()).isFalse();
 
-        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null, null);
         Assertions.assertThat(abstractCommand2.hasParentCommand()).isFalse();
 
-        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand32 = new AbstractCommandImpl(null, abstractCommand31);
+        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand32 = new AbstractCommandImpl(abstractCommand31, null, null);
         Assertions.assertThat(abstractCommand32.hasParentCommand()).isTrue();
     }
 
@@ -65,31 +65,31 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void hasParentCommandWithClassTest() {
-        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null, null);
         Assertions.assertThat(abstractCommand1.hasParentCommand(Command.class)).isFalse();
         Assertions.assertThat(abstractCommand1.hasParentCommand(AbstractCommand.class)).isFalse();
         Assertions.assertThat(abstractCommand1.hasParentCommand(AbstractCommandImpl.class)).isFalse();
         Assertions.assertThat(abstractCommand1.hasParentCommand(AbstractExecutionCommand.class)).isFalse();
         Assertions.assertThat(abstractCommand1.hasParentCommand(AbstractUserActionCommand.class)).isFalse();
 
-        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null, null);
         Assertions.assertThat(abstractCommand2.hasParentCommand(Command.class)).isFalse();
         Assertions.assertThat(abstractCommand2.hasParentCommand(AbstractCommand.class)).isFalse();
         Assertions.assertThat(abstractCommand2.hasParentCommand(AbstractCommandImpl.class)).isFalse();
         Assertions.assertThat(abstractCommand2.hasParentCommand(AbstractExecutionCommand.class)).isFalse();
         Assertions.assertThat(abstractCommand2.hasParentCommand(AbstractUserActionCommand.class)).isFalse();
 
-        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand32 = new AbstractCommandImpl(null, abstractCommand31);
+        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand32 = new AbstractCommandImpl(abstractCommand31, null, null);
         Assertions.assertThat(abstractCommand32.hasParentCommand(Command.class)).isTrue();
         Assertions.assertThat(abstractCommand32.hasParentCommand(AbstractCommand.class)).isTrue();
         Assertions.assertThat(abstractCommand32.hasParentCommand(AbstractCommandImpl.class)).isTrue();
         Assertions.assertThat(abstractCommand32.hasParentCommand(AbstractExecutionCommand.class)).isFalse();
         Assertions.assertThat(abstractCommand32.hasParentCommand(AbstractUserActionCommand.class)).isFalse();
 
-        AbstractCommand abstractCommand41 = new AbstractExecutionCommandImpl(null);
-        AbstractCommand abstractCommand42 = new AbstractCommandImpl(null, abstractCommand41);
-        AbstractCommand abstractCommand43 = new AbstractCommandImpl(null, abstractCommand42);
+        AbstractCommand abstractCommand41 = new AbstractExecutionCommandImpl(null, null);
+        AbstractCommand abstractCommand42 = new AbstractCommandImpl(abstractCommand41, null, null);
+        AbstractCommand abstractCommand43 = new AbstractCommandImpl(abstractCommand42, null, null);
         Assertions.assertThat(abstractCommand43.hasParentCommand(Command.class)).isTrue();
         Assertions.assertThat(abstractCommand43.hasParentCommand(AbstractCommand.class)).isTrue();
         Assertions.assertThat(abstractCommand43.hasParentCommand(AbstractCommandImpl.class)).isTrue();
@@ -102,14 +102,14 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void getParentCommandTest() {
-        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null, null);
         Assertions.assertThat(abstractCommand1.getParentCommand()).isNull();
 
-        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null, null);
         Assertions.assertThat(abstractCommand2.getParentCommand()).isNull();
 
-        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand32 = new AbstractCommandImpl(null, abstractCommand31);
+        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand32 = new AbstractCommandImpl(abstractCommand31, null, null);
         Assertions.assertThat(abstractCommand32.getParentCommand()).isSameAs(abstractCommand31);
     }
 
@@ -118,31 +118,31 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void getParentCommandWithClassTest() {
-        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null, null);
         Assertions.assertThat(abstractCommand1.getParentCommand(Command.class)).isNull();
         Assertions.assertThat(abstractCommand1.getParentCommand(AbstractCommand.class)).isNull();
         Assertions.assertThat(abstractCommand1.getParentCommand(AbstractCommandImpl.class)).isNull();
         Assertions.assertThat(abstractCommand1.getParentCommand(AbstractExecutionCommand.class)).isNull();
         Assertions.assertThat(abstractCommand1.getParentCommand(AbstractUserActionCommand.class)).isNull();
 
-        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null, null);
         Assertions.assertThat(abstractCommand2.getParentCommand(Command.class)).isNull();
         Assertions.assertThat(abstractCommand2.getParentCommand(AbstractCommand.class)).isNull();
         Assertions.assertThat(abstractCommand2.getParentCommand(AbstractCommandImpl.class)).isNull();
         Assertions.assertThat(abstractCommand2.getParentCommand(AbstractExecutionCommand.class)).isNull();
         Assertions.assertThat(abstractCommand2.getParentCommand(AbstractUserActionCommand.class)).isNull();
 
-        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand32 = new AbstractCommandImpl(null, abstractCommand31);
+        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand32 = new AbstractCommandImpl(abstractCommand31, null, null);
         Assertions.assertThat(abstractCommand32.getParentCommand(Command.class)).isSameAs(abstractCommand31);
         Assertions.assertThat(abstractCommand32.getParentCommand(AbstractCommand.class)).isSameAs(abstractCommand31);
         Assertions.assertThat(abstractCommand32.getParentCommand(AbstractCommandImpl.class)).isSameAs(abstractCommand31);
         Assertions.assertThat(abstractCommand32.getParentCommand(AbstractExecutionCommand.class)).isNull();
         Assertions.assertThat(abstractCommand32.getParentCommand(AbstractUserActionCommand.class)).isNull();
 
-        AbstractCommand abstractCommand41 = new AbstractExecutionCommandImpl(null);
-        AbstractCommand abstractCommand42 = new AbstractCommandImpl(null, abstractCommand41);
-        AbstractCommand abstractCommand43 = new AbstractCommandImpl(null, abstractCommand42);
+        AbstractCommand abstractCommand41 = new AbstractExecutionCommandImpl(null, null, null);
+        AbstractCommand abstractCommand42 = new AbstractCommandImpl(abstractCommand41, null, null);
+        AbstractCommand abstractCommand43 = new AbstractCommandImpl(abstractCommand42, null, null);
         Assertions.assertThat(abstractCommand43.getParentCommand(Command.class)).isSameAs(abstractCommand42);
         Assertions.assertThat(abstractCommand43.getParentCommand(AbstractCommand.class)).isSameAs(abstractCommand42);
         Assertions.assertThat(abstractCommand43.getParentCommand(AbstractCommandImpl.class)).isSameAs(abstractCommand42);
@@ -155,14 +155,14 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void getContextTest() {
-        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null, null);
         Assertions.assertThat(abstractCommand1.getContext()).isNull();
 
-        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null, null);
         Assertions.assertThat(abstractCommand2.getContext()).isNull();
 
-        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand32 = new AbstractCommandImpl(null, abstractCommand31);
+        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand32 = new AbstractCommandImpl(abstractCommand31, null, null);
         Assertions.assertThat(abstractCommand32.getContext()).isNull();
     }
 
@@ -171,24 +171,24 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void setContextTest() {
-        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null, null);
         Context context1 = new Context();
         abstractCommand1.setContext(context1);
         Assertions.assertThat(abstractCommand1.getContext()).isSameAs(context1);
 
-        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null, null);
         Context context2 = new Context();
         abstractCommand2.setContext(context2);
         Assertions.assertThat(abstractCommand2.getContext()).isSameAs(context2);
 
-        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null, null);
         Context context3 = new Context();
         abstractCommand31.setContext(context3);
-        AbstractCommand abstractCommand32 = new AbstractCommandImpl(null, abstractCommand31);
+        AbstractCommand abstractCommand32 = new AbstractCommandImpl(abstractCommand31, null, null);
         Assertions.assertThat(abstractCommand32.getContext()).isNull();
 
-        AbstractCommand abstractCommand41 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand42 = new AbstractCommandImpl(null, abstractCommand41);
+        AbstractCommand abstractCommand41 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand42 = new AbstractCommandImpl(abstractCommand41, null, null);
         Context context4 = new Context();
         abstractCommand42.setContext(context4);
         Assertions.assertThat(abstractCommand42.getContext()).isSameAs(context4);
@@ -199,14 +199,14 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void getCommandRunnerTest() {
-        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null, null);
         Assertions.assertThat(abstractCommand1.getCommandRunner()).isNull();
 
-        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null, null);
         Assertions.assertThat(abstractCommand2.getCommandRunner()).isNull();
 
-        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand32 = new AbstractCommandImpl(null, abstractCommand31);
+        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand32 = new AbstractCommandImpl(abstractCommand31, null, null);
         Assertions.assertThat(abstractCommand32.getCommandRunner()).isNull();
     }
 
@@ -215,24 +215,24 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void setCommandRunnerTest() {
-        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null);
+        AbstractCommand abstractCommand1 = new AbstractCommandImpl(null, null);
         CommandRunner commandRunner1 = new CommandRunner(System.out, System.in);
         abstractCommand1.setCommandRunner(commandRunner1);
         Assertions.assertThat(abstractCommand1.getCommandRunner()).isSameAs(commandRunner1);
 
-        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand2 = new AbstractCommandImpl(null, null, null);
         CommandRunner commandRunner2 = new CommandRunner(System.out, System.in);
         abstractCommand2.setCommandRunner(commandRunner2);
         Assertions.assertThat(abstractCommand2.getCommandRunner()).isSameAs(commandRunner2);
 
-        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand31 = new AbstractCommandImpl(null, null, null);
         CommandRunner commandRunner3 = new CommandRunner(System.out, System.in);
         abstractCommand31.setCommandRunner(commandRunner3);
-        AbstractCommand abstractCommand32 = new AbstractCommandImpl(null, abstractCommand31);
+        AbstractCommand abstractCommand32 = new AbstractCommandImpl(abstractCommand31, null, null);
         Assertions.assertThat(abstractCommand32.getCommandRunner()).isNull();
 
-        AbstractCommand abstractCommand41 = new AbstractCommandImpl(null, null);
-        AbstractCommand abstractCommand42 = new AbstractCommandImpl(null, abstractCommand41);
+        AbstractCommand abstractCommand41 = new AbstractCommandImpl(null, null, null);
+        AbstractCommand abstractCommand42 = new AbstractCommandImpl(abstractCommand41, null, null);
         CommandRunner commandRunner4 = new CommandRunner(System.out, System.in);
         abstractCommand42.setCommandRunner(commandRunner4);
         Assertions.assertThat(abstractCommand42.getCommandRunner()).isSameAs(commandRunner4);
@@ -243,7 +243,7 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void createValueHolderTest() {
-        AbstractCommand abstractCommand = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand = new AbstractCommandImpl(null, null, null);
 
         ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>("value", true);
         ValueHolder<String> valueHolder1 = abstractCommand.createValueHolder(valueLoader1);
@@ -261,7 +261,7 @@ public final class AbstractCommandTest extends BaseCliTest {
      */
     @Test
     public void resetTest() {
-        AbstractCommand abstractCommand = new AbstractCommandImpl(null, null);
+        AbstractCommand abstractCommand = new AbstractCommandImpl(null, null, null);
 
         ValueLoaderImpl<String> valueLoader1 = new ValueLoaderImpl<>("value", true);
         ValueHolder<String> valueHolder1 = abstractCommand.createValueHolder(valueLoader1);
