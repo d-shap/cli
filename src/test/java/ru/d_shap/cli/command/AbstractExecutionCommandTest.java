@@ -83,8 +83,8 @@ public final class AbstractExecutionCommandTest extends BaseCliTest {
         InputStream is5 = createInputStream();
         CommandRunner commandRunner5 = new CommandRunner(os5, is5);
         Command parentCommand5 = new AbstractExecutionCommandImpl(null, "parent", null);
-        Command command53 = new AbstractExecutionCommandImpl("Output 3", null);
-        Command command52 = new AbstractExecutionCommandImpl("Output 2", command53);
+        Command command53 = new AbstractExecutionCommandImpl(null, "Output 3", null);
+        Command command52 = new AbstractExecutionCommandImpl(null, "Output 2", command53);
         Command command51 = new AbstractExecutionCommandImpl(parentCommand5, "Output 1", command52);
         commandRunner5.execute(command51);
         Assertions.assertThat(getLines(os5)).containsExactlyInOrder("Output 1", "Output 2", "Output 3");
