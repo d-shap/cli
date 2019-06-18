@@ -463,4 +463,35 @@ public final class LinesTest extends BaseCliTest {
         Assertions.assertThat(lines5List).containsExactlyInOrder("line1", "line2", "line3", "line4", "line5", "line6", "line8", "line9");
     }
 
+    /**
+     * {@link Lines} class test.
+     */
+    @Test
+    public void toStringTest() {
+        Lines lines1 = new Lines();
+        Assertions.assertThat(lines1.getLines()).hasToString("[]");
+
+        Lines lines2 = new Lines((String) null);
+        Assertions.assertThat(lines2.getLines()).hasToString("[]");
+
+        Lines lines3 = new Lines((String[]) null);
+        Assertions.assertThat(lines3.getLines()).hasToString("[]");
+
+        Lines lines4 = new Lines((Collection<String>) null);
+        Assertions.assertThat(lines4.getLines()).hasToString("[]");
+
+        Lines lines5 = new Lines();
+        lines5.addLine("line1");
+        Assertions.assertThat(lines5.getLines()).hasToString("[line1]");
+
+        lines5.addLines("line2", "line3", "line4");
+        Assertions.assertThat(lines5.getLines()).hasToString("[line1, line2, line3, line4]");
+
+        lines5.addLines(Arrays.asList("line5", "line6"));
+        Assertions.assertThat(lines5.getLines()).hasToString("[line1, line2, line3, line4, line5, line6]");
+
+        lines5.addLine("line7");
+        Assertions.assertThat(lines5.getLines()).hasToString("[line1, line2, line3, line4, line5, line6, line7]");
+    }
+
 }
