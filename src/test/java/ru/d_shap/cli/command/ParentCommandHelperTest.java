@@ -19,6 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 package ru.d_shap.cli.command;
 
+import org.junit.Test;
+
+import ru.d_shap.assertions.Assertions;
 import ru.d_shap.cli.BaseCliTest;
 
 /**
@@ -33,6 +36,34 @@ public final class ParentCommandHelperTest extends BaseCliTest {
      */
     public ParentCommandHelperTest() {
         super();
+    }
+
+    /**
+     * {@link ParentCommandHelper} class test.
+     */
+    @Test
+    public void constructorTest() {
+        Assertions.assertThat(ParentCommandHelper.class).hasOnePrivateConstructor();
+    }
+
+    /**
+     * {@link ParentCommandHelper} class test.
+     */
+    @Test
+    public void getParentCommandTest() {
+        Assertions.assertThat(ParentCommandHelper.getParentCommand(null, null)).isNull();
+
+        Assertions.assertThat(ParentCommandHelper.getParentCommand(null, new AbstractCommandImpl(null, null))).isNull();
+
+        AbstractCommand parentCommand1 = new AbstractCommandImpl(null, null);
+        Assertions.assertThat(ParentCommandHelper.getParentCommand(null, new AbstractCommandImpl(null, parentCommand1))).isSameAs(parentCommand1);
+
+        AbstractCommand parentCommand2 = new AbstractCommandImpl(null, null);
+        Assertions.assertThat(ParentCommandHelper.getParentCommand(parentCommand2, new AbstractCommandImpl(null, null))).isSameAs(parentCommand2);
+
+        AbstractCommand parentCommand31 = new AbstractCommandImpl(null, null);
+        AbstractCommand parentCommand32 = new AbstractCommandImpl(null, null);
+        Assertions.assertThat(ParentCommandHelper.getParentCommand(parentCommand31, new AbstractCommandImpl(null, parentCommand32))).isSameAs(parentCommand31);
     }
 
 }
