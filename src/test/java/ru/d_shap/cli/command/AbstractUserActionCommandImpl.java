@@ -32,25 +32,31 @@ public final class AbstractUserActionCommandImpl extends AbstractUserActionComma
 
     private final String _message;
 
+    private final Command _nextCommand;
+
     /**
      * Create new object.
      *
-     * @param message the message to write to the output.
+     * @param message     the message to write to the output.
+     * @param nextCommand the next command to execute.
      */
-    public AbstractUserActionCommandImpl(final String message) {
+    public AbstractUserActionCommandImpl(final String message, final Command nextCommand) {
         super();
         _message = message;
+        _nextCommand = nextCommand;
     }
 
     /**
      * Create new object.
      *
-     * @param message       the message to write to the output.
      * @param parentCommand the parent command.
+     * @param message       the message to write to the output.
+     * @param nextCommand   the next command to execute.
      */
-    public AbstractUserActionCommandImpl(final String message, final Command parentCommand) {
+    public AbstractUserActionCommandImpl(final Command parentCommand, final String message, final Command nextCommand) {
         super(parentCommand);
         _message = message;
+        _nextCommand = nextCommand;
     }
 
     @Override
@@ -63,14 +69,14 @@ public final class AbstractUserActionCommandImpl extends AbstractUserActionComma
     protected Command processDefaultInput(final String input, final PrintWriter writer) {
         writer.println("Default input: " + input);
         writer.flush();
-        return getParentCommand();
+        return _nextCommand;
     }
 
     @Override
     protected Command processInput(final String input, final PrintWriter writer) {
         writer.println("Input: " + input);
         writer.flush();
-        return getParentCommand();
+        return _nextCommand;
     }
 
 }
