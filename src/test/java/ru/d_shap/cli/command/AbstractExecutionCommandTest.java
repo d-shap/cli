@@ -74,20 +74,29 @@ public final class AbstractExecutionCommandTest extends BaseCliTest {
         ByteArrayOutputStream os4 = createOutputStream();
         InputStream is4 = createInputStream();
         CommandRunner commandRunner4 = new CommandRunner(os4, is4);
-        Command parentCommand4 = new AbstractExecutionCommandImpl(null, "parent", null);
-        Command command4 = new AbstractExecutionCommandImpl(parentCommand4, "Output 1", null);
-        commandRunner4.execute(command4);
-        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("Output 1", "parent");
+        Command command43 = new AbstractExecutionCommandImpl(null, "Output 3", null);
+        Command command42 = new AbstractExecutionCommandImpl(null, "Output 2", command43);
+        Command command41 = new AbstractExecutionCommandImpl(null, "Output 1", command42);
+        commandRunner4.execute(command41);
+        Assertions.assertThat(getLines(os4)).containsExactlyInOrder("Output 1", "Output 2", "Output 3");
 
         ByteArrayOutputStream os5 = createOutputStream();
         InputStream is5 = createInputStream();
         CommandRunner commandRunner5 = new CommandRunner(os5, is5);
         Command parentCommand5 = new AbstractExecutionCommandImpl(null, "parent", null);
-        Command command53 = new AbstractExecutionCommandImpl(null, "Output 3", null);
-        Command command52 = new AbstractExecutionCommandImpl(null, "Output 2", command53);
-        Command command51 = new AbstractExecutionCommandImpl(parentCommand5, "Output 1", command52);
-        commandRunner5.execute(command51);
-        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("Output 1", "Output 2", "Output 3");
+        Command command5 = new AbstractExecutionCommandImpl(parentCommand5, "Output 1", null);
+        commandRunner5.execute(command5);
+        Assertions.assertThat(getLines(os5)).containsExactlyInOrder("Output 1", "parent");
+
+        ByteArrayOutputStream os6 = createOutputStream();
+        InputStream is6 = createInputStream();
+        CommandRunner commandRunner6 = new CommandRunner(os6, is6);
+        Command parentCommand6 = new AbstractExecutionCommandImpl(null, "parent", null);
+        Command command63 = new AbstractExecutionCommandImpl(parentCommand6, "Output 3", null);
+        Command command62 = new AbstractExecutionCommandImpl(parentCommand6, "Output 2", command63);
+        Command command61 = new AbstractExecutionCommandImpl(parentCommand6, "Output 1", command62);
+        commandRunner6.execute(command61);
+        Assertions.assertThat(getLines(os6)).containsExactlyInOrder("Output 1", "Output 2", "Output 3", "parent");
     }
 
 }
