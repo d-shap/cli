@@ -41,6 +41,8 @@ public final class AbstractInputCommandImpl extends AbstractInputCommand<int[]> 
 
     private final String _wrongInputMessage;
 
+    private final Command _nextCommand;
+
     /**
      * Create new object.
      *
@@ -48,13 +50,15 @@ public final class AbstractInputCommandImpl extends AbstractInputCommand<int[]> 
      * @param header            the input header.
      * @param defaultMessage    the message for the default value.
      * @param wrongInputMessage the message for the wrong input.
+     * @param nextCommand       the next command to execute.
      */
-    public AbstractInputCommandImpl(final String contextKey, final Lines header, final String defaultMessage, final String wrongInputMessage) {
+    public AbstractInputCommandImpl(final String contextKey, final Lines header, final String defaultMessage, final String wrongInputMessage, final Command nextCommand) {
         super();
         _contextKey = contextKey;
         _header = header;
         _defaultMessage = defaultMessage;
         _wrongInputMessage = wrongInputMessage;
+        _nextCommand = nextCommand;
     }
 
     /**
@@ -65,13 +69,15 @@ public final class AbstractInputCommandImpl extends AbstractInputCommand<int[]> 
      * @param header            the input header.
      * @param defaultMessage    the message for the default value.
      * @param wrongInputMessage the message for the wrong input.
+     * @param nextCommand       the next command to execute.
      */
-    public AbstractInputCommandImpl(final Command parentCommand, final String contextKey, final Lines header, final String defaultMessage, final String wrongInputMessage) {
+    public AbstractInputCommandImpl(final Command parentCommand, final String contextKey, final Lines header, final String defaultMessage, final String wrongInputMessage, final Command nextCommand) {
         super(parentCommand);
         _contextKey = contextKey;
         _header = header;
         _defaultMessage = defaultMessage;
         _wrongInputMessage = wrongInputMessage;
+        _nextCommand = nextCommand;
     }
 
     @Override
@@ -151,7 +157,7 @@ public final class AbstractInputCommandImpl extends AbstractInputCommand<int[]> 
 
     @Override
     protected Command processValue(final int[] value, final PrintWriter writer) {
-        return getParentCommand();
+        return _nextCommand;
     }
 
     private boolean isContextReset() {
