@@ -345,6 +345,31 @@ public final class AbstractInputCommandTest extends BaseCliTest {
         Assertions.assertThat(getLines(os06)).containsExactlyInOrder("line", "wrong: <7>", "", "line", "", "parent command");
         Assertions.assertThat(context06.getNames()).containsExactlyInOrder("key");
         Assertions.assertThat((int[]) context06.getValue("key")).containsExactlyInOrder(1, 2, 5);
+
+        ByteArrayOutputStream os07 = createOutputStream();
+        InputStream is07 = createInputStream("");
+        CommandRunner commandRunner07 = new CommandRunner(os07, is07);
+        Command parentCommand07 = new AbstractExecutionCommandImpl("parent command", null);
+        Command nextCommand07 = new AbstractExecutionCommandImpl("next command", null);
+        AbstractInputCommandImpl command07 = new AbstractInputCommandImpl(parentCommand07, "key", new Lines("line"), "default: <%s>", "wrong: <%s>", nextCommand07);
+        Context context07 = new Context();
+        context07.putValue("key", new int[]{7, 9, 3});
+        commandRunner07.execute(command07, context07);
+        Assertions.assertThat(getLines(os07)).containsExactlyInOrder("line", "default: <7,9,3>", "", "next command");
+        Assertions.assertThat(context07.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context07.getValue("key")).containsExactlyInOrder(7, 9, 3);
+
+        ByteArrayOutputStream os08 = createOutputStream();
+        InputStream is08 = createInputStream("x", "1,2,5");
+        CommandRunner commandRunner08 = new CommandRunner(os08, is08);
+        Command parentCommand08 = new AbstractExecutionCommandImpl("parent command", null);
+        Command nextCommand08 = new AbstractExecutionCommandImpl("next command", null);
+        AbstractInputCommandImpl command08 = new AbstractInputCommandImpl(parentCommand08, "key", new Lines("line"), "default: <%s>", "wrong: <%s>", nextCommand08);
+        Context context08 = new Context();
+        commandRunner08.execute(command08, context08);
+        Assertions.assertThat(getLines(os08)).containsExactlyInOrder("line", "wrong: <x>", "", "line", "", "next command");
+        Assertions.assertThat(context08.getNames()).containsExactlyInOrder("key");
+        Assertions.assertThat((int[]) context08.getValue("key")).containsExactlyInOrder(1, 2, 5);
     }
 
     /**
