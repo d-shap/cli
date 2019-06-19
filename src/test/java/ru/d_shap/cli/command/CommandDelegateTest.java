@@ -409,7 +409,7 @@ public final class CommandDelegateTest extends BaseCliTest {
         Command command042 = new AbstractCommandImpl("Prompt 2", command043);
         Command command041 = new AbstractCommandImpl("Prompt 1", command042);
         CommandDelegate commandDelegate04 = new CommandDelegate(command041);
-        commandRunner04.execute(command041);
+        commandRunner04.execute(commandDelegate04);
         Assertions.assertThat(getLines(os04)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3");
 
         ByteArrayOutputStream os05 = createOutputStream();
@@ -427,7 +427,7 @@ public final class CommandDelegateTest extends BaseCliTest {
         Command command062 = new AbstractCommandImpl(null, "Prompt 2", command063);
         Command command061 = new AbstractCommandImpl(null, "Prompt 1", command062);
         CommandDelegate commandDelegate06 = new CommandDelegate(command061);
-        commandRunner06.execute(command061);
+        commandRunner06.execute(commandDelegate06);
         Assertions.assertThat(getLines(os06)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3");
 
         ByteArrayOutputStream os07 = createOutputStream();
@@ -447,7 +447,7 @@ public final class CommandDelegateTest extends BaseCliTest {
         Command command082 = new AbstractCommandImpl(parentCommand08, "Prompt 2", command083);
         Command command081 = new AbstractCommandImpl(parentCommand08, "Prompt 1", command082);
         CommandDelegate commandDelegate08 = new CommandDelegate(command081);
-        commandRunner08.execute(command081);
+        commandRunner08.execute(commandDelegate08);
         Assertions.assertThat(getLines(os08)).containsExactlyInOrder("Prompt 1", "Строка 1", "Prompt 2", "Строка 2", "Prompt 3", "message");
     }
 
