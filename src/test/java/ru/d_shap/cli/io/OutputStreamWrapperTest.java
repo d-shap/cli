@@ -45,10 +45,10 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link OutputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void writeByteTest() throws IOException {
+    public void writeByteTest() throws Exception {
         ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
         OutputStream osw1 = new OutputStreamWrapper(baos1);
         osw1.write(5);
@@ -84,10 +84,10 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link OutputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void writeByteArrayTest() throws IOException {
+    public void writeByteArrayTest() throws Exception {
         byte[] data1 = new byte[]{5, 7, 10};
         byte[] data2 = new byte[]{1, 6, 3};
 
@@ -119,10 +119,10 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link OutputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void writeByteArrayWithOffsetTest() throws IOException {
+    public void writeByteArrayWithOffsetTest() throws Exception {
         byte[] data = new byte[]{5, 7, 10, 1, 6, 3, 9, 2, 4, 8};
 
         ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
@@ -153,10 +153,10 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link OutputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void flushTest() throws IOException {
+    public void flushTest() throws Exception {
         FlushedOutputStream fos1 = new FlushedOutputStream();
         OutputStream osw1 = new OutputStreamWrapper(fos1);
         Assertions.assertThat(fos1.isFlushed()).isFalse();
@@ -182,10 +182,10 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link OutputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void closeTest() throws IOException {
+    public void closeTest() throws Exception {
         ClosedOutputStream cos1 = new ClosedOutputStream();
         OutputStream osw1 = new OutputStreamWrapper(cos1);
         Assertions.assertThat(cos1.isClosed()).isFalse();

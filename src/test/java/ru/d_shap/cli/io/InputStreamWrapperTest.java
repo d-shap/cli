@@ -47,10 +47,10 @@ public final class InputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link InputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void readByteTest() throws IOException {
+    public void readByteTest() throws Exception {
         byte[] data1 = new byte[]{};
         InputStream bais11 = new ByteArrayInputStream(data1);
         InputStream isw11 = new InputStreamWrapper(bais11);
@@ -135,10 +135,10 @@ public final class InputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link InputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void readByteArrayTest() throws IOException {
+    public void readByteArrayTest() throws Exception {
         byte[] data1 = new byte[]{};
         InputStream bais11 = new ByteArrayInputStream(data1);
         InputStream isw11 = new InputStreamWrapper(bais11);
@@ -200,10 +200,10 @@ public final class InputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link InputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void readByteArrayWithOffsetTest() throws IOException {
+    public void readByteArrayWithOffsetTest() throws Exception {
         byte[] data1 = new byte[]{};
         InputStream bais11 = new ByteArrayInputStream(data1);
         InputStream isw11 = new InputStreamWrapper(bais11);
@@ -265,10 +265,10 @@ public final class InputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link InputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void skipTest() throws IOException {
+    public void skipTest() throws Exception {
         byte[] data = new byte[]{5, 7, 10, 1, 6, 3, 9, 2, 4, 8};
 
         InputStream bais1 = new ByteArrayInputStream(data);
@@ -317,10 +317,10 @@ public final class InputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link InputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void availableTest() throws IOException {
+    public void availableTest() throws Exception {
         byte[] data = new byte[]{5, 7, 10, 1, 6, 3, 9, 2, 4, 8};
 
         InputStream bais1 = new ByteArrayInputStream(data);
@@ -364,10 +364,10 @@ public final class InputStreamWrapperTest extends BaseCliTest {
     /**
      * {@link InputStreamWrapper} class test.
      *
-     * @throws IOException IO exception.
+     * @throws Exception exception in test.
      */
     @Test
-    public void closeTest() throws IOException {
+    public void closeTest() throws Exception {
         ClosedInputStream cis1 = new ClosedInputStream();
         InputStream isw1 = new InputStreamWrapper(cis1);
         Assertions.assertThat(cis1.isClosed()).isFalse();
