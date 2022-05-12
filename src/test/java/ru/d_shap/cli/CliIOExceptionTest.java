@@ -44,8 +44,8 @@ public final class CliIOExceptionTest extends BaseCliTest {
      */
     @Test
     public void errorMessageTest() {
-        Assertions.assertThat(new CliIOException(null)).toMessage().isNull();
-        Assertions.assertThat(new CliIOException(new IOException())).toMessage().isNull();
+        Assertions.assertThat(new CliIOException(null)).messageIsNull();
+        Assertions.assertThat(new CliIOException(new IOException())).messageIsNull();
         Assertions.assertThat(new CliIOException(new IOException(""))).hasMessage("");
         Assertions.assertThat(new CliIOException(new IOException(" "))).hasMessage(" ");
         Assertions.assertThat(new CliIOException(new IOException("io error"))).hasMessage("io error");
@@ -56,9 +56,9 @@ public final class CliIOExceptionTest extends BaseCliTest {
      */
     @Test
     public void errorCauseTest() {
-        Assertions.assertThat(new CliIOException(null)).toCause().isNull();
+        Assertions.assertThat(new CliIOException(null)).causeIsNull();
         Assertions.assertThat(new CliIOException(new IOException())).hasCause(IOException.class);
-        Assertions.assertThat(new CliIOException(new IOException())).toCause().toMessage().isNull();
+        Assertions.assertThat(new CliIOException(new IOException())).causeMessageIsNull();
         Assertions.assertThat(new CliIOException(new IOException("io error"))).hasCause(IOException.class);
         Assertions.assertThat(new CliIOException(new IOException("io error"))).hasCauseMessage("io error");
     }

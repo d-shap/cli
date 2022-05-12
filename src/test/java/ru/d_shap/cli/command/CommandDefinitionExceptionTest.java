@@ -43,7 +43,7 @@ public final class CommandDefinitionExceptionTest extends BaseCliTest {
      */
     @Test
     public void errorMessageTest() {
-        Assertions.assertThat(new CommandDefinitionException(null)).toMessage().isNull();
+        Assertions.assertThat(new CommandDefinitionException(null)).messageIsNull();
         Assertions.assertThat(new CommandDefinitionException("")).hasMessage("");
         Assertions.assertThat(new CommandDefinitionException(" ")).hasMessage(" ");
         Assertions.assertThat(new CommandDefinitionException("error")).hasMessage("error");
@@ -54,9 +54,9 @@ public final class CommandDefinitionExceptionTest extends BaseCliTest {
      */
     @Test
     public void errorCauseTest() {
-        Assertions.assertThat(new CommandDefinitionException("")).toCause().isNull();
-        Assertions.assertThat(new CommandDefinitionException(" ")).toCause().isNull();
-        Assertions.assertThat(new CommandDefinitionException("error")).toCause().isNull();
+        Assertions.assertThat(new CommandDefinitionException("")).causeIsNull();
+        Assertions.assertThat(new CommandDefinitionException(" ")).causeIsNull();
+        Assertions.assertThat(new CommandDefinitionException("error")).causeIsNull();
     }
 
 }
