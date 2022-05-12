@@ -137,7 +137,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
         InputStream is = createInputStream();
         CommandRunner commandRunner = new CommandRunner(os, is);
         Command command = new AbstractUserActionCommandImpl("Prompt", null);
-        command.execute(commandRunner.getWriter(), new NullReadLineBufferedReader());
+        command.execute(commandRunner.getWriter(), commandRunner.getReader());
         Assertions.assertThat(getLines(os)).containsExactlyInOrder("Prompt", "Default input: ", "");
     }
 

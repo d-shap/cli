@@ -184,25 +184,4 @@ public class BaseCliTest {
 
     }
 
-    /**
-     * Test class.
-     *
-     * @author Dmitry Shapovalov
-     */
-    public static final class NullReadLineBufferedReader extends BufferedReader {
-
-        /**
-         * Create new object.
-         */
-        public NullReadLineBufferedReader() {
-            super(new InputStreamReader(new ByteArrayInputStream(new byte[]{})));
-        }
-
-        @Override
-        public String readLine() {
-            return null;
-        }
-
-    }
-
 }
