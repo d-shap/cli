@@ -26,6 +26,8 @@ import java.io.OutputStream;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.mock.IsCloseable;
+import ru.d_shap.assertions.util.DataHelper;
 import ru.d_shap.cli.BaseCliTest;
 
 /**
@@ -186,28 +188,28 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
      */
     @Test
     public void closeTest() throws Exception {
-        ClosedOutputStream cos1 = new ClosedOutputStream();
+        OutputStream cos1 = DataHelper.createOutputStreamBuilder().buildOutputStream();
         OutputStream osw1 = new OutputStreamWrapper(cos1);
-        Assertions.assertThat(cos1.isClosed()).isFalse();
+        Assertions.assertThat(((IsCloseable) cos1).isClosed()).isFalse();
         osw1.close();
-        Assertions.assertThat(cos1.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) cos1).isClosed()).isTrue();
 
-        ClosedOutputStream cos2 = new ClosedOutputStream();
+        OutputStream cos2 = DataHelper.createOutputStreamBuilder().buildOutputStream();
         OutputStream osw2 = new OutputStreamWrapper(cos2, null);
-        Assertions.assertThat(cos2.isClosed()).isFalse();
+        Assertions.assertThat(((IsCloseable) cos2).isClosed()).isFalse();
         osw2.close();
-        Assertions.assertThat(cos2.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) cos2).isClosed()).isTrue();
 
-        ClosedOutputStream cos31 = new ClosedOutputStream();
-        ClosedOutputStream cos32 = new ClosedOutputStream();
+        OutputStream cos31 = DataHelper.createOutputStreamBuilder().buildOutputStream();
+        OutputStream cos32 = DataHelper.createOutputStreamBuilder().buildOutputStream();
         OutputStream osw3 = new OutputStreamWrapper(cos31, cos32);
-        Assertions.assertThat(cos31.isClosed()).isFalse();
-        Assertions.assertThat(cos32.isClosed()).isFalse();
+        Assertions.assertThat(((IsCloseable) cos31).isClosed()).isFalse();
+        Assertions.assertThat(((IsCloseable) cos32).isClosed()).isFalse();
         osw3.close();
-        Assertions.assertThat(cos31.isClosed()).isTrue();
-        Assertions.assertThat(cos32.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) cos31).isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) cos32).isClosed()).isTrue();
 
-        OutputStream focos4 = new FailOnCloseOutputStream("main");
+        OutputStream focos4 = DataHelper.createOutputStreamBuilder().setCloseException("main").buildOutputStream();
         OutputStream osw4 = new OutputStreamWrapper(focos4);
         try {
             osw4.close();
@@ -216,7 +218,7 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("main");
         }
 
-        OutputStream focos5 = new FailOnCloseOutputStream("main");
+        OutputStream focos5 = DataHelper.createOutputStreamBuilder().setCloseException("main").buildOutputStream();
         OutputStream osw5 = new OutputStreamWrapper(focos5, null);
         try {
             osw5.close();
@@ -225,7 +227,7 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("main");
         }
 
-        OutputStream focos6 = new FailOnCloseOutputStream("main");
+        OutputStream focos6 = DataHelper.createOutputStreamBuilder().setCloseException("main").buildOutputStream();
         OutputStream baos6 = new ByteArrayOutputStream();
         OutputStream osw6 = new OutputStreamWrapper(focos6, baos6);
         try {
@@ -236,7 +238,7 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
         }
 
         OutputStream baos7 = new ByteArrayOutputStream();
-        OutputStream focos7 = new FailOnCloseOutputStream("log");
+        OutputStream focos7 = DataHelper.createOutputStreamBuilder().setCloseException("log").buildOutputStream();
         OutputStream osw7 = new OutputStreamWrapper(baos7, focos7);
         try {
             osw7.close();
@@ -245,8 +247,8 @@ public final class OutputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("log");
         }
 
-        OutputStream focos81 = new FailOnCloseOutputStream("main");
-        OutputStream focos82 = new FailOnCloseOutputStream("log");
+        OutputStream focos81 = DataHelper.createOutputStreamBuilder().setCloseException("main").buildOutputStream();
+        OutputStream focos82 = DataHelper.createOutputStreamBuilder().setCloseException("log").buildOutputStream();
         OutputStream osw8 = new OutputStreamWrapper(focos81, focos82);
         try {
             osw8.close();

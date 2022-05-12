@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.util.DataHelper;
 import ru.d_shap.cli.BaseCliTest;
 import ru.d_shap.cli.CliIOException;
 import ru.d_shap.cli.Command;
@@ -110,7 +111,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
     public void executeFailTest() {
         try {
             ByteArrayOutputStream os1 = createOutputStream();
-            InputStream is1 = new FailOnReadInputStream("read error");
+            InputStream is1 = DataHelper.createInputStreamBuilder().setReadException("read error").buildInputStream();
             CommandRunner commandRunner1 = new CommandRunner(os1, is1);
             Command command1 = new AbstractUserActionCommandImpl("Prompt", null);
             commandRunner1.execute(command1);
@@ -119,7 +120,7 @@ public final class AbstractUserActionCommandTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("read error");
         }
 
-        OutputStream os2 = new FailOnWriteOutputStream("write error");
+        OutputStream os2 = DataHelper.createOutputStreamBuilder().setWriteException("write error").buildOutputStream();
         InputStream is2 = createInputStream();
         CommandRunner commandRunner2 = new CommandRunner(os2, is2);
         Command command2 = new AbstractUserActionCommandImpl("Prompt", null);

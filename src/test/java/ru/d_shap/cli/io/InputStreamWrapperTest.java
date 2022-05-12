@@ -28,6 +28,8 @@ import java.io.OutputStream;
 import org.junit.Test;
 
 import ru.d_shap.assertions.Assertions;
+import ru.d_shap.assertions.mock.IsCloseable;
+import ru.d_shap.assertions.util.DataHelper;
 import ru.d_shap.cli.BaseCliTest;
 
 /**
@@ -368,28 +370,28 @@ public final class InputStreamWrapperTest extends BaseCliTest {
      */
     @Test
     public void closeTest() throws Exception {
-        ClosedInputStream cis1 = new ClosedInputStream();
+        InputStream cis1 = DataHelper.createInputStreamBuilder().buildInputStream();
         InputStream isw1 = new InputStreamWrapper(cis1);
-        Assertions.assertThat(cis1.isClosed()).isFalse();
+        Assertions.assertThat(((IsCloseable) cis1).isClosed()).isFalse();
         isw1.close();
-        Assertions.assertThat(cis1.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) cis1).isClosed()).isTrue();
 
-        ClosedInputStream cis2 = new ClosedInputStream();
+        InputStream cis2 = DataHelper.createInputStreamBuilder().buildInputStream();
         InputStream isw2 = new InputStreamWrapper(cis2, null);
-        Assertions.assertThat(cis2.isClosed()).isFalse();
+        Assertions.assertThat(((IsCloseable) cis2).isClosed()).isFalse();
         isw2.close();
-        Assertions.assertThat(cis2.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) cis2).isClosed()).isTrue();
 
-        ClosedInputStream cis3 = new ClosedInputStream();
-        ClosedOutputStream cos3 = new ClosedOutputStream();
+        InputStream cis3 = DataHelper.createInputStreamBuilder().buildInputStream();
+        OutputStream cos3 = DataHelper.createOutputStreamBuilder().buildOutputStream();
         InputStream isw3 = new InputStreamWrapper(cis3, cos3);
-        Assertions.assertThat(cis3.isClosed()).isFalse();
-        Assertions.assertThat(cos3.isClosed()).isFalse();
+        Assertions.assertThat(((IsCloseable) cis3).isClosed()).isFalse();
+        Assertions.assertThat(((IsCloseable) cos3).isClosed()).isFalse();
         isw3.close();
-        Assertions.assertThat(cis3.isClosed()).isTrue();
-        Assertions.assertThat(cos3.isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) cis3).isClosed()).isTrue();
+        Assertions.assertThat(((IsCloseable) cos3).isClosed()).isTrue();
 
-        InputStream focis4 = new FailOnCloseInputStream("main");
+        InputStream focis4 = DataHelper.createInputStreamBuilder().setCloseException("main").buildInputStream();
         InputStream isw4 = new InputStreamWrapper(focis4);
         try {
             isw4.close();
@@ -398,7 +400,7 @@ public final class InputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("main");
         }
 
-        InputStream focis5 = new FailOnCloseInputStream("main");
+        InputStream focis5 = DataHelper.createInputStreamBuilder().setCloseException("main").buildInputStream();
         InputStream isw5 = new InputStreamWrapper(focis5, null);
         try {
             isw5.close();
@@ -407,7 +409,7 @@ public final class InputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("main");
         }
 
-        InputStream focis6 = new FailOnCloseInputStream("main");
+        InputStream focis6 = DataHelper.createInputStreamBuilder().setCloseException("main").buildInputStream();
         OutputStream baos6 = new ByteArrayOutputStream();
         InputStream isw6 = new InputStreamWrapper(focis6, baos6);
         try {
@@ -418,7 +420,7 @@ public final class InputStreamWrapperTest extends BaseCliTest {
         }
 
         InputStream bais7 = new ByteArrayInputStream(new byte[]{});
-        OutputStream focos7 = new FailOnCloseOutputStream("log");
+        OutputStream focos7 = DataHelper.createOutputStreamBuilder().setCloseException("log").buildOutputStream();
         InputStream isw7 = new InputStreamWrapper(bais7, focos7);
         try {
             isw7.close();
@@ -427,8 +429,8 @@ public final class InputStreamWrapperTest extends BaseCliTest {
             Assertions.assertThat(ex).hasMessage("log");
         }
 
-        InputStream focis8 = new FailOnCloseInputStream("main");
-        OutputStream focos8 = new FailOnCloseOutputStream("log");
+        InputStream focis8 = DataHelper.createInputStreamBuilder().setCloseException("main").buildInputStream();
+        OutputStream focos8 = DataHelper.createOutputStreamBuilder().setCloseException("log").buildOutputStream();
         InputStream isw8 = new InputStreamWrapper(focis8, focos8);
         try {
             isw8.close();
