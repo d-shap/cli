@@ -1,4 +1,9 @@
-Total - 0
+Total - 5
 ===========================================================================
-ru.d_shap.xxx - 0
+ru.d_shap.cli - 0
+ru.d_shap.cli.command - 1
+ru.d_shap.cli.command.input - 0
+ru.d_shap.cli.command.menu - 2
+ru.d_shap.cli.data - 0
+ru.d_shap.cli.io - 2
 ===========================================================================
