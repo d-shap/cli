@@ -27,12 +27,3 @@ Nested flow has the nested context.
 All the commands of the nested flow share the same nested context, but nested flow does not affect the parent context.
 
 The nested flow is defined by the class, that extends the ```AbstractContainerCommand```.
-
-# The latest release
-CLI tools:
-* **&lt;groupId&gt;**: ru.d-shap
-* **&lt;artifactId&gt;**: cli
-* **&lt;version&gt;**: 1.2
-
-# Donation
-If you find my code useful, you can [bye me a coffee](https://www.paypal.me/dshapovalov)
